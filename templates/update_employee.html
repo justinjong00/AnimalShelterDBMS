@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Update Employee </h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form action="/employee/update/{{employee_to_update.id}}"method = "POST">
+	{{form.hidden_tag()}}
+
+	{{form.first_name.label(class="form-label")}}
+	{{form.first_name(class="form-control", value=employee_to_update.first_name)}}
+	<br/>
+
+	{{form.last_name.label(class="form-label")}}
+	{{form.last_name(class="form-control", value=employee_to_update.last_name)}}
+	<br/>
+
+	{{form.address.label(class="form-label")}}
+	{{form.address(class="form-control", value=employee_to_update.address)}}
+	<br/>
+
+
+	{{form.dob.label(class="form-label")}}
+	{{form.dob(class="form-control", value=employee_to_update.dob)}}
+	<br/>
+
+	{{form.ssn.label(class="form-label")}}
+	{{form.ssn(class="form-control", value=employee_to_update.ssn)}}
+	<br/>
+
+
+	{{form.start_date.label(class="form-label")}}
+	{{form.start_date(class="form-control", value=employee_to_update.start_date)}}
+	<br/>
+
+	{{form.salary.label(class="form-label")}}
+	{{form.salary(class="form-control", value=employee_to_update.salary)}}
+	<br/>
+
+	{{form.position.label(class="form-label")}}
+	{{form.position(class="form-control", value=employee_to_update.position)}}
+	<br/>
+
+
+	{{form.info_id.label(class="form-label")}}
+	{{form.info_id(class="form-control", value=employee_to_update.info_id)}}
+	<br/>
+
+
+	{{form.submit(class="btn btn-secondary")}}
+
+</form>
+</div>
+
+
+
+{% endblock %}

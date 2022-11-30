@@ -67,7 +67,7 @@
 	{% for our_employee in our_employees %}
 	<tr>
 		<td>
-		{{ our_employee.id }}. {{ our_employee.first_name}} {{ our_employee.last_name}} | {{ our_employee.address}} | DOB: {{ our_employee.dob}}
+		{{ our_employee.id }}. <a href="{{url_for('update_employee', id = our_employee.id)}}"> {{ our_employee.first_name}} {{ our_employee.last_name}} </a>| {{ our_employee.address}} | DOB: {{ our_employee.dob}}
 	 | SSN: {{ our_employee.ssn}} | Started: {{ our_employee.start_date}} | Salary:  {{ our_employee.salary}} | {{ our_employee.position}} | Contact# {{ our_employee.info_id}}</td></tr>
 	{% endfor %}
 </table>

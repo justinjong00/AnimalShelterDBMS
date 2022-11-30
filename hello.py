@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, DateField, FormField, IntegerField
 from wtforms.validators import DataRequired
@@ -21,10 +21,21 @@ app.config['SECRET_KEY'] = "justinelsa"
 #MySQL DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:General0667@localhost/animal_shelter1'
 
-
-
 # Initialize the Database
 db = SQLAlchemy(app)
+
+# Create a route decorator
+@app.route('/')
+
+def index():
+	return render_template("index.html")
+
+
+
+####################################################################################################################################################
+##                                                            FORMS                                                                             ####
+##                                                                                                                                              ####
+####################################################################################################################################################
 
 
 
@@ -56,26 +67,11 @@ class NamerForm(FlaskForm):
 
 
 
-@app.route('/user/add', methods=['GET', 'POST'])
+####################################################################################################################################################
+##                                                           ADD ROUTES                                                                         ####
+##                                                                                                                                              ####
+####################################################################################################################################################
 
-def add_user():
-	return render_template("add_user.html")
-#	name = None
-#
-#	form = UserForm()
-#		# Validate Form
-#	if form.validate_on_submit():
-#		user = Users.query.filter_by(email=form.email.data).first()
-#		if user is None:
-#			user = Users(name=form.name.data, email=form.email.data)
-#			db.session.add(user)
-#			db.session.commit()
-#		name = form.name.data
-#		form.name.data = ''
-#		form.email.data= ''
-#		flash("User Added Successfully!")
-#	our_users = Users.query.order_by(Users.date_added)
-#	return render_template("add_user.html", form=form, name =name, our_users = our_users)
 
 @app.route('/contact/add', methods=['GET', 'POST'])
 def add_contact():
@@ -141,36 +137,65 @@ def add_treatments():
 	return render_template("add_treatments.html")
 
 
-# Create a route decorator
-@app.route('/')
-
-def index():
-
-	return render_template("index.html")
-
-#localhost:5000/user/john
-@app.route('/user/<name>')
-
-def user(name):
-	return render_template("user.html", name=name)
-
-# Create Name Page
-@app.route('/name', methods =['GET', 'POST'])
-def name():
-	name = None
-	form = NamerForm()
-
-	# Validate Form
-	if form.validate_on_submit():
-		name = form.name.data
-		form.name.data = ''
-		flash("Form Submitted Successfully")
-	return render_template("name.html", 
-		name = name,
-		form = form)
 
 
-# Create Model
+####################################################################################################################################################
+##                                                          UPDATE ROUTES                                                                       ####
+##                                                                                                                                              ####
+####################################################################################################################################################
+
+
+
+@app.route('/contact/update/<int:id>', methods=['GET','POST'])
+def update_contact(id):
+	form = ContactForm()
+	contact_to_update = Contact_Information.query.get_or_404(id)
+	if request.method == "POST":
+		contact_to_update.email = request.form['email']
+		contact_to_update.phone = request.form['phone']
+		try:
+			db.session.commit()
+			flash("Contact Updated Successfully")
+			return render_template("update_contact.html", form = form, contact_to_update = contact_to_update)
+		except:
+			flash("Error: Could not Update Contact")
+			return render_template("update_contact.html", form = form, contact_to_update = contact_to_update)
+	else:
+		return render_template("update_contact.html", form = form, contact_to_update = contact_to_update)
+
+
+@app.route('/employee/update/<int:id>', methods=['GET','POST'])
+def update_employee(id):
+	form = EmployeeForm()
+	employee_to_update = Employee.query.get_or_404(id)
+	if request.method == "POST":
+		employee_to_update.first_name  = request.form['first_name']
+		employee_to_update.last_name = request.form['last_name']
+		employee_to_update.address = request.form['address']
+		employee_to_update.dob = request.form['dob']
+		employee_to_update.ssn = request.form['ssn']
+		employee_to_update.start_date = request.form['start_date']
+		employee_to_update.salary = request.form['salary']
+		employee_to_update.position = request.form['position']
+		employee_to_update.info_id = request.form['info_id']
+		try:
+			db.session.commit()
+			flash("Employee Updated Successfully")
+			return render_template("update_employee.html", form = form, employee_to_update = employee_to_update)
+		except:
+			flash("Error: Could not Update Employee")
+			return render_template("update_employee.html", form = form, employee_to_update = employee_to_update)
+	else:
+		return render_template("update_employee.html", form = form, employee_to_update = employee_to_update)
+
+
+
+
+####################################################################################################################################################
+##                                                           MODELS                                                                             ####
+##                                                                                                                                              ####
+####################################################################################################################################################
+
 class Contact_Information(db.Model): 
 #    __tablename__ = 'Contact_Information'
     id = db.Column(db.Integer, primary_key = True)
@@ -320,7 +345,7 @@ class Background_Check(db.Model):
 	employee_id = db.Column(db.Integer,  nullable=False)
 	#employee_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
 	background_check_status = db.Column(db.String(150), nullable = False)
-
+ 
 
 class Adoptions(db.Model):
 #    __tablename__ = 'Adopters'
