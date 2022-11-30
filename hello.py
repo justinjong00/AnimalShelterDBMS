@@ -240,7 +240,7 @@ def add_animal():
 	# Validate Form
 	if form.validate_on_submit():
 		animal = Animal.query.filter_by(name=form.name.data).first()
-		if Animal is None:
+		if animal is None:
 			animal = Animal(name=form.name.data, age=form.age.data,
 								sex =form.sex.data, dob=form.dob.data, species=form.species.data,
 								breed=form.breed.data, weight=form.weight.data, admission_date=form.admission_date.data,
