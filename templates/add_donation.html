@@ -56,9 +56,9 @@
 	{% for our_donations in our_donations %}
 	<tr>
 		<td>
-		{{ our_donations.id }}.  {{ our_donations.name}} | {{ our_donations.organization}}
-            | {{ our_donations.amount}} | {{ our_donations.message}} | {{ our_donations.repeat_option}}
-            | {{ our_donations.date}} | {{ our_donations.info_id}}
+		{{ our_donations.id }} | {{ our_donations.name}} | {{ our_donations.organization}}
+        | {{ our_donations.amount}} | {{ our_donations.message}} | {{ our_donations.repeat_option}}
+        | {{ our_donations.date}} | {{ our_donations.info_id}}
 		<a href="{{url_for('update_donation', id = our_donations.id)}}" class="btn btn-warning"> Edit </a> <a href="{{url_for('delete donation', id = our_donations.id)}}" class="btn btn-danger"> Delete </a>
 
 	</td></tr>

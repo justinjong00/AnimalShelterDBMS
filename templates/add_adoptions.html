@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Adoption List </h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form  action="{{ url_for('add_adoption')}}"method = "POST">
+	{{form.hidden_tag()}}
+
+	{{form.first_name.label(class="form-label")}}
+	{{form.first_name(class="form-control")}}
+	<br/>
+
+	{{form.last_name.label(class="form-label")}}
+	{{form.last_name(class="form-control")}}
+	<br/>
+
+	{{form.application_id.label(class="form-label")}}
+	{{form.application_id(class="form-control")}}
+	<br/>
+
+
+	{{form.animal_id.label(class="form-label")}}
+	{{form.animal_id(class="form-control")}}
+	<br/>
+
+	{{form.adoption_date.label(class="form-label")}}
+	{{form.adoption_date(class="form-control")}}
+	<br/>
+
+	{{form.submit(class="btn btn-secondary")}}
+
+</form>
+</div>
+
+	<br/>	<br/>	<br/>
+	<table class = "table table-hover table-bordered table-striped">
+	{% for our_adoptions in our_adoptions %}
+	<tr>
+		<td>
+		{{ our_adoptions.id }} | {{ our_adoptions.first_name}}
+        | {{ our_adoptions.last_name}} | {{ our_adoptions.application_id}} 
+        | {{ our_adoptions.animal_id}} | {{ our_adoptions.adoption_date}} 
+      
+
+        <a href="{{url_for('update_adoption', id = our_adoptions.id)}}" class="btn btn-warning"> Edit </a> 
+        <a href="{{url_for('delete_adoption', id = our_adoptions.id)}}" class="btn btn-danger"> Delete </a>
+
+	</td></tr>
+	{% endfor %}
+</table>
+
+
+{% endblock %}

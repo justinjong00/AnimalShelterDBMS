@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Background Check List </h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form  action="{{ url_for('add_background')}}"method = "POST">
+	{{form.hidden_tag()}}
+
+	{{form.application_id.label(class="form-label")}}
+	{{form.application_id(class="form-control")}}
+	<br/>
+
+	{{form.income.label(class="form-label")}}
+	{{form.income(class="form-control")}}
+	<br/>
+
+	{{form.criminal_record.label(class="form-label")}}
+	{{form.criminal_record(class="form-control")}}
+	<br/>
+
+
+	{{form.credit_score.label(class="form-label")}}
+	{{form.credit_score(class="form-control")}}
+	<br/>
+
+	{{form.interview_status.label(class="form-label")}}
+	{{form.interview_status(class="form-control")}}
+	<br/>
+
+
+	{{form.employee_id.label(class="form-label")}}
+	{{form.employee_id(class="form-control")}}
+	<br/>
+
+	{{form.background_check_status.label(class="form-label")}}
+	{{form.background_check_status(class="form-control")}}
+	<br/>
+
+	{{form.submit(class="btn btn-secondary")}}
+
+</form>
+</div>
+
+	<br/>	<br/>	<br/>
+	<table class = "table table-hover table-bordered table-striped">
+	{% for our_background_checks in our_background_checks %}
+	<tr>
+		<td>
+		{{ our_background_checks.id }} | {{ our_background_checks.application_id}} 
+        | {{ our_background_checks.income}} | {{ our_background_checks.criminal_record}} 
+        | {{ our_background_checks.credit_score}} | {{ our_background_checks.interview_status}} 
+        | {{ our_background_checks.employee_id}} | {{ our_background_checks.background_check_status}} 
+        
+        <a href="{{url_for('update_background', id = our_background_checks.id)}}" class="btn btn-warning"> Edit </a> 
+        <a href="{{url_for('delete_background', id = our_background_checks.id)}}" class="btn btn-danger"> Delete </a>
+
+	</td></tr>
+	{% endfor %}
+</table>
+
+
+{% endblock %}

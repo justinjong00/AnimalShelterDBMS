@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Diagnoses List</h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form  action="{{ url_for('add_diagnoses')}}"method = "POST">
+	{{form.hidden_tag()}}
+
+	{{form.animal_id.label(class="form-label")}}
+	{{form.animal_id(class="form-control")}}
+	<br/>
+
+	{{form.vet_id.label(class="form-label")}}
+	{{form.vet_id(class="form-control")}}
+	<br/>
+
+	{{form.date.label(class="form-label")}}
+	{{form.date(class="form-control")}}
+	<br/>
+
+
+	{{form.diagnosis.label(class="form-label")}}
+	{{form.diagnosis(class="form-control")}}
+	<br/>
+
+
+	{{form.submit(class="btn btn-secondary")}}
+
+</form>
+</div>
+
+	<br/>	<br/>	<br/>
+	<table class = "table table-hover table-bordered table-striped">
+	{% for our_diagnoses in our_diagnoses %}
+	<tr>
+		<td>
+		{{ our_diagnoses.id }} | {{ our_diagnoses.animal_id}} 
+        | VetID: {{ our_diagnoses.vet_id}}
+	    | Date: {{ our_diagnoses.date}} | Diagnosis: {{ our_diagnoses.diagnosis}}
+
+            <a href="{{url_for('update_diagnosis', id = our_diagnoses.id)}}" class="btn btn-warning"> Edit </a>
+            <a href="{{url_for('delete_diagnosis', id = our_diagnoses.id)}}" class="btn btn-danger"> Delete </a>
+
+	</td></tr>
+	{% endfor %}
+</table>
+
+
+{% endblock %}

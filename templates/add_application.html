@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Application List </h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form  action="{{ url_for('add_application')}}"method = "POST">
+	{{form.hidden_tag()}}
+
+	{{form.first_name.label(class="form-label")}}
+	{{form.first_name(class="form-control")}}
+	<br/>
+
+	{{form.last_name.label(class="form-label")}}
+	{{form.last_name(class="form-control")}}
+	<br/>
+
+	{{form.address.label(class="form-label")}}
+	{{form.address(class="form-control")}}
+	<br/>
+
+
+	{{form.dob.label(class="form-label")}}
+	{{form.dob(class="form-control")}}
+	<br/>
+
+	{{form.ssn.label(class="form-label")}}
+	{{form.ssn(class="form-control")}}
+	<br/>
+
+
+	{{form.candidate_id.label(class="form-label")}}
+	{{form.candidate_id(class="form-control")}}
+	<br/>
+
+	{{form.application_status.label(class="form-label")}}
+	{{form.application_status(class="form-control")}}
+	<br/>
+
+	{{form.application_type.label(class="form-label")}}
+	{{form.application_type(class="form-control")}}
+	<br/>
+
+
+	{{form.animal_id.label(class="form-label")}}
+	{{form.animal_id(class="form-control")}}
+	<br/>
+
+    {{form.date.label(class="form-label")}}
+	{{form.date(class="form-control")}}
+	<br/>
+
+    {{form.employee_supervisor.label(class="form-label")}}
+	{{form.employee_supervisor(class="form-control")}}
+	<br/>
+
+	{{form.submit(class="btn btn-secondary")}}
+
+</form>
+</div>
+
+	<br/>	<br/>	<br/>
+	<table class = "table table-hover table-bordered table-striped">
+	{% for our_applications in our_applications %}
+	<tr>
+		<td>
+		{{ our_applications.id }} | {{ our_applications.first_name}}
+        | {{ our_applications.last_name}} | {{ our_applications.address}} 
+        | DOB: {{ our_applications.dob}} | SSN: {{ our_applications.ssn}} 
+        | Date: {{ our_applications.date}} | {{ our_applications.candidate_id}} 
+        | {{ our_applications.application_status}} | {{ our_applications.application_type}} 
+        | {{ our_applications.animal_id}} | {{ our_applications.employee_supervisor}} 
+        
+        <a href="{{url_for('update_application', id = our_applications.id)}}" class="btn btn-warning"> Edit </a> 
+        <a href="{{url_for('delete_application', id = our_applications.id)}}" class="btn btn-danger"> Delete </a>
+
+	</td></tr>
+	{% endfor %}
+</table>
+
+
+{% endblock %}

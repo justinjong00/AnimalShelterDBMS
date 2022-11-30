@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Allergy List</h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form  action="{{ url_for('add_allergies')}}"method = "POST">
+	{{form.hidden_tag()}}
+
+	{{form.animal_id.label(class="form-label")}}
+	{{form.animal_id(class="form-control")}}
+	<br/>
+
+	{{form.allergy.label(class="form-label")}}
+	{{form.allergy(class="form-control")}}
+	<br/>
+
+	{{form.submit(class="btn btn-secondary")}}
+
+</form>
+</div>
+
+	<br/>	<br/>	<br/>
+	<table class = "table table-hover table-bordered table-striped">
+	{% for our_allergies in our_allergies %}
+	<tr>
+		<td>
+		{{ our_allergies.id }} | {{ our_allergies.animal_id}}
+	    | {{ our_allergies.allergy}}
+
+            <a href="{{url_for('update_allergy', id = our_allergies.id)}}" class="btn btn-warning"> Edit </a>
+            <a href="{{url_for('delete_allergy', id = our_allergies.id)}}" class="btn btn-danger"> Delete </a>
+
+	</td></tr>
+	{% endfor %}
+</table>
+
+
+{% endblock %}
