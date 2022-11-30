@@ -890,9 +890,26 @@ def delete_employee(id):
 		flash("Employee Deleted Successfully!")
 
 		our_employees = Employee.query.order_by(Employee.id)
-		return render_template("add_contact.html", form = form, our_employees = our_employees)
+		return render_template("add_employee.html", form = form, our_employees = our_employees)
 	except:
 		return render_template("add_employee.html", form = form, our_employees = our_employees)
+
+@app.route('/animal/delete/<int:id>', methods=['GET','POST'])
+def delete_animal(id):
+	form = AnimalForm()
+	animal_to_delete = Animal.query.get_or_404(id)
+	
+	try:
+		db.session.delete(animal_to_delete)
+		db.session.commit()
+		flash("Animal Deleted Successfully!")
+
+		our_animals = Animal.query.order_by(Animal.id)
+		return render_template("add_animal.html", form = form, our_animals = our_animals)
+	except:
+		return render_template("add_animal.html", form = form, our_animals = our_animals)
+
+
 
 
 ####################################################################################################################################################

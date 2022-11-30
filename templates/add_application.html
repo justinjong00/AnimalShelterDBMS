@@ -71,18 +71,18 @@
 
 	<br/>	<br/>	<br/>
 	<table class = "table table-hover table-bordered table-striped">
-	{% for our_applications in our_applications %}
+	{% for our_application in our_applications %}
 	<tr>
 		<td>
-		{{ our_applications.id }} | {{ our_applications.first_name}}
-        | {{ our_applications.last_name}} | {{ our_applications.address}} 
-        | DOB: {{ our_applications.dob}} | SSN: {{ our_applications.ssn}} 
-        | Date: {{ our_applications.date}} | {{ our_applications.candidate_id}} 
-        | {{ our_applications.application_status}} | {{ our_applications.application_type}} 
-        | {{ our_applications.animal_id}} | {{ our_applications.employee_supervisor}} 
+		{{ our_application.id }} | {{ our_application.first_name}}
+        | {{ our_application.last_name}} | {{ our_application.address}} 
+        | DOB: {{ our_application.dob}} | SSN: {{ our_application.ssn}} 
+        | Date: {{ our_application.date}} | {{ our_application.candidate_id}} 
+        | {{ our_application.application_status}} | {{ our_application.application_type}} 
+        | {{ our_application.animal_id}} | {{ our_application.employee_supervisor}} 
         
-        <a href="{{url_for('update_application', id = our_applications.id)}}" class="btn btn-warning"> Edit </a> 
-        <a href="{{url_for('delete_application', id = our_applications.id)}}" class="btn btn-danger"> Delete </a>
+        <a href="{{url_for('update_application', id = our_application.id)}}" class="btn btn-warning"> Edit </a> 
+        <a href="{{url_for('delete_application', id = our_application.id)}}" class="btn btn-danger"> Delete </a>
 
 	</td></tr>
 	{% endfor %}

@@ -42,15 +42,15 @@
 
 	<br/>	<br/>	<br/>
 	<table class = "table table-hover table-bordered table-striped">
-	{% for our_diagnoses in our_diagnoses %}
+	{% for our_diagnosis in our_diagnoses %}
 	<tr>
 		<td>
-		{{ our_diagnoses.id }} | {{ our_diagnoses.animal_id}} 
-        | VetID: {{ our_diagnoses.vet_id}}
-	    | Date: {{ our_diagnoses.date}} | Diagnosis: {{ our_diagnoses.diagnosis}}
+		{{ our_diagnosis.id }} | {{ our_diagnosis.animal_id}} 
+        | VetID: {{ our_diagnosis.vet_id}}
+	    | Date: {{ our_diagnosis.date}} | Diagnosis: {{ our_diagnosis.diagnosis}}
 
-            <a href="{{url_for('update_diagnosis', id = our_diagnoses.id)}}" class="btn btn-warning"> Edit </a>
-            <a href="{{url_for('delete_diagnosis', id = our_diagnoses.id)}}" class="btn btn-danger"> Delete </a>
+            <a href="{{url_for('update_diagnosis', id = our_diagnosis.id)}}" class="btn btn-warning"> Edit </a>
+            <a href="{{url_for('delete_diagnosis', id = our_diagnosis.id)}}" class="btn btn-danger"> Delete </a>
 
 	</td></tr>
 	{% endfor %}
