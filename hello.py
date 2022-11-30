@@ -488,6 +488,8 @@ def add_adoption():
 		form.animal_id.data = ''
 		form.adoption_date.data = ''
 
+		#comment
+
 		flash("Adoption Added Successfully!")
 	our_adoptions = Adoptions.query.order_by(Adoptions.id)
 	return render_template("add_adoptions.html", form=form, our_adoptions=our_adoptions)
