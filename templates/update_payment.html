@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Update Payment</h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form action="/payment/update/{{payment_to_update.id}}"method = "POST">
+	{{form.hidden_tag()}}
+
+
+	{{form.credit_card.label(class="form-label")}}
+	{{form.credit_card(class="form-control", value=payment_to_update.credit_card)}}
+	<br/>
+
+	{{form.name_on_card.label(class="form-label")}}
+	{{form.name_on_card(class="form-control", value=payment_to_update.name_on_card)}}
+	<br/>
+
+	{{form.billing_address.label(class="form-label")}}
+	{{form.billing_address(class="form-control", value=payment_to_update.billing_address)}}
+	<br/>
+
+	{{form.submit(class="btn btn-secondary")}}
+
+	<a href="{{url_for('delete_payment', id = id)}}" class="btn btn-danger"> Delete </a>
+
+</form>
+</div>
+
+
+
+{% endblock %}
