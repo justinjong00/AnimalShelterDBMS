@@ -12,18 +12,18 @@
 
 
 
-<h1>Contact List </h1>
+<h1>Update Contact</h1>
 <br/>
 <div class="shadow p-3 mb-5 bg-body rounded">
-<form method = "POST">
+<form action="/contact/update/{{contact_to_update.id}}" method = "POST">
 	{{form.hidden_tag()}}
 	
 	{{form.email.label(class="form-label")}}
-	{{form.email(class="form-control")}}
+	{{form.email(class="form-control", value=contact_to_update.email)}}
 	<br/>
 
 	{{form.phone.label(class="form-label")}}
-	{{form.phone(class="form-control")}}
+	{{form.phone(class="form-control", value=contact_to_update.email)}}
 	<br/>
 
 
@@ -32,13 +32,6 @@
 </form>
 </div>
 
-	<br/>	<br/>	<br/>
-	<table class = "table table-hover table-bordered table-striped">
-	{% for our_contact in our_contacts %}
-	<tr>
-		<td>
-		{{ our_contact.id }}. <a href="{{url_for('update_contact', id = our_contact.id)}}"> {{ our_contact.email}} </a> | {{ our_contact.phone}} </td></tr>
-	{% endfor %}
-</table>
+
 
 {% endblock %}
