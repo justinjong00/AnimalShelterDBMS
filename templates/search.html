@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+	<h1> Search the Database </h1>
+	<form method="POST">
+		{{ form.hidden_tag() }}
+
+
+		{{ form.searched(class="form-control") }}
+		<br/>
+		
+		{{ form.submit(class="btn btn-secondary") }}
+
+
+	</form>
+
+<br/><br/>
+	<h2> Latest Search: </h2>
+	<p> {{searched}} </p>
+
+
+
+<table border="1" cellpadding="5" cellspacing="5">
+{% for row in rows %}
+    <tr>
+    {% for d in row %}
+        <td>{{ d }}</td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+</table>
+
+
+
+{% endblock %}

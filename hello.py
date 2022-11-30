@@ -2,8 +2,12 @@ from flask import Flask, render_template, flash, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, DateField, FormField, IntegerField, SelectField
 from wtforms.validators import DataRequired
+#from webforms import SearchForm
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from datetime import datetime, date
+from sqlalchemy import create_engine
+
 
 
 # Create a Flask Instance
@@ -23,6 +27,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:General0667@localh
 
 # Initialize the Database
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+engine = create_engine('mysql+pymysql://root:General0667@localhost/animal_shelter1')
+connection = engine.raw_connection()
+cursor = connection.cursor()
 
 # Create a route decorator
 @app.route('/')
@@ -37,6 +46,9 @@ def index():
 ##                                                                                                                                              ####
 ####################################################################################################################################################
 
+class SearchForm(FlaskForm):
+	searched = StringField("Searched", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 
 # Create a Contact Form Class
@@ -90,9 +102,6 @@ class AnimalForm(FlaskForm):
 	foster_status = SelectField("Foster Status", choices=FOSTER_STATUS,  validators=[DataRequired()])
 
 # Create a Form Class
-class NamerForm(FlaskForm):
-	name = StringField("What's your name", validators=[DataRequired()])
-	submit = SubmitField("Submit")
 
 class DonationForm(FlaskForm):
 	name = StringField("Name", validators=[DataRequired()])
@@ -105,7 +114,7 @@ class DonationForm(FlaskForm):
 
 
 class PaymentForm(FlaskForm):
-	credit_card = IntegerField("Credit Card Number", validators=[DataRequired()])
+	credit_card = StringField("Credit Card Number", validators=[DataRequired()])
 	name_on_card = StringField("Name on Card", validators=[DataRequired()])
 	billing_address = StringField("Billing Address", validators=[DataRequired()])
 
@@ -192,20 +201,21 @@ class FosterForm(FlaskForm):
 ####################################################################################################################################################
 
 
+
 @app.route('/contact/add', methods=['GET', 'POST'])
 def add_contact():
 	form = ContactForm()
 		# Validate Form
 	if form.validate_on_submit():
-		contact = Contact_Information.query.filter_by(email=form.email.data).first()
+		contact = Contact.query.filter_by(email=form.email.data).first()
 		if contact is None:
-			contact = Contact_Information(email=form.email.data, phone=form.phone.data)
+			contact = Contact(email=form.email.data, phone=form.phone.data)
 			db.session.add(contact)
 			db.session.commit()
 		form.email.data = ''
 		form.phone.data= ''
 		flash("Contact Added Successfully!")
-	our_contacts = Contact_Information.query.order_by(Contact_Information.id)
+	our_contacts = Contact.query.order_by(Contact.id)
 	return render_template("add_contact.html", form = form, our_contacts = our_contacts)
 
 @app.route('/employee/add', methods=['GET', 'POST'])
@@ -444,14 +454,14 @@ def add_application():
 	return render_template("add_application.html", form=form, our_applications=our_applications)
 
 
-@app.route('/background_check/add', methods=['GET', 'POST'])
-def add_background_check():
+@app.route('/background/add', methods=['GET', 'POST'])
+def add_background():
 	form = BackgroundCheckForm()
 	# Validate Form
 	if form.validate_on_submit():
-		background = Background_Check.query.filter_by(application_id=form.application_id.data).first()
+		background = Backgroundcheck.query.filter_by(application_id=form.application_id.data).first()
 		if background is None:
-			background = Background_Check(application_id=form.application_id.data, income=form.income.data,
+			background = BackgroundCheck(application_id=form.application_id.data, income=form.income.data,
 									  criminal_record=form.criminal_record.data, credit_score=form.credit_score.data, ssn=form.ssn.data,
 									  candidate_id = form.candidate_id.data, application_type = form.application_type.data,
 									  interview_status = form.interview_status.data, employee_id=form.employee_id.data,
@@ -467,7 +477,7 @@ def add_background_check():
 		form.background_check_status.data = ''
 
 		flash("Background Check Added Successfully!")
-	our_background_checks = Background_Check.query.order_by(Background_Check.id)
+	our_background_checks = Backgroundcheck.query.order_by(Backgroundcheck.id)
 	return render_template("add_background_check.html", form=form, our_background_checks=our_background_checks)
 
 @app.route('/adoptions/add', methods=['GET', 'POST'])
@@ -528,7 +538,7 @@ def add_foster():
 @app.route('/contact/update/<int:id>', methods=['GET','POST'])
 def update_contact(id):
 	form = ContactForm()
-	contact_to_update = Contact_Information.query.get_or_404(id)
+	contact_to_update = Contact.query.get_or_404(id)
 	if request.method == "POST":
 		contact_to_update.email = request.form['email']
 		contact_to_update.phone = request.form['phone']
@@ -565,7 +575,7 @@ def update_employee(id):
 			flash("Error: Could not Update Employee")
 			return render_template("update_employee.html", form = form, employee_to_update = employee_to_update)
 	else:
-		return render_template("update_employee.html", form = form, employee_to_update = employee_to_update, id= id)
+		return render_template("update_employee.html", form = form, employee_to_update = employee_to_update, id = id)
 
 
 
@@ -578,18 +588,53 @@ def update_employee(id):
 @app.route('/contact/delete/<int:id>', methods=['GET','POST'])
 def delete_contact(id):
 	form = ContactForm()
-	contact_to_delete = Contact_Information.query.get_or_404(id)
+	contact_to_delete = Contact.query.get_or_404(id)
 	
 	try:
 		db.session.delete(contact_to_delete)
 		db.session.commit()
 		flash("User Deleted Successfully!")
 
-		our_contacts = Contact_Information.query.order_by(Contact_Information.id)
+		our_contacts = Contact.query.order_by(Contact.id)
 		return render_template("add_contact.html", form = form, our_contacts = our_contacts)
 	except:
-		flash("Error: Could not Delete Contact")
 		return render_template("add_contact.html", form = form, our_contacts = our_contacts)
+
+
+@app.route('/employee/delete/<int:id>', methods=['GET','POST'])
+def delete_employee(id):
+	form = EmployeeForm()
+	employee_to_delete = Employee.query.get_or_404(id)
+	
+	try:
+		db.session.delete(employee_to_delete)
+		db.session.commit()
+		flash("Employee Deleted Successfully!")
+
+		our_employees = Employee.query.order_by(Employee.id)
+		return render_template("add_contact.html", form = form, our_employees = our_employees)
+	except:
+		return render_template("add_employee.html", form = form, our_employees = our_employees)
+
+
+####################################################################################################################################################
+##                                                           SEARCH ROUTE                                                                       ####
+##                                                                                                                                              ####
+####################################################################################################################################################
+
+@app.route('/search', methods=['GET','POST'])
+def search():
+	anything = None
+	form = SearchForm()
+	cursor.execute("SELECT * from Contact")
+	rows = cursor.fetchall()
+	#searches = Employee.query
+	#contacts = Contact.query.filter_by(ContactInformation.id == 9)
+	if form.validate_on_submit():
+		#contact_dict = dict((col, getattr(contacts, col)) for col in contacts.__table__.columns.keys())
+		form.searched.data = ''
+		flash("Search was Successful!" )
+	return render_template("search.html", form = form, searched = anything, rows = rows)
 
 
 ####################################################################################################################################################
@@ -597,8 +642,8 @@ def delete_contact(id):
 ##                                                                                                                                              ####
 ####################################################################################################################################################
 
-class Contact_Information(db.Model): 
-#    __tablename__ = 'Contact_Information'
+class Contact(db.Model): 
+#    __tablename__ = 'ContactInformation'
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(150), unique = True)
     phone = db.Column(db.String(150), unique = True)
@@ -612,12 +657,12 @@ class Employee(db.Model):
     last_name = db.Column(db.String(150), nullable=False)
     address = db.Column(db.String(150), nullable = False)
     dob = db.Column(db.Date, nullable=False)
-    ssn = db.Column(db.Integer, nullable=False, unique = True)
+    ssn = db.Column(db.String(150), nullable=False, unique = True)
     start_date = db.Column(db.Date, nullable=False)
     salary = db.Column(db.Integer, nullable=True)
     position = db.Column(db.String(150),nullable = False)
     info_id = db.Column(db.Integer, nullable = False, unique = True) #
-    #info_id = db.Column(db.Integer, db.ForeignKey('Contact_Information.id'), nullable = False, unique = True)
+    #info_id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), nullable = False, unique = True)
 
 
 
@@ -631,16 +676,16 @@ class Donation(db.Model):
     repeat_option = db.Column(db.String(150), nullable=True)
     date = db.Column(db.Date, nullable=False)
     info_id = db.Column(db.Integer, nullable = True) #
-    #info_id = db.Column(db.Integer, db.ForeignKey('Contact_Information.id'), nullable = True)
+    #info_id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), nullable = True)
 
 
 
 class Payment(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
-	credit_card = db.Column(db.Integer)
+	credit_card = db.Column(db.String(150))
 	name_on_card = db.Column(db.String(150))
 	billing_address = db.Column(db.String(150))
-     #id = db.Column(db.Integer, db.ForeignKey('Contact_Information.id'), primary_key = True)
+     #id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), primary_key = True)
 
 
 class Animal(db.Model):
@@ -722,9 +767,9 @@ class Application(db.Model):
 	last_name = db.Column(db.String(150), nullable=False)
 	address = db.Column(db.String(150), nullable = False)
 	dob = db.Column(db.Date, nullable=False)
-	ssn = db.Column(db.Integer, nullable=False)
+	ssn = db.Column(db.String(150), nullable=False)
 	candidate_id = db.Column(db.Integer, nullable = False)
-	#candidate_id = db.Column(db.Integer, db.ForeignKey('Contact_Information.id'), nullable = False)
+	#candidate_id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), nullable = False)
 	application_type = db.Column(db.Integer, nullable = False) # 1 for Adoption, 2 for Fostering
 	animal_id = db.Column(db.Integer, nullable =False)
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable =False)
@@ -734,8 +779,8 @@ class Application(db.Model):
 	application_status = db.Column(db.String(150), nullable=True)
 
 
-class Background_Check(db.Model):
-#    __tablename__ = 'Background_Check'
+class Backgroundcheck(db.Model):
+#    __tablename__ = 'BackgroundCheck'
 	id = db.Column(db.Integer, primary_key = True)
 	application_id = db.Column(db.Integer, nullable = False)
 	#application_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
@@ -770,3 +815,6 @@ class Fosters(db.Model):
 	#app_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
 	foster_date = db.Column(db.Date, nullable=False)
+
+
+
