@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+
+<h1>Donation List </h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form  action="{{ url_for('add_donation')}}" method = "POST">
+	{{form.hidden_tag()}}
+
+	{{form.name.label(class="form-label")}}
+	{{form.name(class="form-control")}}
+	<br/>
+
+	{{form.organization.label(class="form-label")}}
+	{{form.organization(class="form-control")}}
+	<br/>
+
+    {{form.amount.label(class="form-label")}}
+	{{form.amount(class="form-control")}}
+	<br/>
+
+    {{form.message.label(class="form-label")}}
+	{{form.message(class="form-control")}}
+	<br/>
+
+    {{form.repeat_option.label(class="form-label")}}
+	{{form.repeat_option(class="form-control")}}
+	<br/>
+
+    {{form.date.label(class="form-label")}}
+	{{form.date(class="form-control")}}
+	<br/>
+
+    {{form.info_id.label(class="form-label")}}
+	{{form.info_id(class="form-control")}}
+	<br/>
+
+	{{form.submit(class="btn btn-secondary")}}
+
+</form>
+</div>
+
+	<br/>	<br/>	<br/>
+	<table class = "table table-hover table-bordered table-striped">
+	{% for our_donations in our_donations %}
+	<tr>
+		<td>
+		{{ our_donations.id }}.  {{ our_donations.name}} | {{ our_donations.organization}}
+            | {{ our_donations.amount}} | {{ our_donations.message}} | {{ our_donations.repeat_option}}
+            | {{ our_donations.date}} | {{ our_donations.info_id}}
+		<a href="{{url_for('update_donation', id = our_donations.id)}}" class="btn btn-warning"> Edit </a> <a href="{{url_for('delete donation', id = our_donations.id)}}" class="btn btn-danger"> Delete </a>
+
+	</td></tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

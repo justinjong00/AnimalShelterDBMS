@@ -11,22 +11,81 @@
 
 
 
-<h1>Contact List </h1>
+<h1>Animal List</h1>
 <br/>
 <form method = "POST">
 	{{form.hidden_tag()}}
 
-	{{form.email.label(class="form-label")}}
-	{{form.email(class="form-control")}}
+	{{form.name.label(class="form-label")}}
+	{{form.name(class="form-control")}}
 	<br/>
 
-	{{form.phone.label(class="form-label")}}
-	{{form.phone(class="form-control")}}
+	{{form.age.label(class="form-label")}}
+	{{form.age(class="form-control")}}
 	<br/>
+
+    {{form.sex.label(class="form-label")}}
+	{{form.sex(class="form-control")}}
+	<br/>
+
+    {{form.dob.label(class="form-label")}}
+	{{form.dob(class="form-control")}}
+	<br/>
+
+    {{form.species.label(class="form-label")}}
+	{{form.species(class="form-control")}}
+	<br/>
+
+    {{form.breed.label(class="form-label")}}
+	{{form.breed(class="form-control")}}
+	<br/>
+
+    {{form.weight.label(class="form-label")}}
+	{{form.weight(class="form-control")}}
+	<br/>
+
+    {{form.admission_reason.label(class="form-label")}}
+	{{form.admission_reason(class="form-control")}}
+	<br/>
+
+    {{form.admission_date.label(class="form-label")}}
+	{{form.admission_date(class="form-control")}}
+	<br/>
+
+    {{form.adoption_status.label(class="form-label")}}
+	{{form.adoption_status(class="form-control")}}
+	<br/>
+
+    {{form.foster_status.label(class="form-label")}}
+	{{form.foster_status(class="form-control")}}
+	<br/>
+
+    {{form.employee_id.label(class="form-label")}}
+	{{form.employee_id(class="form-control")}}
+	<br/>
+
 
 	{{form.submit(class="btn btn-secondary")}}
 
 </form>
 
+
+</form>
+</div>
+
+	<br/>	<br/>	<br/>
+	<table class = "table table-hover table-bordered table-striped">
+	{% for our_animals in our_animals %}
+	<tr>
+		<td>
+		{{ our_animals.id }} | {{ our_animals.name}} | {{ our_animals.age}} | {{ our_animals.sex}} | {{ our_animals.dob}}
+            | {{ our_animals.species}} | {{ our_animals.species}} | {{ our_animals.breed}} | {{ our_animals.weight}}
+            | {{ our_animals.admission_reason}} | {{ our_animals.admission_date}} | {{ our_animals.adoption_status}}
+            | {{ our_animals.foster_status}} | {{ our_animals.employee_id}}
+		<a href="{{url_for('update_animal', id = our_animals.id)}}" class="btn btn-warning"> Edit </a> <a href="{{url_for('delete_animal', id = our_animals.id)}}" class="btn btn-danger"> Delete </a>
+
+	</td></tr>
+	{% endfor %}
+</table>
 
 {% endblock %}

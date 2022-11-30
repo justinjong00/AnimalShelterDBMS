@@ -461,7 +461,7 @@ def add_background():
 	if form.validate_on_submit():
 		background = Backgroundcheck.query.filter_by(application_id=form.application_id.data).first()
 		if background is None:
-			background = BackgroundCheck(application_id=form.application_id.data, income=form.income.data,
+			background = Backgroundcheck(application_id=form.application_id.data, income=form.income.data,
 									  criminal_record=form.criminal_record.data, credit_score=form.credit_score.data, ssn=form.ssn.data,
 									  candidate_id = form.candidate_id.data, application_type = form.application_type.data,
 									  interview_status = form.interview_status.data, employee_id=form.employee_id.data,
