@@ -16,10 +16,10 @@ app.config['SECRET_KEY'] = "justinelsa"
 # Add Databse
 
 # SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
-# MySQL DB
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password123@localhost/animal_shelter'
+#MySQL DB
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:General0667@localhost/animal_shelter1'
 
 
 
@@ -175,7 +175,7 @@ class Contact_Information(db.Model):
 #    __tablename__ = 'Contact_Information'
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(150), unique = True)
-    phone = db.Column(db.Integer, unique = True)
+    phone = db.Column(db.String(150), unique = True)
 
 
 
