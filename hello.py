@@ -909,8 +909,177 @@ def delete_animal(id):
 	except:
 		return render_template("add_animal.html", form = form, our_animals = our_animals)
 
+@app.route('/donation/delete/<int:id>', methods=['GET','POST'])
+def delete_donation(id):
+	form = DonationForm()
+	donation_to_delete = Donation.query.get_or_404(id)
+	
+	try:
+		db.session.delete(donation_to_delete)
+		db.session.commit()
+		flash("Donation Deleted Successfully!")
+
+		our_donations = Donation.query.order_by(Donation.id)
+		return render_template("add_donation.html", form = form, our_donations = our_donations)
+	except:
+		return render_template("add_donation.html", form = form, our_donations = our_donations)
+
+@app.route('/payment/delete/<int:id>', methods=['GET','POST'])
+def delete_payment(id):
+	form = PaymentForm()
+	payment_to_delete = Payment.query.get_or_404(id)
+	
+	try:
+		db.session.delete(payment_to_delete)
+		db.session.commit()
+		flash("Payment Deleted Successfully!")
+
+		our_payments = Payment.query.order_by(Payment.id)
+		return render_template("add_payment.html", form = form, our_payments = our_payments)
+	except:
+		return render_template("add_payment.html", form = form, our_payments = our_payments)
 
 
+@app.route('/diagnoses/delete/<int:id>', methods=['GET','POST'])
+def delete_diagnosis(id):
+	form = DiagnosesForm()
+	diagnosis_to_delete = Diagnoses.query.get_or_404(id)
+	
+	try:
+		db.session.delete(diagnosis_to_delete)
+		db.session.commit()
+		flash("Diagnosis Deleted Successfully!")
+
+		our_diagnoses = Diagnoses.query.order_by(Diagnoses.id)
+		return render_template("add_diagnosis.html", form = form, our_diagnoses = our_diagnoses)
+	except:
+		return render_template("add_diagnosis.html", form = form, our_diagnoses = our_diagnoses)
+
+
+@app.route('/treatments/delete/<int:id>', methods=['GET','POST'])
+def delete_treatment(id):
+	form = TreatmentForm()
+	treatment_to_delete = Treatments.query.get_or_404(id)
+	
+	try:
+		db.session.delete(treatment_to_delete)
+		db.session.commit()
+		flash("Treatment Deleted Successfully!")
+
+		our_treatments = Treatments.query.order_by(Treatments.id)
+		return render_template("add_treatments.html", form = form, our_treatments = our_treatments)
+	except:
+		return render_template("add_treatments.html", form = form, our_treatments = our_treatments)
+
+
+@app.route('/surgeries/delete/<int:id>', methods=['GET','POST'])
+def delete_surgery(id):
+	form = SurgeryForm()
+	surgery_to_delete = Surgeries.query.get_or_404(id)
+	
+	try:
+		db.session.delete(surgery_to_delete)
+		db.session.commit()
+		flash("Diagnosis Deleted Successfully!")
+
+		our_surgeries = Surgeries.query.order_by(Surgeries.id)
+		return render_template("add_surgery.html", form = form, our_surgeries = our_surgeries)
+	except:
+		return render_template("add_surgery.html", form = form, our_surgeries = our_surgeries)
+
+
+@app.route('/vaccinations/delete/<int:id>', methods=['GET','POST'])
+def delete_vaccination(id):
+	form = VaccinationForm()
+	vaccination_to_delete = Vaccinations.query.get_or_404(id)
+	
+	try:
+		db.session.delete(vaccination_to_delete)
+		db.session.commit()
+		flash("Vaccination Deleted Successfully!")
+
+		our_vaccinations = Vaccinations.query.order_by(Vaccinations.id)
+		return render_template("add_vaccination.html", form = form, our_vaccinations = our_vaccinations)
+	except:
+		return render_template("add_vaccination.html", form = form, our_vaccinations = our_vaccinations)
+
+
+@app.route('/allergies/delete/<int:id>', methods=['GET','POST'])
+def delete_allergy(id):
+	form = AllergyForm()
+	allergy_to_delete = Allergies.query.get_or_404(id)
+	
+	try:
+		db.session.delete(allergy_to_delete)
+		db.session.commit()
+		flash("Allergy Deleted Successfully!")
+
+		our_allergies = Allergies.query.order_by(Allergies.id)
+		return render_template("add_allergy.html", form = form, our_allergies = our_allergies)
+	except:
+		return render_template("add_allergy.html", form = form, our_allergies = our_allergies)
+
+
+@app.route('/application/delete/<int:id>', methods=['GET','POST'])
+def delete_application(id):
+	form = ApplicationForm()
+	application_to_delete = Application.query.get_or_404(id)
+	
+	try:
+		db.session.delete(application_to_delete)
+		db.session.commit()
+		flash("Application Deleted Successfully!")
+
+		our_applications = Application.query.order_by(Application.id)
+		return render_template("add_application.html", form = form, our_applications = our_applications)
+	except:
+		return render_template("add_application.html", form = form, our_applications = our_applications)
+
+
+@app.route('/background/delete/<int:id>', methods=['GET','POST'])
+def delete_background(id):
+	form = BackgroundCheckForm()
+	bc_to_delete = Backgroundcheck.query.get_or_404(id)
+	
+	try:
+		db.session.delete(bc_to_delete)
+		db.session.commit()
+		flash("Background Check Deleted Successfully!")
+
+		our_background_checks = Backgroundcheck.query.order_by(Backgroundcheck.id)
+		return render_template("add_background_check.html", form = form, our_background_checks = our_background_checks)
+	except:
+		return render_template("add_background_check.html", form = form, our_background_checks = our_background_checks)
+
+@app.route('/adoption/delete/<int:id>', methods=['GET','POST'])
+def delete_adoption(id):
+	form = AdoptionForm()
+	adoption_to_delete = Adoptions.query.get_or_404(id)
+	
+	try:
+		db.session.delete(adoption_to_delete)
+		db.session.commit()
+		flash("Adoption Deleted Successfully!")
+
+		our_adoptions = Adoptions.query.order_by(Adoptions.id)
+		return render_template("add_adoption.html", form = form, our_adoptions = our_adoptions)
+	except:
+		return render_template("add_adoption.html", form = form, our_adoptions = our_adoptions)
+
+@app.route('/foster/delete/<int:id>', methods=['GET','POST'])
+def delete_foster(id):
+	form = FosterForm()
+	foster_to_delete = Fosters.query.get_or_404(id)
+	
+	try:
+		db.session.delete(foster_to_delete)
+		db.session.commit()
+		flash("Foster Deleted Successfully!")
+
+		our_fosters = Fosters.query.order_by(Fosters.id)
+		return render_template("add_foster.html", form = form, our_fosters = our_fosters)
+	except:
+		return render_template("add_foster.html", form = form, our_fosters = our_fosters)
 
 ####################################################################################################################################################
 ##                                                           SEARCH ROUTE                                                                       ####
