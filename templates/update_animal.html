@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Update Animal</h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form action="/animal/update/{{employee_to_update.id}}"method = "POST">
+	{{form.hidden_tag()}}
+
+	{{form. name.label(class="form-label")}}
+	{{form.name(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+	{{form.age.label(class="form-label")}}
+	{{form.age(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.sex.label(class="form-label")}}
+	{{form.sex(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.dob.label(class="form-label")}}
+	{{form.dob(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.species.label(class="form-label")}}
+	{{form.species(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.breed.label(class="form-label")}}
+	{{form.breed(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.weight.label(class="form-label")}}
+	{{form.weight(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.admission_reason.label(class="form-label")}}
+	{{form.admission_reason(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.admission_date.label(class="form-label")}}
+	{{form.admission_date(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.adoption_status.label(class="form-label")}}
+	{{form.adoption_status(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.foster_status.label(class="form-label")}}
+	{{form.foster_status(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+    {{form.employee_id.label(class="form-label")}}
+	{{form.employee_id(class="form-control", value=animal_to_update.name)}}
+	<br/>
+
+
+	{{form.submit(class="btn btn-secondary")}}
+
+	<a href="{{url_for('delete_animal', id = id)}}" class="btn btn-danger"> Delete </a>
+
+</form>
+</div>
+
+
+
+{% endblock %}

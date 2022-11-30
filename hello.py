@@ -101,8 +101,7 @@ class AnimalForm(FlaskForm):
 	adoption_status = SelectField("Adoption Status", choices=ADOPTION_STATUS,  validators=[DataRequired()])
 	foster_status = SelectField("Foster Status", choices=FOSTER_STATUS,  validators=[DataRequired()])
 
-# Create a Form Class
-
+# Create a Donation Form Class
 class DonationForm(FlaskForm):
 	name = StringField("Name", validators=[DataRequired()])
 	organization = StringField("Organization", validators=[DataRequired()])
@@ -112,12 +111,13 @@ class DonationForm(FlaskForm):
 	date = DateField("Date", validators=[DataRequired()])
 	info_id = IntegerField("Contact Information ID#", validators=[DataRequired()])
 
-
+# Create a Payment Form Class
 class PaymentForm(FlaskForm):
 	credit_card = StringField("Credit Card Number", validators=[DataRequired()])
 	name_on_card = StringField("Name on Card", validators=[DataRequired()])
 	billing_address = StringField("Billing Address", validators=[DataRequired()])
 
+# Create a Diagnoses Form Class
 class DiagnosesForm(FlaskForm):
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	vet_id = IntegerField("Vet ID#", validators=[DataRequired()])
@@ -252,10 +252,14 @@ def add_animal():
 		animal = Animal.query.filter_by(name=form.name.data).first()
 		if animal is None:
 			animal = Animal(name=form.name.data, age=form.age.data,
-								sex =form.sex.data, dob=form.dob.data, species=form.species.data,
-								breed=form.breed.data, weight=form.weight.data, admission_date=form.admission_date.data,
-								admission_reason=form.admission_reason.data, adoption_status=form.adoption_status.data,
-								foster_status=form.foster_status.data, employee_id = form.employee_id.data)
+								sex =form.sex.data, dob=form.dob.data, 
+								species=form.species.data,
+								breed=form.breed.data, weight=form.weight.data, 
+								admission_date=form.admission_date.data,
+								admission_reason=form.admission_reason.data, 
+								adoption_status=form.adoption_status.data,
+								foster_status=form.foster_status.data, 
+								employee_id = form.employee_id.data)
 			db.session.add(animal)
 			db.session.commit()
 		form.name.data = ''
@@ -558,7 +562,7 @@ def update_employee(id):
 	form = EmployeeForm()
 	employee_to_update = Employee.query.get_or_404(id)
 	if request.method == "POST":
-		employee_to_update.first_name  = request.form['first_name']
+		employee_to_update.first_name = request.form['first_name']
 		employee_to_update.last_name = request.form['last_name']
 		employee_to_update.address = request.form['address']
 		employee_to_update.dob = request.form['dob']
@@ -577,6 +581,280 @@ def update_employee(id):
 	else:
 		return render_template("update_employee.html", form = form, employee_to_update = employee_to_update, id = id)
 
+
+@app.route('/animal/update/<int:id>', methods=['GET','POST'])
+def update_animal(id):
+	form = AnimalForm()
+	animal_to_update = Animal.query.get_or_404(id)
+	if request.method == "POST":
+		animal_to_update.name = request.form['name']
+		animal_to_update.age = request.form['age']
+		animal_to_update.sex = request.form['sex']
+		animal_to_update.dob = request.form['dob']
+		animal_to_update.species = request.form['species']
+		animal_to_update.breed = request.form['breed']
+		animal_to_update.admission_date = request.form['admission_date']
+		animal_to_update.admission_reason = request.form['admission_reason']
+		animal_to_update.adoption_status = request.form['adoption_status']
+		animal_to_update.foster_status = request.form['foster_status']
+		animal_to_update.employee_id = request.form['employee_id']
+
+		try:
+			db.session.commit()
+			flash("Animal Updated Successfully!")
+			return render_template("update_animal.html", form = form, animal_to_update = animal_to_update)
+		except:
+			flash("Error: Could not Update Animal")
+			return render_template("update_aniaml.html", form = form, animal_to_update = animal_to_update)
+	else:
+		return render_template("update_animal.html", form = form, animal_to_update = animal_to_update, id = id)
+
+
+@app.route('/donation/update/<int:id>', methods=['GET','POST'])
+def update_donation(id):
+	form = DonationForm()
+	donation_to_update = Donation.query.get_or_404(id)
+	if request.method == "POST":
+		donation_to_update.name = request.form['name']
+		donation_to_update.organization = request.form['organization']
+		donation_to_update.amount = request.form['amount']
+		donation_to_update.message = request.form['message']
+		donation_to_update.repeat_option = request.form['repeat_option']
+		donation_to_update.date = request.form['date']
+		donation_to_update.info_id = request.form['info_id']
+
+		try:
+			db.session.commit()
+			flash("Donation Updated Successfully!")
+			return render_template("update_donation.html", form = form, donation_to_update = donation_to_update)
+		except:
+			flash("Error: Could not Update Donation")
+			return render_template("update_donation.html", form = form, donation_to_update = donation_to_update)
+	else:
+		return render_template("update_donation.html", form = form, donation_to_update = donation_to_update, id = id)
+
+
+@app.route('/payment/update/<int:id>', methods=['GET','POST'])
+def update_payment(id):
+	form = PaymentForm()
+	payment_to_update = Payment.query.get_or_404(id)
+	if request.method == "POST":
+		payment_to_update.credit_card = request.form['credit_card']
+		payment_to_update.name_on_card = request.form['name_on_card']
+		payment_to_update.billing_address = request.form['billing_address']
+
+		try:
+			db.session.commit()
+			flash("Payment Updated Successfully!")
+			return render_template("update_payment.html", form = form, payment_to_update = payment_to_update)
+		except:
+			flash("Error: Could not Update Donation")
+			return render_template("update_payment.html", form = form, payment_to_update = payment_to_update)
+	else:
+		return render_template("update_payment.html", form = form, payment_to_update = payment_to_update, id = id)
+
+
+@app.route('/diagnoses/update/<int:id>', methods=['GET','POST'])
+def update_diagnosis(id):
+	form = DiagnosesForm()
+	diagnosis_to_update = Diagnoses.query.get_or_404(id)
+	if request.method == "POST":
+		diagnosis_to_update.animal_id = request.form['animal_id']
+		diagnosis_to_update.vet_id = request.form['vet_id']
+		diagnosis_to_update.date = request.form['date']
+		diagnosis_to_update.diagnosis = request.form['diagnosis']
+
+		try:
+			db.session.commit()
+			flash("Diagnosis Updated Successfully!")
+			return render_template("update_diagnosis.html", form = form, diagnosis_to_update = diagnosis_to_update)
+		except:
+			flash("Error: Could not Update Diagnosis")
+			return render_template("update_diagnosis.html", form = form, diagnosis_to_update = diagnosis_to_update)
+	else:
+		return render_template("update_diagnosis.html", form = form, diagnosis_to_update = diagnosis_to_update, id = id)
+
+
+@app.route('/treatments/update/<int:id>', methods=['GET','POST'])
+def update_treatment(id):
+	form = TreatmentForm()
+	treatment_to_update = Treatments.query.get_or_404(id)
+	if request.method == "POST":
+		treatment_to_update.animal_id = request.form['animal_id']
+		treatment_to_update.diagnosis_id = request.form['diagnosis_id']
+		treatment_to_update.start_date = request.form['start_date']
+		treatment_to_update.end_date = request.form['end_date']
+		treatment_to_update.treatment = request.form['treatment']
+		treatment_to_update.dosage = request.form['dosage']
+		
+		try:
+			db.session.commit()
+			flash("Treatment Updated Successfully!")
+			return render_template("update_treatment.html", form = form, treatment_to_update = treatment_to_update)
+		except:
+			flash("Error: Could not Update Treatment")
+			return render_template("update_treatment.html", form = form, treatment_to_update = treatment_to_update)
+	else:
+		return render_template("update_treatment.html", form = form, treatment_to_update = treatment_to_update, id = id)
+
+
+@app.route('/surgeries/update/<int:id>', methods=['GET','POST'])
+def update_surgery(id):
+	form = SurgeryForm()
+	surgery_to_update = Surgeries.query.get_or_404(id)
+	if request.method == "POST":
+		surgery_to_update.animal_id  = request.form['animal_id']
+		surgery_to_update.diagnosis_id  = request.form['diagnosis_id']
+		surgery_to_update.vet_id  = request.form['vet_id']
+		surgery_to_update.date  = request.form['date']
+		surgery_to_update.operation_type = request.form['operation_type']
+		surgery_to_update.success_or_fail = request.form['success_or_fail']
+		
+		try:
+			db.session.commit()
+			flash("Surgery Updated Successfully!")
+			return render_template("update_surgery.html", form = form, surgery_to_update = surgery_to_update)
+		except:
+			flash("Error: Could not Update Surgery")
+			return render_template("update_surgery.html", form = form, surgery_to_update = surgery_to_update)
+	else:
+		return render_template("update_surgery.html", form = form, surgery_to_update = surgery_to_update, id = id)
+
+
+@app.route('/vaccinations/update/<int:id>', methods=['GET','POST'])
+def update_vaccination(id):
+	form = VaccinationForm()
+	vaccination_to_update = Vaccinations.query.get_or_404(id)
+	if request.method == "POST":
+		vaccination_to_update.animal_id  = request.form['animal_id']
+		vaccination_to_update.vet_id  = request.form['vet_id']
+		vaccination_to_update.date  = request.form['date']
+		vaccination_to_update.vaccination_type  = request.form['vaccination_type']
+		vaccination_to_update.notes = request.form['notes']
+		
+		try:
+			db.session.commit()
+			flash("Vaccination Updated Successfully!")
+			return render_template("update_vaccination.html", form = form, vaccination_to_update = vaccination_to_update)
+		except:
+			flash("Error: Could not Update Vaccination")
+			return render_template("update_vaccination.html", form = form, vaccination_to_update = vaccination_to_update)
+	else:
+		return render_template("update_vaccination.html", form = form, vaccination_to_update = vaccination_to_update, id = id)
+
+
+
+@app.route('/allergies/update/<int:id>', methods=['GET','POST'])
+def update_allergy(id):
+	form = AllergyForm()
+	allergy_to_update = Allergies.query.get_or_404(id)
+	if request.method == "POST":
+		allergy_to_update.animal_id  = request.form['animal_id']
+		allergy_to_update.allergy  = request.form['allergy']
+		
+		try:
+			db.session.commit()
+			flash("Allergy Updated Successfully!")
+			return render_template("update_allergy.html", form = form, allergy_to_update = allergy_to_update)
+		except:
+			flash("Error: Could not Update Allergy")
+			return render_template("update_allergy.html", form = form, allergy_to_update = allergy_to_update)
+	else:
+		return render_template("update_allergy.html", form = form, allergy_to_update = allergy_to_update, id = id)
+
+
+@app.route('/application/update/<int:id>', methods=['GET','POST'])
+def update_application(id):
+	form = ApplicationForm()
+	application_to_update = Application.query.get_or_404(id)
+	if request.method == "POST":
+		application_to_update.first_name = request.form['first_name']
+		application_to_update.last_name = request.form['last_name']
+		application_to_update.address = request.form['address']
+		application_to_update.dob = request.form['dob']
+		application_to_update.ssn = request.form['ssn']
+		application_to_update.candidate_id = request.form['candidate_id']
+		application_to_update.application_status = request.form['application_status']
+		application_to_update.application_type = request.form['application_type']
+		application_to_update.animal_id = request.form['animal_id']
+		application_to_update.date = request.form['date']
+		application_to_update.employee_supervisor = request.form['employee_supervisor']
+
+		try:
+			db.session.commit()
+			flash("Application Updated Successfully!")
+			return render_template("update_application.html", form = form, application_to_update = application_to_update)
+		except:
+			flash("Error: Could not Update Application")
+			return render_template("update_application.html", form = form, application_to_update = application_to_update)
+	else:
+		return render_template("update_application.html", form = form, application_to_update = application_to_update, id = id)
+
+@app.route('/background/update/<int:id>', methods=['GET','POST'])
+def update_background(id):
+	form = BackgroundCheckForm()
+	background_to_update = Backgroundcheck.query.get_or_404(id)
+	if request.method == "POST":
+		background_to_update.application_id = request.form['application_id']
+		background_to_update.income = request.form['income']
+		background_to_update.criminal_record = request.form['criminal_record']
+		background_to_update.credit_score = request.form['credit_score']
+		background_to_update.interview_status = request.form['interview_status']
+		background_to_update.employee_id = request.form['employee_id']
+		background_to_update.background_check_status = request.form['background_check_status']
+
+		try:
+			db.session.commit()
+			flash("Background Check Updated Successfully!")
+			return render_template("update_background.html", form = form, background_to_update = background_to_update)
+		except:
+			flash("Error: Could not Update Background Check")
+			return render_template("update_background.html", form = form, background_to_update = background_to_update)
+	else:
+		return render_template("update_background.html", form = form, background_to_update = background_to_update, id = id)
+
+@app.route('/adoption/update/<int:id>', methods=['GET','POST'])
+def update_adoption(id):
+	form = AdoptionForm()
+	adoption_to_update = Adoptions.query.get_or_404(id)
+	if request.method == "POST":
+		adoption_to_update.first_name = request.form['first_name']
+		adoption_to_update.last_name = request.form['last_name']
+		adoption_to_update.application_id = request.form['address']
+		adoption_to_update.adoption_date = request.form['adoption_date']
+		adoption_to_update.animal_id = request.form['animal_id']
+
+		try:
+			db.session.commit()
+			flash("Adoption Updated Successfully!")
+			return render_template("update_adoption.html", form = form, adoption_to_update = adoption_to_update)
+		except:
+			flash("Error: Could not Update Adoption")
+			return render_template("update_adoption.html", form = form, adoption_to_update = adoption_to_update)
+	else:
+		return render_template("update_adoption.html", form = form, adoption_to_update = adoption_to_update, id = id)
+
+
+@app.route('/foster/update/<int:id>', methods=['GET','POST'])
+def update_foster(id):
+	form = FosterForm()
+	foster_to_update = Fosters.query.get_or_404(id)
+	if request.method == "POST":
+		foster_to_update.first_name = request.form['first_name']
+		foster_to_update.last_name = request.form['last_name']
+		foster_to_update.application_id = request.form['address']
+		foster_to_update.foster_date = request.form['foster_date']
+		foster_to_update.animal_id = request.form['animal_id']
+
+		try:
+			db.session.commit()
+			flash("Foster Updated Successfully!")
+			return render_template("update_foster.html", form = form, foster_to_update = foster_to_update)
+		except:
+			flash("Error: Could not Update Foster")
+			return render_template("update_foster.html", form = form, foster_to_update = foster_to_update)
+	else:
+		return render_template("update_foster.html", form = form, foster_to_update = foster_to_update, id = id)
 
 
 ####################################################################################################################################################
