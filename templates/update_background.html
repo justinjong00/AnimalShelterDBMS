@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Update Background Check</h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form action="/background/update/{{background_to_update.id}}"method = "POST">
+	{{form.hidden_tag()}}
+
+	{{form.application_id.label(class="form-label")}}
+	{{form.application_id(class="form-control", value=background_to_update.application_id)}}
+	<br/>
+
+	{{form.income.label(class="form-label")}}
+	{{form.income(class="form-control", value=background_to_update.income)}}
+	<br/>
+
+	{{form.criminal_record.label(class="form-label")}}
+	{{form.criminal_record(class="form-control", value=background_to_update.criminal_record)}}
+	<br/>
+
+
+	{{form.credit_score.label(class="form-label")}}
+	{{form.credit_score(class="form-control", value=background_to_update.credit_score)}}
+	<br/>
+
+	{{form.interview_status.label(class="form-label")}}
+	{{form.interview_status(class="form-control", value=background_to_update.interview_status)}}
+	<br/>
+
+
+	{{form.employee_id.label(class="form-label")}}
+	{{form.employee_id(class="form-control", value=background_to_update.employee_id)}}
+	<br/>
+
+	{{form.background_check_status.label(class="form-label")}}
+	{{form.background_check_status(class="form-control", value=background_to_update.background_check_status)}}
+	<br/>
+
+	{{form.submit(class="btn btn-secondary")}}
+
+	<a href="{{url_for('delete_background', id = id)}}" class="btn btn-danger"> Delete </a>
+
+</form>
+</div>
+
+
+
+{% endblock %}
