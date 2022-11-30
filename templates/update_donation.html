@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+<h1>Update Donation</h1>
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form action="/donation/update/{{donation_to_update.id}}"method = "POST">
+	{{form.hidden_tag()}}
+
+	{form.name.label(class="form-label")}}
+	{{form.name(class="form-control", value=donation_to_update.name)}}
+	<br/>
+
+	{{form.organization.label(class="form-label")}}
+	{{form.organization(class="form-control", value=donation_to_update.organization)}}
+	<br/>
+
+    {{form.amount.label(class="form-label")}}
+	{{form.amount(class="form-control", value=donation_to_update.amount)}}
+	<br/>
+
+    {{form.message.label(class="form-label")}}
+	{{form.message(class="form-control", value=donation_to_update.message)}}
+	<br/>
+
+    {{form.repeat_option.label(class="form-label")}}
+	{{form.repeat_option(class="form-control", value=donation_to_update.repeat_option)}}
+	<br/>
+
+    {{form.date.label(class="form-label")}}
+	{{form.date(class="form-control", value=donation_to_update.date)}}
+	<br/>
+
+    {{form.info_id.label(class="form-label")}}
+	{{form.info_id(class="form-control", value=donation_to_update.info_id)}}
+	<br/>
+
+	{{form.submit(class="btn btn-secondary")}}
+
+	<a href="{{url_for('delete_donation', id = id)}}" class="btn btn-danger"> Delete </a>
+
+</form>
+</div>
+
+
+
+{% endblock %}
