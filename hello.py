@@ -140,7 +140,7 @@ class Animal(db.Model):
     name = db.Column(db.String(150), nullable=False)
     age = db.Column(db.Integer, nullable=True)
     dob = db.Column(db.DateTime, nullable=False)
-    sex = db.Column(db.Char(5), nullable=False) # M for Male, F for Female
+    sex = db.Column(db.Integer, nullable=False) # 1 for Male, 2 for Female
     species = db.Column(db.String(150), nullable=False)
     breed = db.Column(db.String(150), nullable=False)
     weight = db.Column(db.Integer, nullable=False)
@@ -153,90 +153,91 @@ class Animal(db.Model):
 class Diagnoses(db.Model):
 #    __tablename__ = 'Diagnoses'
 	id = db.Column(db.Integer, primary_key = True)
-    animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable=False)
-    vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
-    diagnosis = db.Column(db.String(150), nullable=False)
-
+	animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable=False)
+	vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
+	date = db.Column(db.DateTime, nullable=False)
+	diagnosis = db.Column(db.String(150), nullable=False)
 
 class Treatments(db.Model):
 #    __tablename__ = 'Treatments'
 	id = db.Column(db.Integer, primary_key = True)
-    animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
-    diagnosis_id = db.Column(db.Integer, db.ForeignKey('Diagnosis.id'), nullable = False)
-    treatment = db.Column(db.String(150), nullable=False); 
-    start_date = db.Column(db.DateTime, nullable=True)
-    end_date = db.Column(db.DateTime, nullable=True)
-    dosage = db.Column(db.String(150), nullable=True); 
+	animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
+	diagnosis_id = db.Column(db.Integer, db.ForeignKey('Diagnoses.id'), nullable = False)
+	treatment = db.Column(db.String(150), nullable=False); 
+	start_date = db.Column(db.DateTime, nullable=True)
+	end_date = db.Column(db.DateTime, nullable=True)
+	dosage = db.Column(db.String(150), nullable=True); 
 
 
 class Surgeries(db.Model):
 #    __tablename__ = 'Surgeries'
 	id = db.Column(db.Integer, primary_key = True)
-    animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
-    diagnosis_id = db.Column(db.Integer, db.ForeignKey('Diagnosis.id'), nullable = False)
-    operation_type = db.Column(db.String(150), nullable = False)
-    vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
-    success_or_fail = db.Column(db.String(150), nullable = False)
+	animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
+	diagnosis_id = db.Column(db.Integer, db.ForeignKey('Diagnoses.id'), nullable = False)
+	operation_type = db.Column(db.String(150), nullable = False)
+	vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
+	date = db.Column(db.DateTime, nullable=False)
+	success_or_fail = db.Column(db.String(150), nullable = False)
 
 class Vaccinations(db.Model):
 #    __tablename__ = 'Vaccinations'
 	id = db.Column(db.Integer, primary_key = True)
-    animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), primary_key = True)
-    vaccine_type = db.Column(db.String(150), primary_key = True)
-    vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
-    notes = db.Column(db.String(150))
+	animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'))
+	vaccine_type = db.Column(db.String(150), primary_key = True)
+	vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
+	date = db.Column(db.DateTime, nullable=False)
+	notes = db.Column(db.String(150))
 
 class Allergies(db.Model):
 	#    __tablename__ = 'Allergies'
-	animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), primary_key = True)
-	allergy = db.Column = db.Column(db.String(150), primary_key = True)
+	id = db.Column(db.Integer, primary_key = True)
+	animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
+	allergy = db.Column(db.String(150), nullable = False)
+
+
 
 class Application(db.Model):
-#    __tablename__ = 'Application'
-    id = db.Column(db.Integer, primary_key = True)
-    first_name = db.Column(db.String(150), nullable=False)
-    last_name = db.Column(db.String(150), nullable=False)
-    address = db.Column(db.String(150), nullable = False)
-    dob = db.Column(db.DateTime, nullable=False)
-    ssn = db.Column(db.Integer, nullable=False)
-    candidate_id = db.Column(db.Integer, db.ForeignKey('Contact_Information.id'), nullable = False)
-    application_type = db.Column(db.Integer, nullable = False) # 1 for Adoption, 2 for Fostering
-    animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), primary_key = True, nullable =False)
-    date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
-    employee_supervisor = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable = True)
-    application_status = db.Column(db.String(150), nullable=True)
+	id = db.Column(db.Integer, primary_key = True)
+	first_name = db.Column(db.String(150), nullable=False)
+	last_name = db.Column(db.String(150), nullable=False)
+	address = db.Column(db.String(150), nullable = False)
+	dob = db.Column(db.DateTime, nullable=False)
+	ssn = db.Column(db.Integer, nullable=False)
+	candidate_id = db.Column(db.Integer, db.ForeignKey('Contact_Information.id'), nullable = False)
+	application_type = db.Column(db.Integer, nullable = False) # 1 for Adoption, 2 for Fostering
+	animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable =False)
+	date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+	employee_supervisor = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable = True)
+	application_status = db.Column(db.String(150), nullable=True)
 
 
 class Background_Check(db.Model):
 #    __tablename__ = 'Background_Check'
 	id = db.Column(db.Integer, primary_key = True)
-    application_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
-    income = db.Column(db.Integer, nullable = False)
-    ciminal_record = db.Column(db.String(150), nullable = False)
-    credit_score = db.Column(db.Integer, nullable = False)
-    interview_status = db.Column(db.String(150), nullable = False)
-    employee_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
-    background_check_status = db.Column(db.String(150), nullable = False)
+	application_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
+	income = db.Column(db.Integer, nullable = False)
+	ciminal_record = db.Column(db.String(150), nullable = False)
+	credit_score = db.Column(db.Integer, nullable = False)
+	interview_status = db.Column(db.String(150), nullable = False)
+	employee_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
+	background_check_status = db.Column(db.String(150), nullable = False)
 
 
 class Adoptions(db.Model):
 #    __tablename__ = 'Adopters'
 	id = db.Column(db.Integer, primary_key = True)
 	first_name = db.Column(db.String(150), nullable=False)
-    last_name = db.Column(db.String(150), nullable=False)
-    app_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
-    animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
-    adoption_date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+	last_name = db.Column(db.String(150), nullable=False)
+	app_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
+	animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
+	adoption_date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
 
 
 class Fosters(db.Model):
 #    __tablename__ = 'Foster_Parents'
 	id = db.Column(db.Integer, primary_key = True)
 	first_name = db.Column(db.String(150), nullable=False)
-    last_name = db.Column(db.String(150), nullable=False)
-    app_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
-    animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
-    foster_date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+	last_name = db.Column(db.String(150), nullable=False)
+	app_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
+	animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
+	foster_date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
