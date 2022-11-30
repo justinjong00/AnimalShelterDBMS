@@ -532,13 +532,13 @@ def update_contact(id):
 		contact_to_update.phone = request.form['phone']
 		try:
 			db.session.commit()
-			flash("Contact Updated Successfully")
+			flash("Contact Updated Successfully!")
 			return render_template("update_contact.html", form = form, contact_to_update = contact_to_update)
 		except:
 			flash("Error: Could not Update Contact")
 			return render_template("update_contact.html", form = form, contact_to_update = contact_to_update)
 	else:
-		return render_template("update_contact.html", form = form, contact_to_update = contact_to_update)
+		return render_template("update_contact.html", form = form, contact_to_update = contact_to_update, id = id)
 
 
 @app.route('/employee/update/<int:id>', methods=['GET','POST'])
@@ -557,15 +557,37 @@ def update_employee(id):
 		employee_to_update.info_id = request.form['info_id']
 		try:
 			db.session.commit()
-			flash("Employee Updated Successfully")
+			flash("Employee Updated Successfully!")
 			return render_template("update_employee.html", form = form, employee_to_update = employee_to_update)
 		except:
 			flash("Error: Could not Update Employee")
 			return render_template("update_employee.html", form = form, employee_to_update = employee_to_update)
 	else:
-		return render_template("update_employee.html", form = form, employee_to_update = employee_to_update)
+		return render_template("update_employee.html", form = form, employee_to_update = employee_to_update, id= id)
 
 
+
+####################################################################################################################################################
+##                                                          DELETE ROUTES                                                                       ####
+##                                                                                                                                              ####
+####################################################################################################################################################
+
+
+@app.route('/contact/delete/<int:id>', methods=['GET','POST'])
+def delete_contact(id):
+	form = ContactForm()
+	contact_to_delete = Contact_Information.query.get_or_404(id)
+	
+	try:
+		db.session.delete(contact_to_delete)
+		db.session.commit()
+		flash("User Deleted Successfully!")
+
+		our_contacts = Contact_Information.query.order_by(Contact_Information.id)
+		return render_template("add_contact.html", form = form, our_contacts = our_contacts)
+	except:
+		flash("Error: Could not Delete Contact")
+		return render_template("add_contact.html", form = form, our_contacts = our_contacts)
 
 
 ####################################################################################################################################################
