@@ -36,14 +36,14 @@
 
 	<br/>	<br/>	<br/>
 	<table class = "table table-hover table-bordered table-striped">
-	{% for our_payments in our_payments %}
+	{% for our_payment in our_payments %}
 	<tr>
 		<td>
-		{{ our_payments.id }} | {{ our_payments.credit_card}} | {{ our_payments.name_on_card}}
-	    | {{ our_payments.billing_address}} 
+		{{ our_payment.id }} | {{ our_payment.credit_card}} | {{ our_payment.name_on_card}}
+	    | {{ our_payment.billing_address}} 
 
-            <a href="{{url_for('update_payment', id = our_payments.id)}}" class="btn btn-warning"> Edit </a>
-            <a href="{{url_for('delete_payment', id = our_payments.id)}}" class="btn btn-danger"> Delete </a>
+            <a href="{{url_for('update_payment', id = our_payment.id)}}" class="btn btn-warning"> Edit </a>
+            <a href="{{url_for('delete_payment', id = our_payment.id)}}" class="btn btn-danger"> Delete </a>
 
 	</td></tr>
 	{% endfor %}

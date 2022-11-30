@@ -32,14 +32,14 @@
 
 	<br/>	<br/>	<br/>
 	<table class = "table table-hover table-bordered table-striped">
-	{% for our_allergies in our_allergies %}
+	{% for our_allergy in our_allergies %}
 	<tr>
 		<td>
-		{{ our_allergies.id }} | {{ our_allergies.animal_id}}
-	    | {{ our_allergies.allergy}}
+		{{ our_allergy.id }} | {{ our_allergy.animal_id}}
+	    | {{ our_allergy.allergy}}
 
-            <a href="{{url_for('update_allergy', id = our_allergies.id)}}" class="btn btn-warning"> Edit </a>
-            <a href="{{url_for('delete_allergy', id = our_allergies.id)}}" class="btn btn-danger"> Delete </a>
+            <a href="{{url_for('update_allergy', id = our_allergy.id)}}" class="btn btn-warning"> Edit </a>
+            <a href="{{url_for('delete_allergy', id = our_allergy.id)}}" class="btn btn-danger"> Delete </a>
 
 	</td></tr>
 	{% endfor %}

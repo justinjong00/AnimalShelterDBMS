@@ -45,16 +45,16 @@
 
 	<br/>	<br/>	<br/>
 	<table class = "table table-hover table-bordered table-striped">
-	{% for our_fosters in our_fosters %}
+	{% for our_foster in our_fosters %}
 	<tr>
 		<td>
-		{{ our_fosters.id }} | {{ our_fosters.first_name}}
-        | {{ our_fosters.last_name}} | {{ our_fosters.application_id}} 
-        | {{ our_fosters.animal_id}} | {{ our_fosters.foster_date}} 
+		{{ our_foster.id }} | {{ our_foster.first_name}}
+        | {{ our_foster.last_name}} | {{ our_foster.application_id}} 
+        | {{ our_foster.animal_id}} | {{ our_foster.foster_date}} 
       
 
-        <a href="{{url_for('update_foster', id = our_fosters.id)}}" class="btn btn-warning"> Edit </a> 
-        <a href="{{url_for('delete_foster', id = our_fosters.id)}}" class="btn btn-danger"> Delete </a>
+        <a href="{{url_for('update_foster', id = our_foster.id)}}" class="btn btn-warning"> Edit </a> 
+        <a href="{{url_for('delete_foster', id = our_foster.id)}}" class="btn btn-danger"> Delete </a>
 
 	</td></tr>
 	{% endfor %}

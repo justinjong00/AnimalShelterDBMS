@@ -75,19 +75,19 @@
 
 	<br/>	<br/>	<br/>
 	<table class = "table table-hover table-bordered table-striped">
-	{% for our_animals in our_animals %}
+	{% for our_animal in our_animals %}
 	<tr>
 		<td>
-		{{ our_animals.id }} | {{ our_animals.name}} | {{ our_animals.age}} 
-		| {{ our_animals.sex}} | {{ our_animals.dob}}
-        | {{ our_animals.species}} | {{ our_animals.species}} 
-		| {{ our_animals.breed}} | {{ our_animals.weight}}
-        | {{ our_animals.admission_reason}} | {{ our_animals.admission_date}} 
-		| {{ our_animals.adoption_status}}c| {{ our_animals.foster_status}} 
-		| {{ our_animals.employee_id}}
-		
-		<a href="{{url_for('update_animal', id = our_animals.id)}}" class="btn btn-warning"> Edit </a> 
-		<a href="{{url_for('delete_animal', id = our_animals.id)}}" class="btn btn-danger"> Delete </a>
+		{{ our_animal.id }} | {{ our_animal.name}} | {{ our_animal.age}} 
+		| {{ our_animal.sex}} | {{ our_animal.dob}}
+        | {{ our_animal.species}} | {{ our_animal.species}} 
+		| {{ our_animal.breed}} | {{ our_animal.weight}}
+        | {{ our_animal.admission_reason}} | {{ our_animal.admission_date}} 
+		| {{ our_animal.adoption_status}}c| {{ our_animal.foster_status}} 
+		| {{ our_animal.employee_id}}
+
+		<a href="{{url_for('update_animal', id = our_animal.id)}}" class="btn btn-warning"> Edit </a> 
+		<a href="{{url_for('delete_animal', id = our_animal.id)}}" class="btn btn-danger"> Delete </a>
 
 	</td></tr>
 	{% endfor %}
