@@ -100,6 +100,7 @@ class AnimalForm(FlaskForm):
 	employee_id = IntegerField("Employee In Charge ID#", validators=[DataRequired()])
 	adoption_status = SelectField("Adoption Status", choices=ADOPTION_STATUS,  validators=[DataRequired()])
 	foster_status = SelectField("Foster Status", choices=FOSTER_STATUS,  validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 # Create a Donation Form Class
 class DonationForm(FlaskForm):
@@ -110,12 +111,14 @@ class DonationForm(FlaskForm):
 	repeat_option = StringField("Repeat Option", validators=[DataRequired()])
 	date = DateField("Date", validators=[DataRequired()])
 	info_id = IntegerField("Contact Information ID#", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 # Create a Payment Form Class
 class PaymentForm(FlaskForm):
 	credit_card = StringField("Credit Card Number", validators=[DataRequired()])
 	name_on_card = StringField("Name on Card", validators=[DataRequired()])
 	billing_address = StringField("Billing Address", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 # Create a Diagnoses Form Class
 class DiagnosesForm(FlaskForm):
@@ -123,6 +126,7 @@ class DiagnosesForm(FlaskForm):
 	vet_id = IntegerField("Vet ID#", validators=[DataRequired()])
 	date = DateField("Date", validators=[DataRequired()])
 	diagnosis = StringField("Diagnosis", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 class TreatmentForm(FlaskForm):
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
@@ -131,6 +135,7 @@ class TreatmentForm(FlaskForm):
 	start_date = DateField("Start Date", validators=[DataRequired()])
 	end_date = DateField("End Date", validators=[DataRequired()])
 	dosage = StringField("Dosage", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 class SurgeryForm(FlaskForm):
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
@@ -139,6 +144,7 @@ class SurgeryForm(FlaskForm):
 	operation_type = StringField("Operation Type", validators=[DataRequired()])
 	date = DateField("Date", validators=[DataRequired()])
 	success_or_fail = StringField("Success Status", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 class VaccinationForm(FlaskForm):
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
@@ -146,11 +152,13 @@ class VaccinationForm(FlaskForm):
 	vaccine_type = StringField("Vaccine Type", validators=[DataRequired()])
 	date = DateField("Date", validators=[DataRequired()])
 	notes = StringField("Notes", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 
 class AllergyForm(FlaskForm):
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	allergy = StringField("Allergy", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 class ApplicationForm(FlaskForm):
 
@@ -169,6 +177,7 @@ class ApplicationForm(FlaskForm):
 	application_type = SelectField("Application Type", choices = APPLICATION,  validators=[DataRequired()])
 	employee_supervisor = IntegerField("Employee Supervisor ID#", validators=[DataRequired()])
 	application_status = StringField("Application Status", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 class BackgroundCheckForm(FlaskForm):
 	application_id = IntegerField("Application ID#", validators=[DataRequired()])
@@ -178,6 +187,7 @@ class BackgroundCheckForm(FlaskForm):
 	interview_status = StringField("Interview Status", validators=[DataRequired()])
 	employee_id = IntegerField("Employee Supervisor ID#", validators=[DataRequired()])
 	background_check_status = StringField("Background Check Status", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 class AdoptionForm(FlaskForm):
 	first_name = StringField("First Name", validators=[DataRequired()])
@@ -185,6 +195,7 @@ class AdoptionForm(FlaskForm):
 	application_id = IntegerField("Application ID#", validators=[DataRequired()])
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	adoption_date = DateField("Adoption Date", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 class FosterForm(FlaskForm):
 	first_name = StringField("First Name", validators=[DataRequired()])
@@ -192,6 +203,7 @@ class FosterForm(FlaskForm):
 	application_id = IntegerField("Application ID#", validators=[DataRequired()])
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	foster_date = DateField("Foster Date", validators=[DataRequired()])
+	submit = SubmitField("Submit")
 
 
 
