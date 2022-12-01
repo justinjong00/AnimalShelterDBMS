@@ -220,14 +220,20 @@ def add_contact():
 	form = ContactForm()
 		# Validate Form
 	if form.validate_on_submit():
-		contact = Contact.query.filter_by(email=form.email.data).first()
-		if contact is None:
-			contact = Contact(email=form.email.data, phone=form.phone.data)
-			db.session.add(contact)
-			db.session.commit()
-		form.email.data = ''
-		form.phone.data= ''
-		flash("Contact Added Successfully!")
+		try:
+			contact = Contact.query.filter_by(id= id).first()
+			if contact is None:
+				contact = Contact(email=form.email.data, phone=form.phone.data)
+				db.session.add(contact)
+				db.session.commit()
+			form.email.data = ''
+			form.phone.data= ''
+			flash("Contact Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new Contact")
+			form.email.data = ''
+			form.phone.data= ''
 	our_contacts = Contact.query.order_by(Contact.id)
 	return render_template("add_contact.html", form = form, our_contacts = our_contacts)
 
@@ -1152,7 +1158,7 @@ class Donation(db.Model):
     organization = db.Column(db.String(150), nullable=True)
     amount = db.Column(db.Integer, nullable=False)
     message = db.Column(db.String(150), nullable=True)
-    repeat_option = db.Column(db.String(150), nullable=True)
+    repeat_option = db.Column(db.String(150), nullable=False)
     date = db.Column(db.Date, nullable=False)
     info_id = db.Column(db.Integer, nullable = True) #
     #info_id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), nullable = True)
@@ -1164,7 +1170,7 @@ class Payment(db.Model):
 	credit_card = db.Column(db.String(150), nullable = False)
 	name_on_card = db.Column(db.String(150), nullable = False)
 	billing_address = db.Column(db.String(150), nullable = False)
-	date = db.Column(db.Date, default = date.Today(), nullable =False )
+	date = db.Column(db.Date, default = date.today(), nullable =False )
      #id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), primary_key = True)
 
 
@@ -1200,7 +1206,6 @@ class Treatment(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	animal_id = db.Column(db.Integer, nullable = False)
 	diagnosis_id = db.Column(db.Integer, nullable = False)
-	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
 	#diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnosis.id'), nullable = False)
 	treatment = db.Column(db.String(150), nullable=False); 
 	start_date = db.Column(db.Date, nullable=True)
@@ -1230,7 +1235,7 @@ class Vaccination(db.Model):
 	vet_id = db.Column(db.Integer, nullable=False)
 	#vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
 	date = db.Column(db.Date, nullable=False)
-	notes = db.Column(db.String(150))
+	notes = db.Column(db.String(150), nullable = True)
 
 class Allergy(db.Model):
 	#    __tablename__ = 'Allergies'
@@ -1254,9 +1259,9 @@ class Application(db.Model):
 	animal_id = db.Column(db.Integer, nullable =False)
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable =False)
 	date = db.Column(db.Date, nullable=False)
-	employee_supervisor = db.Column(db.Integer, nullable = True)
+	employee_supervisor = db.Column(db.Integer, nullable = False)
 	#employee_supervisor = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable = True)
-	application_status = db.Column(db.String(150), nullable=True)
+	application_status = db.Column(db.String(150), nullable=False)
 
 
 class Backgroundcheck(db.Model):
