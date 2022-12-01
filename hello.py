@@ -341,7 +341,7 @@ def add_diagnosis():
 	if form.validate_on_submit():
 		diagnosis = Diagnosis.query.filter_by(animal_id=form.animal_id.data).first()
 		if diagnosis is None:
-			diagnosis = Diagnosis(aniaml_id=form.animal_id.data, vet_id=form.vet_id.data,
+			diagnosis = Diagnosis(animal_id=form.animal_id.data, vet_id=form.vet_id.data,
 							 date=form.date.data, diagnosis=form.diagnosis.data)
 			db.session.add(diagnosis)
 			db.session.commit()
@@ -1161,9 +1161,10 @@ class Donation(db.Model):
 
 class Payment(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
-	credit_card = db.Column(db.String(150))
-	name_on_card = db.Column(db.String(150))
-	billing_address = db.Column(db.String(150))
+	credit_card = db.Column(db.String(150), nullable = False)
+	name_on_card = db.Column(db.String(150), nullable = False)
+	billing_address = db.Column(db.String(150), nullable = False)
+	date = db.Column(db.Date, default = date.Today(), nullable =False )
      #id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), primary_key = True)
 
 
@@ -1171,8 +1172,8 @@ class Animal(db.Model):
 #    __tablename__ = 'Animal'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(150), nullable=False)
-    age = db.Column(db.Integer, nullable=True)
-    dob = db.Column(db.Date, nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    dob = db.Column(db.Date, nullable=True)
     sex = db.Column(db.Integer, nullable=False) # 1 for Male, 2 for Female
     species = db.Column(db.String(150), nullable=False)
     breed = db.Column(db.String(150), nullable=False)
