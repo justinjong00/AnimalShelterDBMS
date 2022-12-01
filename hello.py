@@ -23,13 +23,13 @@ app.config['SECRET_KEY'] = "justinelsa"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
 #MySQL DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Dldmstj5@localhost/animal_shelter1'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Dldmstj5@localhost/animal_shelter3'
 
 # Initialize the Database
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-engine = create_engine('mysql+pymysql://root:Dldmstj5@localhost/animal_shelter1')
+engine = create_engine('mysql+pymysql://root:Dldmstj5@localhost/animal_shelter3')
 connection = engine.raw_connection()
 cursor = connection.cursor()
 
@@ -1182,8 +1182,20 @@ def search():
 			operation = form.operation.data
 			attribute = form.attribute.data
 			if operation == "show":
-				operation = ""
-			command = "Select " + str(attribute) + " FROM " + table
+				command = "Select " + str(attribute) + " FROM " + table
+
+			if operation == "count": 
+				command = "Select count(" + str(attribute) + ") FROM " + table
+
+			if operation == "max":
+				command = "Select max(" + str(attribute) + ") FROM " + table
+
+			if operation == "min":
+				command = "Select min(" + str(attribute) + ") FROM " + table
+
+			if operation == "average":
+				command = "Select avg(" + str(attribute) + ") FROM " + table
+
 			cursor.execute(command)
 			rows = cursor.fetchall()
 
@@ -1193,13 +1205,11 @@ def search():
 			return render_template("search.html", form = form, searched = anything, rows = rows)
 		except Exception as e:
 			flash("Search could not be completed." )
-			return render_template("search.html", form = form, searched = anything, table = table, tablenum = tablenum, exception = e)
+			return render_template("search.html", form = form, searched = anything, table = table, exception = e)
 
 
 	return render_template("search.html", form = form, searched = anything)
 
-#@app.route('/dropdown', methods=['GET', 'POST'])
-#def get_dropdown_values():
 	
 
 
