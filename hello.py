@@ -86,7 +86,8 @@ class AnimalForm(FlaskForm):
 	FOSTER_STATUS = (
 		(1, 'In Foster Home'),
 		(2, 'Available for Foster'),
-		(3, 'Foster Pending')
+		(3, 'Foster Pending'),
+		(4, 'N/A')
 	)
 	name = StringField("Name", validators=[DataRequired()])
 	age = IntegerField("Age", validators=[DataRequired()])
@@ -1176,8 +1177,8 @@ class Animal(db.Model):
     weight = db.Column(db.Integer, nullable=False)
     admission_date = db.Column(db.Date, nullable=False)
     admission_reason = db.Column(db.String(150), nullable=False)
-    adoption_status = db.Column(db.String(150), nullable=False)
-    foster_status = db.Column(db.String(150), nullable=False)
+    adoption_status = db.Column(db.Integer, nullable=False)
+    foster_status = db.Column(db.Integer, nullable=False)
     employee_id = db.Column(db.Integer, nullable=False)
     #employee_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
 
