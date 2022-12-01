@@ -17,14 +17,6 @@
 <form  action="{{ url_for('add_adoption')}}"method = "POST">
 	{{form.hidden_tag()}}
 
-	{{form.first_name.label(class="form-label")}}
-	{{form.first_name(class="form-control")}}
-	<br/>
-
-	{{form.last_name.label(class="form-label")}}
-	{{form.last_name(class="form-control")}}
-	<br/>
-
 	{{form.application_id.label(class="form-label")}}
 	{{form.application_id(class="form-control")}}
 	<br/>
@@ -48,9 +40,8 @@
 	{% for our_adoption in our_adoptions %}
 	<tr>
 		<td>
-		{{ our_adoption.id }} | {{ our_adoption.first_name}}
-        | {{ our_adoption.last_name}} | {{ our_adoption.application_id}} 
-        | {{ our_adoption.animal_id}} | {{ our_adoption.adoption_date}} 
+		ID: {{ our_adoption.id }} | Application ID: {{ our_adoption.application_id}} 
+        | Animal ID: {{ our_adoption.animal_id}} | Adoption Date: {{ our_adoption.adoption_date}} 
       
 
         <a href="{{url_for('update_adoption', id = our_adoption.id)}}" class="btn btn-warning"> Edit </a> 
