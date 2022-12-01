@@ -373,7 +373,7 @@ def add_treatment():
 	if form.validate_on_submit():
 		treatments = Treatment.query.filter_by(id = id).first()
 		if treatments is None:
-			treatments = Treatment(diagnosis_id=form.diagnosis.data,
+			treatments = Treatment(diagnosis_id=form.diagnosis_id.data,
 								  start_date=form.start_date.data, end_date=form.end_date.data,
 								   treatment=form.treatment.data, dosage = form.dosage.data)
 			db.session.add(treatments)
@@ -395,7 +395,7 @@ def add_surgery():
 	if form.validate_on_submit():
 		surgery = Surgery.query.filter_by(id = id).first()
 		if surgery is None:
-			surgery = Surgery(diagnosis_id=form.diagnosis.data,
+			surgery = Surgery(diagnosis_id=form.diagnosis_id.data,
 								  date=form.date.data, operation_type=form.operation_type.data,
 								   vet_id=form.vet_id.data, success_or_fail = form.success_or_fail.data)
 			db.session.add(surgery)
@@ -753,7 +753,7 @@ def update_vaccination(id):
 		vaccination_to_update.animal_id  = request.form['animal_id']
 		vaccination_to_update.vet_id  = request.form['vet_id']
 		vaccination_to_update.date  = request.form['date']
-		vaccination_to_update.vaccination_type  = request.form['vaccination_type']
+		vaccination_to_update.vaccination_type  = request.form['vaccine_type']
 		vaccination_to_update.notes = request.form['notes']
 		
 		try:
@@ -845,7 +845,7 @@ def update_adoption(id):
 	if request.method == "POST":
 		adoption_to_update.first_name = request.form['first_name']
 		adoption_to_update.last_name = request.form['last_name']
-		adoption_to_update.application_id = request.form['address']
+		adoption_to_update.application_id = request.form['application_id']
 		adoption_to_update.adoption_date = request.form['adoption_date']
 		adoption_to_update.animal_id = request.form['animal_id']
 
