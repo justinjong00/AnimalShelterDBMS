@@ -234,8 +234,6 @@ def add_contact():
 		except:
 			db.session.rollback()
 			flash("Error: Could not create new Contact")
-			form.email.data = ''
-			form.phone.data= ''
 	our_contacts = Contact.query.order_by(Contact.id)
 	return render_template("add_contact.html", form = form, our_contacts = our_contacts)
 
@@ -244,22 +242,26 @@ def add_employee():
 	form = EmployeeForm()
 		# Validate Form
 	if form.validate_on_submit():
-		employee = Employee.query.filter_by(id=id).first()
-		if employee is None:
-			employee = Employee(first_name=form.first_name.data, last_name=form.last_name.data, address=form.address.data, dob=form.dob.data, ssn=form.ssn.data, 
-				start_date = form.start_date.data, salary = form.salary.data, position = form.position.data, info_id=form.info_id.data)
-			db.session.add(employee)
-			db.session.commit()
-		form.first_name.data = ''
-		form.last_name.data = ''
-		form.address.data = ''
-		form.dob.data = ''
-		form.ssn.data = ''
-		form.start_date.data = ''
-		form.salary.data = ''
-		form.position.data = ''
-		form.info_id.data = ''
-		flash("Employee Added Successfully!")
+		try:
+			employee = Employee.query.filter_by(id=id).first()
+			if employee is None:
+				employee = Employee(first_name=form.first_name.data, last_name=form.last_name.data, address=form.address.data, dob=form.dob.data, ssn=form.ssn.data, 
+					start_date = form.start_date.data, salary = form.salary.data, position = form.position.data, info_id=form.info_id.data)
+				db.session.add(employee)
+				db.session.commit()
+			form.first_name.data = ''
+			form.last_name.data = ''
+			form.address.data = ''
+			form.dob.data = ''
+			form.ssn.data = ''
+			form.start_date.data = ''
+			form.salary.data = ''
+			form.position.data = ''
+			form.info_id.data = ''
+			flash("Employee Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new Employee")
 	our_employees = Employee.query.order_by(Employee.id)
 	return render_template("add_employee.html", form = form, our_employees = our_employees)
 
@@ -270,32 +272,36 @@ def add_animal():
 	form = AnimalForm()
 	# Validate Form
 	if form.validate_on_submit():
-		animal = Animal.query.filter_by(id = id).first()
-		if animal is None:
-			animal = Animal(name=form.name.data, age=form.age.data,
-								sex =form.sex.data, dob=form.dob.data, 
-								species=form.species.data,
-								breed=form.breed.data, weight=form.weight.data, 
-								admission_date=form.admission_date.data,
-								admission_reason=form.admission_reason.data, 
-								adoption_status=form.adoption_status.data,
-								foster_status=form.foster_status.data, 
-								employee_id = form.employee_id.data)
-			db.session.add(animal)
-			db.session.commit()
-		form.name.data = ''
-		form.age.data = ''
-		form.sex.data = ''
-		form.dob.data = ''
-		form.species.data = ''
-		form.breed.data = ''
-		form.weight.data = ''
-		form.admission_reason.data = ''
-		form.admission_date.data = ''
-		form.adoption_status.data = ''
-		form.foster_status.data = ''
-		form.employee_id.data = ''
-		flash("Animal Added Successfully!")
+		try:
+			animal = Animal.query.filter_by(id = id).first()
+			if animal is None:
+				animal = Animal(name=form.name.data, age=form.age.data,
+									sex =form.sex.data, dob=form.dob.data, 
+									species=form.species.data,
+									breed=form.breed.data, weight=form.weight.data, 
+									admission_date=form.admission_date.data,
+									admission_reason=form.admission_reason.data, 
+									adoption_status=form.adoption_status.data,
+									foster_status=form.foster_status.data, 
+									employee_id = form.employee_id.data)
+				db.session.add(animal)
+				db.session.commit()
+			form.name.data = ''
+			form.age.data = ''
+			form.sex.data = ''
+			form.dob.data = ''
+			form.species.data = ''
+			form.breed.data = ''
+			form.weight.data = ''
+			form.admission_reason.data = ''
+			form.admission_date.data = ''
+			form.adoption_status.data = ''
+			form.foster_status.data = ''
+			form.employee_id.data = ''
+			flash("Animal Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new Animal")
 	our_animals = Animal.query.order_by(Animal.id)
 	return render_template("add_animal.html", form=form, our_animals=our_animals)
 
@@ -305,21 +311,25 @@ def add_donation():
 	form = DonationForm()
 	# Validate Form
 	if form.validate_on_submit():
-		donation = Donation.query.filter_by(id = id).first()
-		if donation is None:
-			donation = Donation(name=form.name.data, organization=form.organization.data,
-								amount=form.amount.data, message=form.message.data, repeat_option=form.repeat_option.data,
-								date=form.date.data, info_id=form.info_id.data)
-			db.session.add(donation)
-			db.session.commit()
-		form.name.data = ''
-		form.organization.data = ''
-		form.amount.data = ''
-		form.message.data = ''
-		form.repeat_option.data = ''
-		form.date.data = ''
-		form.info_id.data = ''
-		flash("Donation Added Successfully!")
+		try:
+			donation = Donation.query.filter_by(id = id).first()
+			if donation is None:
+				donation = Donation(name=form.name.data, organization=form.organization.data,
+									amount=form.amount.data, message=form.message.data, repeat_option=form.repeat_option.data,
+									date=form.date.data, info_id=form.info_id.data)
+				db.session.add(donation)
+				db.session.commit()
+			form.name.data = ''
+			form.organization.data = ''
+			form.amount.data = ''
+			form.message.data = ''
+			form.repeat_option.data = ''
+			form.date.data = ''
+			form.info_id.data = ''
+			flash("Donation Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new Donation")
 	our_donations = Donation.query.order_by(Donation.id)
 	return render_template("add_donation.html", form=form, our_donations=our_donations)
 
@@ -328,17 +338,21 @@ def add_payment():
 	form = PaymentForm()
 	# Validate Form
 	if form.validate_on_submit():
-		payment = Payment.query.filter_by(id = id).first()
-		if payment is None:
-			payment = Payment(credit_card=form.credit_card.data, name_on_card=form.name_on_card.data,
-								billing_address=form.billing_address.data)
-			db.session.add(payment)
-			db.session.commit()
-		form.credit_card.data = ''
-		form.name_on_card.data = ''
-		form.billing_address.data = ''
+		try:
+			payment = Payment.query.filter_by(id = id).first()
+			if payment is None:
+				payment = Payment(credit_card=form.credit_card.data, name_on_card=form.name_on_card.data,
+									billing_address=form.billing_address.data)
+				db.session.add(payment)
+				db.session.commit()
+			form.credit_card.data = ''
+			form.name_on_card.data = ''
+			form.billing_address.data = ''
 
-		flash("Payment Added Successfully!")
+			flash("Payment Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new Payment")
 	our_payments = Payment.query.order_by(Payment.id)
 	return render_template("add_payment.html", form=form, our_payments=our_payments)
 
@@ -347,18 +361,22 @@ def add_diagnosis():
 	form = DiagnosisForm()
 	# Validate Form
 	if form.validate_on_submit():
-		diagnosis = Diagnosis.query.filter_by(id = id).first()
-		if diagnosis is None:
-			diagnosis = Diagnosis(animal_id=form.animal_id.data, vet_id=form.vet_id.data,
-							 date=form.date.data, diagnosis=form.diagnosis.data)
-			db.session.add(diagnosis)
-			db.session.commit()
-		form.animal_id.data = ''
-		form.vet_id.data = ''
-		form.date.data = ''
-		form.diagnosis.data = ''
+		try:
+			diagnosis = Diagnosis.query.filter_by(id = id).first()
+			if diagnosis is None:
+				diagnosis = Diagnosis(animal_id=form.animal_id.data, vet_id=form.vet_id.data,
+								 date=form.date.data, diagnosis=form.diagnosis.data)
+				db.session.add(diagnosis)
+				db.session.commit()
+			form.animal_id.data = ''
+			form.vet_id.data = ''
+			form.date.data = ''
+			form.diagnosis.data = ''
 
-		flash("Diagnosis Added Successfully!")
+			flash("Diagnosis Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new Diagnosis")
 	our_diagnoses = Diagnosis.query.order_by(Diagnosis.id)
 	return render_template("add_diagnosis.html", form=form, our_diagnoses=our_diagnoses)
 
@@ -367,20 +385,24 @@ def add_treatment():
 	form = TreatmentForm()
 	# Validate Form
 	if form.validate_on_submit():
-		treatments = Treatment.query.filter_by(id = id).first()
-		if treatments is None:
-			treatments = Treatment(diagnosis_id=form.diagnosis_id.data,
-								  start_date=form.start_date.data, end_date=form.end_date.data,
-								   treatment=form.treatment.data, dosage = form.dosage.data)
-			db.session.add(treatments)
-			db.session.commit()
-		form.diagnosis_id.data = ''
-		form.start_date.data = ''
-		form.end_date.data = ''
-		form.treatment.data = ''
-		form.dosage.data = ''
+		try:
+			treatments = Treatment.query.filter_by(id = id).first()
+			if treatments is None:
+				treatments = Treatment(diagnosis_id=form.diagnosis_id.data,
+									  start_date=form.start_date.data, end_date=form.end_date.data,
+									   treatment=form.treatment.data, dosage = form.dosage.data)
+				db.session.add(treatments)
+				db.session.commit()
+			form.diagnosis_id.data = ''
+			form.start_date.data = ''
+			form.end_date.data = ''
+			form.treatment.data = ''
+			form.dosage.data = ''
 
-		flash("Treatment Added Successfully!")
+			flash("Treatment Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new Treatment")
 	our_treatments = Treatment.query.order_by(Treatment.id)
 	return render_template("add_treatment.html", form=form, our_treatments=our_treatments)
 
@@ -389,20 +411,24 @@ def add_surgery():
 	form = SurgeryForm()
 	# Validate Form
 	if form.validate_on_submit():
-		surgery = Surgery.query.filter_by(id = id).first()
-		if surgery is None:
-			surgery = Surgery(diagnosis_id=form.diagnosis_id.data,
-								  date=form.date.data, operation_type=form.operation_type.data,
-								   vet_id=form.vet_id.data, success_or_fail = form.success_or_fail.data)
-			db.session.add(surgery)
-			db.session.commit()
-		form.diagnosis_id.data = ''
-		form.date.data = ''
-		form.operation_type.data = ''
-		form.vet_id.data = ''
-		form.success_or_fail.data = ''
+		try:
+			surgery = Surgery.query.filter_by(id = id).first()
+			if surgery is None:
+				surgery = Surgery(diagnosis_id=form.diagnosis_id.data,
+									  date=form.date.data, operation_type=form.operation_type.data,
+									   vet_id=form.vet_id.data, success_or_fail = form.success_or_fail.data)
+				db.session.add(surgery)
+				db.session.commit()
+			form.diagnosis_id.data = ''
+			form.date.data = ''
+			form.operation_type.data = ''
+			form.vet_id.data = ''
+			form.success_or_fail.data = ''
 
-		flash("Surgery Added Successfully!")
+			flash("Surgery Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new Surgery")
 	our_surgeries = Surgery.query.order_by(Surgery.id)
 	return render_template("add_surgery.html", form=form, our_surgeries=our_surgeries)
 
@@ -411,20 +437,24 @@ def add_vaccination():
 	form = VaccinationForm()
 	# Validate Form
 	if form.validate_on_submit():
-		vaccinations = Vaccination.query.filter_by(id = id).first()
-		if vaccinations is None:
-			vaccinations = Vaccination(animal_id=form.animal_id.data, vet_id=form.vet_id.data,
-								  date=form.date.data, vaccine_type=form.vaccine_type.data,
-								   notes=form.notes.data)
-			db.session.add(vaccinations)
-			db.session.commit()
-		form.animal_id.data = ''
-		form.vet_id.data = ''
-		form.date.data = ''
-		form.vaccine_type.data = ''
-		form.notes.data = ''
+		try:
+			vaccinations = Vaccination.query.filter_by(id = id).first()
+			if vaccinations is None:
+				vaccinations = Vaccination(animal_id=form.animal_id.data, vet_id=form.vet_id.data,
+									  date=form.date.data, vaccine_type=form.vaccine_type.data,
+									   notes=form.notes.data)
+				db.session.add(vaccinations)
+				db.session.commit()
+			form.animal_id.data = ''
+			form.vet_id.data = ''
+			form.date.data = ''
+			form.vaccine_type.data = ''
+			form.notes.data = ''
 
-		flash("Vaccination Added Successfully!")
+			flash("Vaccination Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new Vaccination")
 	our_vaccinations = Vaccination.query.order_by(Vaccination.id)
 	return render_template("add_vaccination.html", form=form, our_vaccinations=our_vaccinations)
 
@@ -433,16 +463,20 @@ def add_allergy():
 	form = AllergyForm()
 	# Validate Form
 	if form.validate_on_submit():
-		allergy = Allergy.query.filter_by(id = id).first()
-		if allergy is None:
-			allergy = Allergy(animal_id=form.animal_id.data,
-								   allergy=form.allergy.data, medication = form.medication.data)
-			db.session.add(allergy)
-			db.session.commit()
-		form.animal_id.data = ''
-		form.allergy.data = ''
-		form.medication.data = ''
-		flash("Allergy Added Successfully!")
+		try:
+			allergy = Allergy.query.filter_by(id = id).first()
+			if allergy is None:
+				allergy = Allergy(animal_id=form.animal_id.data,
+									   allergy=form.allergy.data, medication = form.medication.data)
+				db.session.add(allergy)
+				db.session.commit()
+			form.animal_id.data = ''
+			form.allergy.data = ''
+			form.medication.data = ''
+			flash("Allergy Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not add new Allergy")
 	our_allergies = Allergy.query.order_by(Allergy.id)
 	return render_template("add_allergy.html", form=form, our_allergies=our_allergies)
 
@@ -451,29 +485,33 @@ def add_application():
 	form = ApplicationForm()
 	# Validate Form
 	if form.validate_on_submit():
-		application = Application.query.filter_by(id = id).first()
-		if application is None:
-			application = Application(first_name=form.first_name.data, last_name=form.last_name.data,
-									  address=form.address.data, dob=form.dob.data, ssn=form.ssn.data,
-									  candidate_id = form.candidate_id.data, application_type = form.application_type.data,
-									  animal_id = form.animal_id.data, date=form.date.data,
-									  employee_supervisor = form.employee_supervisor.data,
-									  application_status = form.application_status.data)
-			db.session.add(application)
-			db.session.commit()
-		form.first_name.data = ''
-		form.last_name.data = ''
-		form.address.data = ''
-		form.dob.data = ''
-		form.ssn.data = ''
-		form.candidate_id.data = ''
-		form.application_status.data = ''
-		form.application_type.data = ''
-		form.animal_id.data = ''
-		form.date.data = ''
-		form.employee_supervisor.data = ''
+		try:
+			application = Application.query.filter_by(id = id).first()
+			if application is None:
+				application = Application(first_name=form.first_name.data, last_name=form.last_name.data,
+										  address=form.address.data, dob=form.dob.data, ssn=form.ssn.data,
+										  candidate_id = form.candidate_id.data, application_type = form.application_type.data,
+										  animal_id = form.animal_id.data, date=form.date.data,
+										  employee_supervisor = form.employee_supervisor.data,
+										  application_status = form.application_status.data)
+				db.session.add(application)
+				db.session.commit()
+			form.first_name.data = ''
+			form.last_name.data = ''
+			form.address.data = ''
+			form.dob.data = ''
+			form.ssn.data = ''
+			form.candidate_id.data = ''
+			form.application_status.data = ''
+			form.application_type.data = ''
+			form.animal_id.data = ''
+			form.date.data = ''
+			form.employee_supervisor.data = ''
 
-		flash("Application Added Successfully!")
+			flash("Application Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create add new Application")
 	our_applications = Application.query.order_by(Application.id)
 	return render_template("add_application.html", form=form, our_applications=our_applications)
 
@@ -483,23 +521,27 @@ def add_background():
 	form = BackgroundCheckForm()
 	# Validate Form
 	if form.validate_on_submit():
-		background = Backgroundcheck.query.filter_by(id = id).first()
-		if background is None:
-			background = Backgroundcheck(application_id=form.application_id.data, income=form.income.data,
-									  criminal_record=form.criminal_record.data, credit_score=form.credit_score.data,
-									  interview_status = form.interview_status.data, employee_id=form.employee_id.data,
-									  background_check_status = form.background_check_status.data)
-			db.session.add(background)
-			db.session.commit()
-		form.application_id.data = ''
-		form.income.data = ''
-		form.criminal_record.data = ''
-		form.credit_score.data = ''
-		form.interview_status.data = ''
-		form.employee_id.data = ''
-		form.background_check_status.data = ''
+		try:
+			background = Backgroundcheck.query.filter_by(id = id).first()
+			if background is None:
+				background = Backgroundcheck(application_id=form.application_id.data, income=form.income.data,
+										  criminal_record=form.criminal_record.data, credit_score=form.credit_score.data,
+										  interview_status = form.interview_status.data, employee_id=form.employee_id.data,
+										  background_check_status = form.background_check_status.data)
+				db.session.add(background)
+				db.session.commit()
+			form.application_id.data = ''
+			form.income.data = ''
+			form.criminal_record.data = ''
+			form.credit_score.data = ''
+			form.interview_status.data = ''
+			form.employee_id.data = ''
+			form.background_check_status.data = ''
 
-		flash("Background Check Added Successfully!")
+			flash("Background Check Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not create new background check")
 	our_background_checks = Backgroundcheck.query.order_by(Backgroundcheck.id)
 	return render_template("add_background.html", form=form, our_background_checks=our_background_checks)
 
@@ -508,19 +550,23 @@ def add_adoption():
 	form = AdoptionForm()
 	# Validate Form
 	if form.validate_on_submit():
-		adoption = Adoption.query.filter_by(id = id).first()
-		if adoption is None:
-			adoption = Adoption(app_id=form.application_id.data, animal_id=form.animal_id.data,
-									  adoption_date = form.adoption_date.data)
-			db.session.add(adoption)
-			db.session.commit()
-		form.application_id.data = ''
-		form.animal_id.data = ''
-		form.adoption_date.data = ''
+		try:
+			adoption = Adoption.query.filter_by(id = id).first()
+			if adoption is None:
+				adoption = Adoption(app_id=form.application_id.data, animal_id=form.animal_id.data,
+										  adoption_date = form.adoption_date.data)
+				db.session.add(adoption)
+				db.session.commit()
+			form.application_id.data = ''
+			form.animal_id.data = ''
+			form.adoption_date.data = ''
 
-		#comment
+			#comment
 
-		flash("Adoption Added Successfully!")
+			flash("Adoption Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not add adoption")
 	our_adoptions = Adoption.query.order_by(Adoption.id)
 	return render_template("add_adoption.html", form=form, our_adoptions=our_adoptions)
 
@@ -529,17 +575,21 @@ def add_foster():
 	form = FosterForm()
 	# Validate Form
 	if form.validate_on_submit():
-		foster = Foster.query.filter_by(id = id).first()
-		if foster is None:
-			foster = Foster(app_id=form.application_id.data, animal_id=form.animal_id.data,
-									  foster_date = form.foster_date.data)
-			db.session.add(foster)
-			db.session.commit()
-		form.application_id.data = ''
-		form.animal_id.data = ''
-		form.foster_date.data = ''
+		try:
+			foster = Foster.query.filter_by(id = id).first()
+			if foster is None:
+				foster = Foster(app_id=form.application_id.data, animal_id=form.animal_id.data,
+										  foster_date = form.foster_date.data)
+				db.session.add(foster)
+				db.session.commit()
+			form.application_id.data = ''
+			form.animal_id.data = ''
+			form.foster_date.data = ''
 
-		flash("Foster Added Successfully!")
+			flash("Foster Added Successfully!")
+		except:
+			db.session.rollback()
+			flash("Error: Could not add foster")
 	our_fosters = Foster.query.order_by(Foster.id)
 	return render_template("add_foster.html", form=form, our_fosters=our_fosters)
 
@@ -742,7 +792,7 @@ def update_vaccination(id):
 		vaccination_to_update.animal_id  = request.form['animal_id']
 		vaccination_to_update.vet_id  = request.form['vet_id']
 		vaccination_to_update.date  = request.form['date']
-		vaccination_to_update.vaccination_type  = request.form['vaccine_type']
+		vaccination_to_update.vaccine_type  = request.form['vaccine_type']
 		vaccination_to_update.notes = request.form['notes']
 		
 		try:
