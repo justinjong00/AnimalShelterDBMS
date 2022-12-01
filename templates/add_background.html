@@ -63,7 +63,7 @@
         | {{ our_background_check.employee_id}} | {{ our_background_check.background_check_status}} 
         
         <a href="{{url_for('update_background', id = our_background_check.id)}}" class="btn btn-warning"> Edit </a> 
-        <a href="{{url_for('delete_background', id = our_background_check.id)}}" class="btn btn-danger"> Delete </a>
+      
 
 	</td></tr>
 	{% endfor %}

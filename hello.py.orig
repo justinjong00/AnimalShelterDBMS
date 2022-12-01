@@ -105,6 +105,7 @@ class AnimalForm(FlaskForm):
 
 # Create a Donation Form Class
 class DonationForm(FlaskForm):
+
 	REPEAT = (
 		(1, 'One-Time'), 
 		(2, 'Weekly'),
@@ -116,7 +117,7 @@ class DonationForm(FlaskForm):
 	organization = StringField("Organization", validators=[DataRequired()])
 	amount = IntegerField("Amount", validators=[DataRequired()])
 	message = StringField("Message", validators=[DataRequired()])
-	repeat_option = SelectField("Repeat Option", choices=REPEAT, validators=[DataRequired()])
+	repeat_option = SelectField("Repeat Option", choices=REPEAT validators=[DataRequired()])
 	date = DateField("Date", validators=[DataRequired()])
 	info_id = IntegerField("Contact Information ID#", validators=[DataRequired()])
 	submit = SubmitField("Submit")
@@ -126,6 +127,7 @@ class PaymentForm(FlaskForm):
 	credit_card = StringField("Credit Card Number", validators=[DataRequired()])
 	name_on_card = StringField("Name on Card", validators=[DataRequired()])
 	billing_address = StringField("Billing Address", validators=[DataRequired()])
+	date = DateField("Date", validators=[DataRequired()])
 	submit = SubmitField("Submit")
 
 # Create a diagnosis Form Class
@@ -166,7 +168,7 @@ class VaccinationForm(FlaskForm):
 class AllergyForm(FlaskForm):
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	allergy = StringField("Allergy", validators=[DataRequired()])
-	medication = StringField("Medication",validators=[DataRequired()])
+	medication = StringField("Medication",validators=[DataRequired()] )
 	submit = SubmitField("Submit")
 
 class ApplicationForm(FlaskForm):
@@ -250,7 +252,7 @@ def add_employee():
 	form = EmployeeForm()
 		# Validate Form
 	if form.validate_on_submit():
-		employee = Employee.query.filter_by(id=id).first()
+		employee = Employee.query.filter_by(ssn=form.ssn.data).first()
 		if employee is None:
 			employee = Employee(first_name=form.first_name.data, last_name=form.last_name.data, address=form.address.data, dob=form.dob.data, ssn=form.ssn.data, 
 				start_date = form.start_date.data, salary = form.salary.data, position = form.position.data, info_id=form.info_id.data)
@@ -276,7 +278,7 @@ def add_animal():
 	form = AnimalForm()
 	# Validate Form
 	if form.validate_on_submit():
-		animal = Animal.query.filter_by(id = id).first()
+		animal = Animal.query.filter_by(name=form.name.data).first()
 		if animal is None:
 			animal = Animal(name=form.name.data, age=form.age.data,
 								sex =form.sex.data, dob=form.dob.data, 
@@ -311,7 +313,7 @@ def add_donation():
 	form = DonationForm()
 	# Validate Form
 	if form.validate_on_submit():
-		donation = Donation.query.filter_by(id = id).first()
+		donation = Donation.query.filter_by(name=form.name.data).first()
 		if donation is None:
 			donation = Donation(name=form.name.data, organization=form.organization.data,
 								amount=form.amount.data, message=form.message.data, repeat_option=form.repeat_option.data,
@@ -334,15 +336,16 @@ def add_payment():
 	form = PaymentForm()
 	# Validate Form
 	if form.validate_on_submit():
-		payment = Payment.query.filter_by(id = id).first()
+		payment = Payment.query.filter_by(name=form.name.data).first()
 		if payment is None:
 			payment = Payment(credit_card=form.credit_card.data, name_on_card=form.name_on_card.data,
-								billing_address=form.billing_address.data)
+								billing_address=form.billing_address.data, date=form.date.data)
 			db.session.add(payment)
 			db.session.commit()
 		form.credit_card.data = ''
 		form.name_on_card.data = ''
 		form.billing_address.data = ''
+		form.date.data = ''
 
 		flash("Payment Added Successfully!")
 	our_payments = Payment.query.order_by(Payment.id)
@@ -353,7 +356,7 @@ def add_diagnosis():
 	form = DiagnosisForm()
 	# Validate Form
 	if form.validate_on_submit():
-		diagnosis = Diagnosis.query.filter_by(id = id).first()
+		diagnosis = Diagnosis.query.filter_by(animal_id=form.animal_id.data).first()
 		if diagnosis is None:
 			diagnosis = Diagnosis(animal_id=form.animal_id.data, vet_id=form.vet_id.data,
 							 date=form.date.data, diagnosis=form.diagnosis.data)
@@ -373,9 +376,9 @@ def add_treatment():
 	form = TreatmentForm()
 	# Validate Form
 	if form.validate_on_submit():
-		treatments = Treatment.query.filter_by(id = id).first()
+		treatments = Treatment.query.filter_by(animal_id=form.animal_id.data).first()
 		if treatments is None:
-			treatments = Treatment(animal_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
+			treatments = Treatment(aniaml_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
 								  start_date=form.start_date.data, end_date=form.end_date.data,
 								   treatment=form.treatment.data, dosage = form.dosage.data)
 			db.session.add(treatments)
@@ -396,9 +399,9 @@ def add_surgery():
 	form = SurgeryForm()
 	# Validate Form
 	if form.validate_on_submit():
-		surgery = Surgery.query.filter_by(id = id).first()
+		surgery = Surgery.query.filter_by(animal_id=form.animal_id.data).first()
 		if surgery is None:
-			surgery = Surgery(animal_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
+			surgery = Surgery(aniaml_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
 								  date=form.date.data, operation_type=form.operation_type.data,
 								   vet_id=form.vet_id.data, success_or_fail = form.success_or_fail.data)
 			db.session.add(surgery)
@@ -419,9 +422,9 @@ def add_vaccination():
 	form = VaccinationForm()
 	# Validate Form
 	if form.validate_on_submit():
-		vaccinations = Vaccination.query.filter_by(id = id).first()
+		vaccinations = Vaccination.query.filter_by(animal_id=form.animal_id.data).first()
 		if vaccinations is None:
-			vaccinations = Vaccination(animal_id=form.animal_id.data, vet_id=form.vet_id.data,
+			vaccinations = Vaccination(aniaml_id=form.animal_id.data, vet_id=form.vet_id.data,
 								  date=form.date.data, vaccine_type=form.vaccine_type.data,
 								   notes=form.notes.data)
 			db.session.add(vaccinations)
@@ -441,15 +444,15 @@ def add_allergy():
 	form = AllergyForm()
 	# Validate Form
 	if form.validate_on_submit():
-		allergy = Allergy.query.filter_by(id = id).first()
+		allergy = Allergy.query.filter_by(animal_id=form.animal_id.data).first()
 		if allergy is None:
-			allergy = Allergy(animal_id=form.animal_id.data,
-								   allergy=form.allergy.data, medication = form.medication.data)
+			allergy = Allergy(aniaml_id=form.animal_id.data,
+								   allergy=form.allergy.data, medication=form.medication.data)
 			db.session.add(allergy)
 			db.session.commit()
 		form.animal_id.data = ''
 		form.allergy.data = ''
-		form.medication.data = ''
+		form.medication.data =''
 		flash("Allergy Added Successfully!")
 	our_allergies = Allergy.query.order_by(Allergy.id)
 	return render_template("add_allergy.html", form=form, our_allergies=our_allergies)
@@ -459,7 +462,7 @@ def add_application():
 	form = ApplicationForm()
 	# Validate Form
 	if form.validate_on_submit():
-		application = Application.query.filter_by(id = id).first()
+		application = Application.query.filter_by(candidate_id=form.candidate_id.data).first()
 		if application is None:
 			application = Application(first_name=form.first_name.data, last_name=form.last_name.data,
 									  address=form.address.data, dob=form.dob.data, ssn=form.ssn.data,
@@ -491,7 +494,7 @@ def add_background():
 	form = BackgroundCheckForm()
 	# Validate Form
 	if form.validate_on_submit():
-		background = Backgroundcheck.query.filter_by(id = id).first()
+		background = Backgroundcheck.query.filter_by(application_id=form.application_id.data).first()
 		if background is None:
 			background = Backgroundcheck(application_id=form.application_id.data, income=form.income.data,
 									  criminal_record=form.criminal_record.data, credit_score=form.credit_score.data, ssn=form.ssn.data,
@@ -517,7 +520,7 @@ def add_adoption():
 	form = AdoptionForm()
 	# Validate Form
 	if form.validate_on_submit():
-		adoption = Adoption.query.filter_by(id = id).first()
+		adoption = Adoption.query.filter_by(app_id=form.application_id.data).first()
 		if adoption is None:
 			adoption = Adoption(first_name=form.first_name.data, last_name=form.last_name.data,
 									  app_id=form.application_id.data, animal_id=form.animal_id.data,
@@ -541,7 +544,7 @@ def add_foster():
 	form = FosterForm()
 	# Validate Form
 	if form.validate_on_submit():
-		foster = Foster.query.filter_by(id = id).first()
+		foster = Foster.query.filter_by(app_id=form.application_id.data).first()
 		if foster is None:
 			foster = Foster(first_name=form.first_name.data, last_name=form.last_name.data,
 									  app_id=form.application_id.data, animal_id=form.animal_id.data,
@@ -633,7 +636,7 @@ def update_animal(id):
 			return render_template("update_animal.html", form = form, animal_to_update = animal_to_update, id=id)
 		except:
 			flash("Error: Could not Update Animal")
-			return render_template("update_animal.html", form = form, animal_to_update = animal_to_update, id=id)
+			return render_template("update_aniaml.html", form = form, animal_to_update = animal_to_update, id=id)
 	else:
 		return render_template("update_animal.html", form = form, animal_to_update = animal_to_update, id = id)
 
@@ -670,6 +673,7 @@ def update_payment(id):
 		payment_to_update.credit_card = request.form['credit_card']
 		payment_to_update.name_on_card = request.form['name_on_card']
 		payment_to_update.billing_address = request.form['billing_address']
+		payment_to_update.date = request.form['date']
 
 		try:
 			db.session.commit()
@@ -781,7 +785,7 @@ def update_allergy(id):
 	if request.method == "POST":
 		allergy_to_update.animal_id  = request.form['animal_id']
 		allergy_to_update.allergy  = request.form['allergy']
-		allergy_to_update.medicaiton = request.form['medication']
+		allergy_to_update.medication = request.form['medication']
 		
 		try:
 			db.session.commit()
@@ -1067,21 +1071,6 @@ def delete_application(id):
 		return render_template("add_application.html", form = form, our_applications = our_applications)
 
 
-@app.route('/background/delete/<int:id>', methods=['GET','POST'])
-def delete_background(id):
-	form = BackgroundCheckForm()
-	bc_to_delete = Backgroundcheck.query.get_or_404(id)
-	
-	try:
-		db.session.delete(bc_to_delete)
-		db.session.commit()
-		flash("Background Check Deleted Successfully!")
-
-		our_background_checks = Backgroundcheck.query.order_by(Backgroundcheck.id)
-		return render_template("add_background.html", form = form, our_background_checks = our_background_checks)
-	except:
-		return render_template("add_background.html", form = form, our_background_checks = our_background_checks)
-
 @app.route('/adoption/delete/<int:id>', methods=['GET','POST'])
 def delete_adoption(id):
 	form = AdoptionForm()
@@ -1168,8 +1157,11 @@ class Donation(db.Model):
     organization = db.Column(db.String(150), nullable=True)
     amount = db.Column(db.Integer, nullable=False)
     message = db.Column(db.String(150), nullable=True)
-    #repeat_option = db.Column(db.String(150), nullable=False)
+<<<<<<< HEAD
+    repeat_option = db.Column(db.String(150), nullable=False)
+=======
     repeat_option = db.Column(db.Integer, nullable=True)
+>>>>>>> ae37535e87e210ada07a297817975411894b74b1
     date = db.Column(db.Date, nullable=False)
     info_id = db.Column(db.Integer, nullable = True) #
     #info_id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), nullable = True)
@@ -1255,7 +1247,7 @@ class Allergy(db.Model):
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
 	allergy = db.Column(db.String(150), nullable = False)
 	medication = db.Column(db.String(150), nullable = True)
-
+	
 
 
 

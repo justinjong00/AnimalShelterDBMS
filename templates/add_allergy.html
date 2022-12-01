@@ -25,6 +25,9 @@
 	{{form.allergy(class="form-control")}}
 	<br/>
 
+	{{form.medication.label(class="form-label")}}
+	{{form.medication(class="form-control")}}
+	<br/>
 	{{form.submit(class="btn btn-secondary")}}
 
 </form>
@@ -36,7 +39,7 @@
 	<tr>
 		<td>
 		{{ our_allergy.id }} | {{ our_allergy.animal_id}}
-	    | {{ our_allergy.allergy}}
+	    | {{ our_allergy.allergy}} | {{ our_allergy.medication}}
 
             <a href="{{url_for('update_allergy', id = our_allergy.id)}}" class="btn btn-warning"> Edit </a>
             <a href="{{url_for('delete_allergy', id = our_allergy.id)}}" class="btn btn-danger"> Delete </a>
