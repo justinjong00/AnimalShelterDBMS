@@ -16,13 +16,26 @@
 		{{ form.hidden_tag() }}
 
 
-		{{ form.searched(class="form-control") }}
+		{{form.table.label(class="form-label")}}
+		{{form.table(class="form-control")}}
 		<br/>
-		
+
+	{{form.attribute.label(class="form-label")}}
+	{{form.attribute(class="form-control")}}
+	<br/>
+
+	{{form.operation.label(class="form-label")}}
+	{{form.operation(class="form-control")}}
+	<br/>
+
+
+
 		{{ form.submit(class="btn btn-secondary") }}
 
 
 	</form>
+
+
 
 <br/><br/>
 	<h2> Latest Search: </h2>

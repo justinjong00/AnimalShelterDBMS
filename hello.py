@@ -47,7 +47,9 @@ def index():
 ####################################################################################################################################################
 
 class SearchForm(FlaskForm):
-	searched = StringField("Searched", validators=[DataRequired()])
+	table = StringField("Table", validators=[DataRequired()])
+	attribute = StringField("Attribute", validators=[DataRequired()])
+	operation = StringField("Operation", validators=[DataRequired()])
 	submit = SubmitField("Submit")
 
 
@@ -1153,16 +1155,28 @@ def delete_foster(id):
 @app.route('/search', methods=['GET','POST'])
 def search():
 	anything = None
+
 	form = SearchForm()
-	cursor.execute("SELECT * from Contact")
-	rows = cursor.fetchall()
+	rows = None
+
 	#searches = Employee.query
 	#contacts = Contact.query.filter_by(ContactInformation.id == 9)
 	if form.validate_on_submit():
+		table  = form.table.data
+		operation = form.operation.data
+		attribute = form.attribute.data
+		if operation == "show":
+			operation = ""
+
+		command = "Select " + str(attribute) + " FROM " + str(table)
+		cursor.execute(command)
+		rows = cursor.fetchall()
+
 		#contact_dict = dict((col, getattr(contacts, col)) for col in contacts.__table__.columns.keys())
-		form.searched.data = ''
+		#form.searched.data = ''
 		flash("Search was Successful!" )
-	return render_template("search.html", form = form, searched = anything, rows = rows)
+		return render_template("search.html", form = form, searched = anything, rows = rows)
+	return render_template("search.html", form = form, searched = anything)
 
 #@app.route('/dropdown', methods=['GET', 'POST'])
 #def get_dropdown_values():
