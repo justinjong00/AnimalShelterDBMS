@@ -70,22 +70,11 @@ class SearchForm(FlaskForm):
 	submit = SubmitField("Submit")
 
 class SearchForm2(FlaskForm):
-	table = SelectField("Table to search", choices=[('Adoption'),
-		('Allergy'),
-		('Animal'),
-		('Application'),
-		('Backgroundcheck'),
-		('Contact'),
-		('Diagnosis'),
-		('Donation'),
-		('Employee'),
-		('Foster'),
-		('Payment'),
-		('Surgery'),
-		('Treatment'),
-		('Vaccination')], validators=[DataRequired()])
-	operation = StringField("What operation would you like to perform?", validators=[DataRequired()])
-	attribute = StringField("Attributes: Specify the columns separated by a comma , or use * for all!", validators=[DataRequired()])
+	animal = StringField("Input an animal species ", validators=[DataRequired()])
+	#table = StringField("What operation would you like to perform?", validators=[DataRequired()])
+	attribute = SelectField("to find the animal with the most ", choices=[('Applications'),
+			('Allergies'),
+			('Diagnoses')], validators=[DataRequired()])
 	submit2 = SubmitField("Submit")
 
 
