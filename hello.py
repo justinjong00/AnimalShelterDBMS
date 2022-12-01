@@ -120,8 +120,8 @@ class PaymentForm(FlaskForm):
 	billing_address = StringField("Billing Address", validators=[DataRequired()])
 	submit = SubmitField("Submit")
 
-# Create a Diagnoses Form Class
-class DiagnosesForm(FlaskForm):
+# Create a diagnosis Form Class
+class DiagnosisForm(FlaskForm):
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	vet_id = IntegerField("Vet ID#", validators=[DataRequired()])
 	date = DateField("Date", validators=[DataRequired()])
@@ -333,16 +333,16 @@ def add_payment():
 	our_payments = Payment.query.order_by(Payment.id)
 	return render_template("add_payment.html", form=form, our_payments=our_payments)
 
-@app.route('/diagnoses/add', methods=['GET', 'POST'])
-def add_diagnoses():
-	form = DiagnosesForm()
+@app.route('/diagnosis/add', methods=['GET', 'POST'])
+def add_diagnosis():
+	form = DiagnosisForm()
 	# Validate Form
 	if form.validate_on_submit():
-		diagnoses = Diagnoses.query.filter_by(animal_id=form.animal_id.data).first()
-		if diagnoses is None:
-			diagnosis = Diagnoses(aniaml_id=form.animal_id.data, vet_id=form.vet_id.data,
+		diagnosis = Diagnosis.query.filter_by(animal_id=form.animal_id.data).first()
+		if diagnosis is None:
+			diagnosis = Diagnosis(aniaml_id=form.animal_id.data, vet_id=form.vet_id.data,
 							 date=form.date.data, diagnosis=form.diagnosis.data)
-			db.session.add(diagnoses)
+			db.session.add(diagnosis)
 			db.session.commit()
 		form.animal_id.data = ''
 		form.vet_id.data = ''
@@ -350,8 +350,8 @@ def add_diagnoses():
 		form.diagnosis.data = ''
 
 		flash("Diagnosis Added Successfully!")
-	our_diagnoses = Diagnoses.query.order_by(Diagnoses.id)
-	return render_template("add_diagnosis.html", form=form, our_diagnoses=our_diagnoses)
+	our_diagnosis = Diagnosis.query.order_by(Diagnosis.id)
+	return render_template("add_diagnosis.html", form=form, our_diagnosis=our_diagnosis)
 
 @app.route('/treatments/add', methods=['GET', 'POST'])
 def add_treatments():
@@ -360,7 +360,7 @@ def add_treatments():
 	if form.validate_on_submit():
 		treatments = Treatments.query.filter_by(animal_id=form.animal_id.data).first()
 		if treatments is None:
-			treatments = Diagnoses(aniaml_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
+			treatments = Treatments(aniaml_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
 								  start_date=form.start_date.data, end_date=form.end_date.data,
 								   treatment=form.treatment.data, dosage = form.dosage.data)
 			db.session.add(treatments)
@@ -666,10 +666,10 @@ def update_payment(id):
 		return render_template("update_payment.html", form = form, payment_to_update = payment_to_update, id = id)
 
 
-@app.route('/diagnoses/update/<int:id>', methods=['GET','POST'])
+@app.route('/diagnosis/update/<int:id>', methods=['GET','POST'])
 def update_diagnosis(id):
-	form = DiagnosesForm()
-	diagnosis_to_update = Diagnoses.query.get_or_404(id)
+	form = DiagnosisForm()
+	diagnosis_to_update = Diagnosis.query.get_or_404(id)
 	if request.method == "POST":
 		diagnosis_to_update.animal_id = request.form['animal_id']
 		diagnosis_to_update.vet_id = request.form['vet_id']
@@ -952,20 +952,20 @@ def delete_payment(id):
 		return render_template("add_payment.html", form = form, our_payments = our_payments)
 
 
-@app.route('/diagnoses/delete/<int:id>', methods=['GET','POST'])
+@app.route('/diagnosis/delete/<int:id>', methods=['GET','POST'])
 def delete_diagnosis(id):
-	form = DiagnosesForm()
-	diagnosis_to_delete = Diagnoses.query.get_or_404(id)
+	form = DiagnosisForm()
+	diagnosis_to_delete = Diagnosis.query.get_or_404(id)
 	
 	try:
 		db.session.delete(diagnosis_to_delete)
 		db.session.commit()
 		flash("Diagnosis Deleted Successfully!")
 
-		our_diagnoses = Diagnoses.query.order_by(Diagnoses.id)
-		return render_template("add_diagnosis.html", form = form, our_diagnoses = our_diagnoses)
+		our_diagnosis = Diagnosis.query.order_by(Diagnosis.id)
+		return render_template("add_diagnosis.html", form = form, our_diagnosis = our_diagnosis)
 	except:
-		return render_template("add_diagnosis.html", form = form, our_diagnoses = our_diagnoses)
+		return render_template("add_diagnosis.html", form = form, our_diagnosis = our_diagnosis)
 
 
 @app.route('/treatments/delete/<int:id>', methods=['GET','POST'])
@@ -1181,8 +1181,8 @@ class Animal(db.Model):
     employee_id = db.Column(db.Integer, nullable=False)
     #employee_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
 
-class Diagnoses(db.Model):
-#    __tablename__ = 'Diagnoses'
+class Diagnosis(db.Model):
+#    __tablename__ = 'diagnosis'
 	id = db.Column(db.Integer, primary_key = True)
 	animal_id = db.Column(db.Integer, nullable=False)
 	vet_id = db.Column(db.Integer, nullable=False)
@@ -1197,7 +1197,7 @@ class Treatments(db.Model):
 	animal_id = db.Column(db.Integer, nullable = False)
 	diagnosis_id = db.Column(db.Integer, nullable = False)
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
-	#diagnosis_id = db.Column(db.Integer, db.ForeignKey('Diagnoses.id'), nullable = False)
+	#diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnosis.id'), nullable = False)
 	treatment = db.Column(db.String(150), nullable=False); 
 	start_date = db.Column(db.Date, nullable=True)
 	end_date = db.Column(db.Date, nullable=True)
@@ -1210,7 +1210,7 @@ class Surgeries(db.Model):
 	animal_id = db.Column(db.Integer, nullable = False)
 	diagnosis_id = db.Column(db.Integer, nullable = False)
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
-	#diagnosis_id = db.Column(db.Integer, db.ForeignKey('Diagnoses.id'), nullable = False)
+	#diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnosis.id'), nullable = False)
 	operation_type = db.Column(db.String(150), nullable = False)
 	vet_id = db.Column(db.Integer,  nullable=False)
 	#vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
