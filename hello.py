@@ -47,7 +47,27 @@ def index():
 ####################################################################################################################################################
 
 class SearchForm(FlaskForm):
-	table = StringField("Table", validators=[DataRequired()])
+
+	TABLES = (
+
+		(1, 'Adoptions'),
+		(2, 'Allergies'),
+		(3, 'Animals'),
+		(4, 'Applications'),
+		(5, 'Background Information'),
+		(6, 'Contact Information'),
+		(7, 'Diagnoses'),
+		(8, 'Donations'),
+		(9, 'Employees'),
+		(10, 'Fosters'),
+		(11, 'Payments'),
+		(12, 'Surgeries'),
+		(13, 'Treatments'),
+		(14, 'Vaccinations'),
+
+
+	)
+	table = SelectField("Tables", choices=TABLES,  validators=[DataRequired()])
 	attribute = StringField("Attribute", validators=[DataRequired()])
 	operation = StringField("Operation", validators=[DataRequired()])
 	submit = SubmitField("Submit")
@@ -1162,20 +1182,55 @@ def search():
 	#searches = Employee.query
 	#contacts = Contact.query.filter_by(ContactInformation.id == 9)
 	if form.validate_on_submit():
-		table  = form.table.data
-		operation = form.operation.data
-		attribute = form.attribute.data
-		if operation == "show":
-			operation = ""
+		try:
+			table = None
+			tablenum  = form.table.data
+			operation = form.operation.data
+			attribute = form.attribute.data
+			if operation == "show":
+				operation = ""
+			if tablenum == 1: 
+				table = 'Adoption'
+			if tablenum == 2: 
+				table = 'Allergy'
+			if tablenum == 3: 
+				table = 'Animal'
+			if tablenum == 4: 
+				table = 'Application'
+			if tablenum == 5: 
+				table = 'backgroundcheck'
+			if tablenum == 6: 
+				table = 'Contact'
+			if tablenum == 7: 
+				table = 'diagnosis'
+			if tablenum == 8: 
+				table = 'donation'
+			if tablenum == 9: 
+				table = 'Employee'
+			if tablenum == 10: 
+				table = 'foster'
+			if tablenum == 11: 
+				table = 'payment'
+			if tablenum == 12: 
+				table = 'surgery'
+			if tablenum == 13: 
+				table = 'treatment'
+			if tablenum == 14: 
+				table = 'vaccination'
 
-		command = "Select " + str(attribute) + " FROM " + str(table)
-		cursor.execute(command)
-		rows = cursor.fetchall()
+			command = "Select " + str(attribute) + " FROM " + str(table)
+			cursor.execute(command)
+			rows = cursor.fetchall()
 
-		#contact_dict = dict((col, getattr(contacts, col)) for col in contacts.__table__.columns.keys())
-		#form.searched.data = ''
-		flash("Search was Successful!" )
-		return render_template("search.html", form = form, searched = anything, rows = rows)
+			#contact_dict = dict((col, getattr(contacts, col)) for col in contacts.__table__.columns.keys())
+			#form.searched.data = ''
+			flash("Search was Successful!" )
+			return render_template("search.html", form = form, searched = anything, rows = rows)
+		except:
+			flash("Search could not be completed." )
+			return render_template("search.html", form = form, searched = anything)
+
+
 	return render_template("search.html", form = form, searched = anything)
 
 #@app.route('/dropdown', methods=['GET', 'POST'])
