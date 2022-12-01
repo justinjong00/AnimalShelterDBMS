@@ -354,14 +354,14 @@ def add_diagnosis():
 	our_diagnoses = Diagnosis.query.order_by(Diagnosis.id)
 	return render_template("add_diagnosis.html", form=form, our_diagnoses=our_diagnoses)
 
-@app.route('/treatments/add', methods=['GET', 'POST'])
-def add_treatments():
+@app.route('/treatment/add', methods=['GET', 'POST'])
+def add_treatment():
 	form = TreatmentForm()
 	# Validate Form
 	if form.validate_on_submit():
-		treatments = Treatments.query.filter_by(animal_id=form.animal_id.data).first()
+		treatments = Treatment.query.filter_by(animal_id=form.animal_id.data).first()
 		if treatments is None:
-			treatments = Treatments(aniaml_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
+			treatments = Treatment(aniaml_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
 								  start_date=form.start_date.data, end_date=form.end_date.data,
 								   treatment=form.treatment.data, dosage = form.dosage.data)
 			db.session.add(treatments)
@@ -374,20 +374,20 @@ def add_treatments():
 		form.dosage.data = ''
 
 		flash("Treatment Added Successfully!")
-	our_treatments = Treatments.query.order_by(Treatments.id)
-	return render_template("add_treatments.html", form=form, our_treatments=our_treatments)
+	our_treatments = Treatment.query.order_by(Treatment.id)
+	return render_template("add_treatment.html", form=form, our_treatments=our_treatments)
 
-@app.route('/surgeries/add', methods=['GET', 'POST'])
-def add_surgeries():
+@app.route('/surgery/add', methods=['GET', 'POST'])
+def add_surgery():
 	form = SurgeryForm()
 	# Validate Form
 	if form.validate_on_submit():
-		surgeries = Surgeries.query.filter_by(animal_id=form.animal_id.data).first()
-		if surgeries is None:
-			surgeries = Surgeries(aniaml_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
+		surgery = Surgery.query.filter_by(animal_id=form.animal_id.data).first()
+		if surgery is None:
+			surgery = Surgery(aniaml_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
 								  date=form.date.data, operation_type=form.operation_type.data,
 								   vet_id=form.vet_id.data, success_or_fail = form.success_or_fail.data)
-			db.session.add(surgeries)
+			db.session.add(surgery)
 			db.session.commit()
 		form.animal_id.data = ''
 		form.diagnosis_id.data = ''
@@ -397,17 +397,17 @@ def add_surgeries():
 		form.success_or_fail.data = ''
 
 		flash("Surgery Added Successfully!")
-	our_surgeries = Surgeries.query.order_by(Surgeries.id)
-	return render_template("add_surgeries.html", form=form, our_surgeries=our_surgeries)
+	our_surgeries = Surgery.query.order_by(Surgery.id)
+	return render_template("add_surgery.html", form=form, our_surgeries=our_surgeries)
 
-@app.route('/vaccinations/add', methods=['GET', 'POST'])
-def add_vaccinations():
+@app.route('/vaccination/add', methods=['GET', 'POST'])
+def add_vaccination():
 	form = VaccinationForm()
 	# Validate Form
 	if form.validate_on_submit():
-		vaccinations = Vaccinations.query.filter_by(animal_id=form.animal_id.data).first()
+		vaccinations = Vaccination.query.filter_by(animal_id=form.animal_id.data).first()
 		if vaccinations is None:
-			vaccinations = Vaccinations(aniaml_id=form.animal_id.data, vet_id=form.vet_id.data,
+			vaccinations = Vaccination(aniaml_id=form.animal_id.data, vet_id=form.vet_id.data,
 								  date=form.date.data, vaccine_type=form.vaccine_type.data,
 								   notes=form.notes.data)
 			db.session.add(vaccinations)
@@ -419,25 +419,25 @@ def add_vaccinations():
 		form.notes.data = ''
 
 		flash("Vaccination Added Successfully!")
-	our_vaccinations = Vaccinations.query.order_by(Vaccinations.id)
-	return render_template("add_vaccinations.html", form=form, our_vaccinations=our_vaccinations)
+	our_vaccinations = Vaccination.query.order_by(Vaccination.id)
+	return render_template("add_vaccination.html", form=form, our_vaccinations=our_vaccinations)
 
-@app.route('/allergies/add', methods=['GET', 'POST'])
-def add_allergies():
+@app.route('/allergy/add', methods=['GET', 'POST'])
+def add_allergy():
 	form = AllergyForm()
 	# Validate Form
 	if form.validate_on_submit():
-		allergies = Allergies.query.filter_by(animal_id=form.animal_id.data).first()
-		if allergies is None:
-			allergies = Allergies(aniaml_id=form.animal_id.data,
+		allergy = Allergy.query.filter_by(animal_id=form.animal_id.data).first()
+		if allergy is None:
+			allergy = Allergy(aniaml_id=form.animal_id.data,
 								   allergy=form.allergy.data)
-			db.session.add(allergies)
+			db.session.add(allergy)
 			db.session.commit()
 		form.animal_id.data = ''
 		form.allergy.data = ''
-		flash("Allergies Added Successfully!")
-	our_allergies = Allergies.query.order_by(Allergies.id)
-	return render_template("add_allergies.html", form=form, our_allergies=our_allergies)
+		flash("Allergy Added Successfully!")
+	our_allergies = Allergy.query.order_by(Allergy.id)
+	return render_template("add_allergy.html", form=form, our_allergies=our_allergies)
 
 @app.route('/application/add', methods=['GET', 'POST'])
 def add_application():
@@ -495,16 +495,16 @@ def add_background():
 
 		flash("Background Check Added Successfully!")
 	our_background_checks = Backgroundcheck.query.order_by(Backgroundcheck.id)
-	return render_template("add_background_check.html", form=form, our_background_checks=our_background_checks)
+	return render_template("add_background.html", form=form, our_background_checks=our_background_checks)
 
-@app.route('/adoptions/add', methods=['GET', 'POST'])
+@app.route('/adoption/add', methods=['GET', 'POST'])
 def add_adoption():
 	form = AdoptionForm()
 	# Validate Form
 	if form.validate_on_submit():
-		adoption = Adoptions.query.filter_by(app_id=form.application_id.data).first()
+		adoption = Adoption.query.filter_by(app_id=form.application_id.data).first()
 		if adoption is None:
-			adoption = Adoptions(first_name=form.first_name.data, last_name=form.last_name.data,
+			adoption = Adoption(first_name=form.first_name.data, last_name=form.last_name.data,
 									  app_id=form.application_id.data, animal_id=form.animal_id.data,
 									  adoption_date = form.adoption_date.data)
 			db.session.add(adoption)
@@ -518,17 +518,17 @@ def add_adoption():
 		#comment
 
 		flash("Adoption Added Successfully!")
-	our_adoptions = Adoptions.query.order_by(Adoptions.id)
-	return render_template("add_adoptions.html", form=form, our_adoptions=our_adoptions)
+	our_adoptions = Adoption.query.order_by(Adoption.id)
+	return render_template("add_adoption.html", form=form, our_adoptions=our_adoptions)
 
-@app.route('/fosters/add', methods=['GET', 'POST'])
+@app.route('/foster/add', methods=['GET', 'POST'])
 def add_foster():
 	form = FosterForm()
 	# Validate Form
 	if form.validate_on_submit():
-		foster = Fosters.query.filter_by(app_id=form.application_id.data).first()
+		foster = Foster.query.filter_by(app_id=form.application_id.data).first()
 		if foster is None:
-			foster = Fosters(first_name=form.first_name.data, last_name=form.last_name.data,
+			foster = Foster(first_name=form.first_name.data, last_name=form.last_name.data,
 									  app_id=form.application_id.data, animal_id=form.animal_id.data,
 									  foster_date = form.foster_date.data)
 			db.session.add(foster)
@@ -540,8 +540,8 @@ def add_foster():
 		form.foster_date.data = ''
 
 		flash("Foster Added Successfully!")
-	our_fosters = Fosters.query.order_by(Fosters.id)
-	return render_template("add_fosters.html", form=form, our_fosters=our_fosters)
+	our_fosters = Foster.query.order_by(Foster.id)
+	return render_template("add_foster.html", form=form, our_fosters=our_fosters)
 
 
 
@@ -690,10 +690,10 @@ def update_diagnosis(id):
 		return render_template("update_diagnosis.html", form = form, diagnosis_to_update = diagnosis_to_update, id = id)
 
 
-@app.route('/treatments/update/<int:id>', methods=['GET','POST'])
+@app.route('/treatment/update/<int:id>', methods=['GET','POST'])
 def update_treatment(id):
 	form = TreatmentForm()
-	treatment_to_update = Treatments.query.get_or_404(id)
+	treatment_to_update = Treatment.query.get_or_404(id)
 	if request.method == "POST":
 		treatment_to_update.animal_id = request.form['animal_id']
 		treatment_to_update.diagnosis_id = request.form['diagnosis_id']
@@ -713,10 +713,10 @@ def update_treatment(id):
 		return render_template("update_treatment.html", form = form, treatment_to_update = treatment_to_update, id = id)
 
 
-@app.route('/surgeries/update/<int:id>', methods=['GET','POST'])
+@app.route('/surgery/update/<int:id>', methods=['GET','POST'])
 def update_surgery(id):
 	form = SurgeryForm()
-	surgery_to_update = Surgeries.query.get_or_404(id)
+	surgery_to_update = Surgery.query.get_or_404(id)
 	if request.method == "POST":
 		surgery_to_update.animal_id  = request.form['animal_id']
 		surgery_to_update.diagnosis_id  = request.form['diagnosis_id']
@@ -736,10 +736,10 @@ def update_surgery(id):
 		return render_template("update_surgery.html", form = form, surgery_to_update = surgery_to_update, id = id)
 
 
-@app.route('/vaccinations/update/<int:id>', methods=['GET','POST'])
+@app.route('/vaccination/update/<int:id>', methods=['GET','POST'])
 def update_vaccination(id):
 	form = VaccinationForm()
-	vaccination_to_update = Vaccinations.query.get_or_404(id)
+	vaccination_to_update = Vaccination.query.get_or_404(id)
 	if request.method == "POST":
 		vaccination_to_update.animal_id  = request.form['animal_id']
 		vaccination_to_update.vet_id  = request.form['vet_id']
@@ -759,10 +759,10 @@ def update_vaccination(id):
 
 
 
-@app.route('/allergies/update/<int:id>', methods=['GET','POST'])
+@app.route('/allergy/update/<int:id>', methods=['GET','POST'])
 def update_allergy(id):
 	form = AllergyForm()
-	allergy_to_update = Allergies.query.get_or_404(id)
+	allergy_to_update = Allergy.query.get_or_404(id)
 	if request.method == "POST":
 		allergy_to_update.animal_id  = request.form['animal_id']
 		allergy_to_update.allergy  = request.form['allergy']
@@ -831,7 +831,7 @@ def update_background(id):
 @app.route('/adoption/update/<int:id>', methods=['GET','POST'])
 def update_adoption(id):
 	form = AdoptionForm()
-	adoption_to_update = Adoptions.query.get_or_404(id)
+	adoption_to_update = Adoption.query.get_or_404(id)
 	if request.method == "POST":
 		adoption_to_update.first_name = request.form['first_name']
 		adoption_to_update.last_name = request.form['last_name']
@@ -853,7 +853,7 @@ def update_adoption(id):
 @app.route('/foster/update/<int:id>', methods=['GET','POST'])
 def update_foster(id):
 	form = FosterForm()
-	foster_to_update = Fosters.query.get_or_404(id)
+	foster_to_update = Foster.query.get_or_404(id)
 	if request.method == "POST":
 		foster_to_update.first_name = request.form['first_name']
 		foster_to_update.last_name = request.form['last_name']
@@ -971,65 +971,65 @@ def delete_diagnosis(id):
 		return render_template("add_diagnosis.html", form = form, our_diagnosis = our_diagnosis)
 
 
-@app.route('/treatments/delete/<int:id>', methods=['GET','POST'])
+@app.route('/treatment/delete/<int:id>', methods=['GET','POST'])
 def delete_treatment(id):
 	form = TreatmentForm()
-	treatment_to_delete = Treatments.query.get_or_404(id)
+	treatment_to_delete = Treatment.query.get_or_404(id)
 	
 	try:
 		db.session.delete(treatment_to_delete)
 		db.session.commit()
 		flash("Treatment Deleted Successfully!")
 
-		our_treatments = Treatments.query.order_by(Treatments.id)
-		return render_template("add_treatments.html", form = form, our_treatments = our_treatments)
+		our_treatments = Treatment.query.order_by(Treatment.id)
+		return render_template("add_treatment.html", form = form, our_treatments = our_treatments)
 	except:
-		return render_template("add_treatments.html", form = form, our_treatments = our_treatments)
+		return render_template("add_treatment.html", form = form, our_treatments = our_treatments)
 
 
-@app.route('/surgeries/delete/<int:id>', methods=['GET','POST'])
+@app.route('/surgery/delete/<int:id>', methods=['GET','POST'])
 def delete_surgery(id):
 	form = SurgeryForm()
-	surgery_to_delete = Surgeries.query.get_or_404(id)
+	surgery_to_delete = Surgery.query.get_or_404(id)
 	
 	try:
 		db.session.delete(surgery_to_delete)
 		db.session.commit()
 		flash("Diagnosis Deleted Successfully!")
 
-		our_surgeries = Surgeries.query.order_by(Surgeries.id)
+		our_surgeries = Surgery.query.order_by(Surgery.id)
 		return render_template("add_surgery.html", form = form, our_surgeries = our_surgeries)
 	except:
 		return render_template("add_surgery.html", form = form, our_surgeries = our_surgeries)
 
 
-@app.route('/vaccinations/delete/<int:id>', methods=['GET','POST'])
+@app.route('/vaccination/delete/<int:id>', methods=['GET','POST'])
 def delete_vaccination(id):
 	form = VaccinationForm()
-	vaccination_to_delete = Vaccinations.query.get_or_404(id)
+	vaccination_to_delete = Vaccination.query.get_or_404(id)
 	
 	try:
 		db.session.delete(vaccination_to_delete)
 		db.session.commit()
 		flash("Vaccination Deleted Successfully!")
 
-		our_vaccinations = Vaccinations.query.order_by(Vaccinations.id)
+		our_vaccinations = Vaccination.query.order_by(Vaccination.id)
 		return render_template("add_vaccination.html", form = form, our_vaccinations = our_vaccinations)
 	except:
 		return render_template("add_vaccination.html", form = form, our_vaccinations = our_vaccinations)
 
 
-@app.route('/allergies/delete/<int:id>', methods=['GET','POST'])
+@app.route('/allergy/delete/<int:id>', methods=['GET','POST'])
 def delete_allergy(id):
 	form = AllergyForm()
-	allergy_to_delete = Allergies.query.get_or_404(id)
+	allergy_to_delete = Allergy.query.get_or_404(id)
 	
 	try:
 		db.session.delete(allergy_to_delete)
 		db.session.commit()
 		flash("Allergy Deleted Successfully!")
 
-		our_allergies = Allergies.query.order_by(Allergies.id)
+		our_allergies = Allergy.query.order_by(Allergy.id)
 		return render_template("add_allergy.html", form = form, our_allergies = our_allergies)
 	except:
 		return render_template("add_allergy.html", form = form, our_allergies = our_allergies)
@@ -1062,21 +1062,21 @@ def delete_background(id):
 		flash("Background Check Deleted Successfully!")
 
 		our_background_checks = Backgroundcheck.query.order_by(Backgroundcheck.id)
-		return render_template("add_background_check.html", form = form, our_background_checks = our_background_checks)
+		return render_template("add_background.html", form = form, our_background_checks = our_background_checks)
 	except:
-		return render_template("add_background_check.html", form = form, our_background_checks = our_background_checks)
+		return render_template("add_background.html", form = form, our_background_checks = our_background_checks)
 
 @app.route('/adoption/delete/<int:id>', methods=['GET','POST'])
 def delete_adoption(id):
 	form = AdoptionForm()
-	adoption_to_delete = Adoptions.query.get_or_404(id)
+	adoption_to_delete = Adoption.query.get_or_404(id)
 	
 	try:
 		db.session.delete(adoption_to_delete)
 		db.session.commit()
 		flash("Adoption Deleted Successfully!")
 
-		our_adoptions = Adoptions.query.order_by(Adoptions.id)
+		our_adoptions = Adoption.query.order_by(Adoption.id)
 		return render_template("add_adoption.html", form = form, our_adoptions = our_adoptions)
 	except:
 		return render_template("add_adoption.html", form = form, our_adoptions = our_adoptions)
@@ -1084,14 +1084,14 @@ def delete_adoption(id):
 @app.route('/foster/delete/<int:id>', methods=['GET','POST'])
 def delete_foster(id):
 	form = FosterForm()
-	foster_to_delete = Fosters.query.get_or_404(id)
+	foster_to_delete = Foster.query.get_or_404(id)
 	
 	try:
 		db.session.delete(foster_to_delete)
 		db.session.commit()
 		flash("Foster Deleted Successfully!")
 
-		our_fosters = Fosters.query.order_by(Fosters.id)
+		our_fosters = Foster.query.order_by(Foster.id)
 		return render_template("add_foster.html", form = form, our_fosters = our_fosters)
 	except:
 		return render_template("add_foster.html", form = form, our_fosters = our_fosters)
@@ -1194,7 +1194,7 @@ class Diagnosis(db.Model):
 	date = db.Column(db.Date, nullable=False)
 	diagnosis = db.Column(db.String(150), nullable=False)
 
-class Treatments(db.Model):
+class Treatment(db.Model):
 #    __tablename__ = 'Treatments'
 	id = db.Column(db.Integer, primary_key = True)
 	animal_id = db.Column(db.Integer, nullable = False)
@@ -1207,7 +1207,7 @@ class Treatments(db.Model):
 	dosage = db.Column(db.String(150), nullable=True); 
 
 
-class Surgeries(db.Model):
+class Surgery(db.Model):
 #    __tablename__ = 'Surgeries'
 	id = db.Column(db.Integer, primary_key = True)
 	animal_id = db.Column(db.Integer, nullable = False)
@@ -1220,7 +1220,7 @@ class Surgeries(db.Model):
 	date = db.Column(db.Date, nullable=False)
 	success_or_fail = db.Column(db.String(150), nullable = False)
 
-class Vaccinations(db.Model):
+class Vaccination(db.Model):
 #    __tablename__ = 'Vaccinations'
 	id = db.Column(db.Integer, primary_key = True)
 	animal_id = db.Column(db.Integer, nullable = False)
@@ -1231,7 +1231,7 @@ class Vaccinations(db.Model):
 	date = db.Column(db.Date, nullable=False)
 	notes = db.Column(db.String(150))
 
-class Allergies(db.Model):
+class Allergy(db.Model):
 	#    __tablename__ = 'Allergies'
 	id = db.Column(db.Integer, primary_key = True)
 	animal_id = db.Column(db.Integer, nullable = False)
@@ -1272,7 +1272,7 @@ class Backgroundcheck(db.Model):
 	background_check_status = db.Column(db.String(150), nullable = False)
  
 
-class Adoptions(db.Model):
+class Adoption(db.Model):
 #    __tablename__ = 'Adopters'
 	id = db.Column(db.Integer, primary_key = True)
 	first_name = db.Column(db.String(150), nullable=False)
@@ -1284,7 +1284,7 @@ class Adoptions(db.Model):
 	adoption_date = db.Column(db.Date, nullable=False)
 
 
-class Fosters(db.Model):
+class Foster(db.Model):
 #    __tablename__ = 'Foster_Parents'
 	id = db.Column(db.Integer, primary_key = True)
 	first_name = db.Column(db.String(150), nullable=False)

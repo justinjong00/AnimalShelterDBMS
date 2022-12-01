@@ -14,7 +14,7 @@
 <h1>Allergy List</h1>
 <br/>
 <div class="shadow p-3 mb-5 bg-body rounded">
-<form  action="{{ url_for('add_allergies')}}"method = "POST">
+<form  action="{{ url_for('add_allergy')}}"method = "POST">
 	{{form.hidden_tag()}}
 
 	{{form.animal_id.label(class="form-label")}}
