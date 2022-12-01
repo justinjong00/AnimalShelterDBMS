@@ -12,7 +12,7 @@
 
 
 	<h1> Search the Database </h1>
-	<form method="POST">
+	<form action="{{ url_for('search')}}" method="POST">
 		{{ form.hidden_tag() }}
 
 
@@ -20,20 +20,19 @@
 		{{form.table(class="form-control")}}
 		<br/>
 
-	{{form.attribute.label(class="form-label")}}
-	{{form.attribute(class="form-control")}}
-	<br/>
-
 	{{form.operation.label(class="form-label")}}
 	{{form.operation(class="form-control")}}
 	<br/>
 
 
+	{{form.attribute.label(class="form-label")}}
+	{{form.attribute(class="form-control")}}
+	<br/>
 
-		{{ form.submit(class="btn btn-secondary") }}
 
 
-	</form>
+
+	<p> {{num}} </p>
 
 
 

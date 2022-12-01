@@ -47,9 +47,7 @@ def index():
 ####################################################################################################################################################
 
 class SearchForm(FlaskForm):
-
-
-	table = SelectField("Table", choices=[('Adoption'),
+	table = SelectField("Table to search", choices=[('Adoption'),
 		('Allergy'),
 		('Animal'),
 		('Application'),
@@ -63,9 +61,11 @@ class SearchForm(FlaskForm):
 		('Surgery'),
 		('Treatment'),
 		('Vaccination')], validators=[DataRequired()])
-	attribute = StringField("Attribute", validators=[DataRequired()])
-	operation = StringField("Operation", validators=[DataRequired()])
-	submit = SubmitField("Submit")
+	operation = StringField("What operation would you like to perform?", validators=[DataRequired()])
+	attribute = StringField("Attributes: Specify the columns separated by a comma "," or use '*' for all!", validators=[DataRequired()])
+	submit1 = SubmitField("Submit")
+
+
 
 
 # Create a Contact Form Class
@@ -1172,10 +1172,11 @@ def search():
 	anything = None
 
 	form = SearchForm()
+
 	rows = None
 	#searches = Employee.query
 	#contacts = Contact.query.filter_by(ContactInformation.id == 9)
-	if form.validate_on_submit():
+	if form1.validate_on_submit():
 		try:
 			table = None
 			table  = form.table.data
@@ -1205,11 +1206,15 @@ def search():
 			return render_template("search.html", form = form, searched = anything, rows = rows)
 		except Exception as e:
 			flash("Search could not be completed." )
-			return render_template("search.html", form = form, searched = anything, table = table, exception = e)
 
-
+			return render_template("search.html", form = form, searched = anything, exception = e)
 	return render_template("search.html", form = form, searched = anything)
 
+	#searches = Employee.query
+	#contacts = Contact.query.filter_by(ContactInformation.id == 9)
+
+#@app.route('/dropdown', methods=['GET', 'POST'])
+#def get_dropdown_values():
 	
 
 

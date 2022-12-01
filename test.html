@@ -1,0 +1,17 @@
+	table = SelectField("Table to search", choices=[('Adoption'),
+		('Allergy'),
+		('Animal'),
+		('Application'),
+		('Backgroundcheck'),
+		('Contact'),
+		('Diagnosis'),
+		('Donation'),
+		('Employee'),
+		('Foster'),
+		('Payment'),
+		('Surgery'),
+		('Treatment'),
+		('Vaccination')], validators=[DataRequired()])
+	operation = StringField("What operation would you like to perform?", validators=[DataRequired()])
+	attribute = StringField("Attributes: Specify the columns separated by a comma "," or use '*' for all!", validators=[DataRequired()])
+	submit1 = SubmitField("Submit")
