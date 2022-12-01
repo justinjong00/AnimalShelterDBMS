@@ -562,10 +562,10 @@ def update_contact(id):
 		try:
 			db.session.commit()
 			flash("Contact Updated Successfully!")
-			return render_template("update_contact.html", form = form, contact_to_update = contact_to_update)
+			return render_template("update_contact.html", form = form, contact_to_update = contact_to_update, id=id)
 		except:
 			flash("Error: Could not Update Contact")
-			return render_template("update_contact.html", form = form, contact_to_update = contact_to_update)
+			return render_template("update_contact.html", form = form, contact_to_update = contact_to_update, id=id)
 	else:
 		return render_template("update_contact.html", form = form, contact_to_update = contact_to_update, id = id)
 
@@ -587,10 +587,10 @@ def update_employee(id):
 		try:
 			db.session.commit()
 			flash("Employee Updated Successfully!")
-			return render_template("update_employee.html", form = form, employee_to_update = employee_to_update)
+			return render_template("update_employee.html", form = form, employee_to_update = employee_to_update, id=id)
 		except:
 			flash("Error: Could not Update Employee")
-			return render_template("update_employee.html", form = form, employee_to_update = employee_to_update)
+			return render_template("update_employee.html", form = form, employee_to_update = employee_to_update, id=id)
 	else:
 		return render_template("update_employee.html", form = form, employee_to_update = employee_to_update, id = id)
 
@@ -615,10 +615,10 @@ def update_animal(id):
 		try:
 			db.session.commit()
 			flash("Animal Updated Successfully!")
-			return render_template("update_animal.html", form = form, animal_to_update = animal_to_update)
+			return render_template("update_animal.html", form = form, animal_to_update = animal_to_update, id=id)
 		except:
 			flash("Error: Could not Update Animal")
-			return render_template("update_aniaml.html", form = form, animal_to_update = animal_to_update)
+			return render_template("update_aniaml.html", form = form, animal_to_update = animal_to_update, id=id)
 	else:
 		return render_template("update_animal.html", form = form, animal_to_update = animal_to_update, id = id)
 
@@ -639,10 +639,10 @@ def update_donation(id):
 		try:
 			db.session.commit()
 			flash("Donation Updated Successfully!")
-			return render_template("update_donation.html", form = form, donation_to_update = donation_to_update)
+			return render_template("update_donation.html", form = form, donation_to_update = donation_to_update, id=id)
 		except:
 			flash("Error: Could not Update Donation")
-			return render_template("update_donation.html", form = form, donation_to_update = donation_to_update)
+			return render_template("update_donation.html", form = form, donation_to_update = donation_to_update, id=id)
 	else:
 		return render_template("update_donation.html", form = form, donation_to_update = donation_to_update, id = id)
 
@@ -659,10 +659,12 @@ def update_payment(id):
 		try:
 			db.session.commit()
 			flash("Payment Updated Successfully!")
-			return render_template("update_payment.html", form = form, payment_to_update = payment_to_update)
+			return render_template("update_payment.html", form = form, 
+									payment_to_update = payment_to_update, id=id)
 		except:
 			flash("Error: Could not Update Donation")
-			return render_template("update_payment.html", form = form, payment_to_update = payment_to_update)
+			return render_template("update_payment.html", form = form, 
+									payment_to_update = payment_to_update, id=id)
 	else:
 		return render_template("update_payment.html", form = form, payment_to_update = payment_to_update, id = id)
 
@@ -680,10 +682,10 @@ def update_diagnosis(id):
 		try:
 			db.session.commit()
 			flash("Diagnosis Updated Successfully!")
-			return render_template("update_diagnosis.html", form = form, diagnosis_to_update = diagnosis_to_update)
+			return render_template("update_diagnosis.html", form = form, diagnosis_to_update = diagnosis_to_update, id=id)
 		except:
 			flash("Error: Could not Update Diagnosis")
-			return render_template("update_diagnosis.html", form = form, diagnosis_to_update = diagnosis_to_update)
+			return render_template("update_diagnosis.html", form = form, diagnosis_to_update = diagnosis_to_update, id=id)
 	else:
 		return render_template("update_diagnosis.html", form = form, diagnosis_to_update = diagnosis_to_update, id = id)
 
@@ -703,10 +705,10 @@ def update_treatment(id):
 		try:
 			db.session.commit()
 			flash("Treatment Updated Successfully!")
-			return render_template("update_treatment.html", form = form, treatment_to_update = treatment_to_update)
+			return render_template("update_treatment.html", form = form, treatment_to_update = treatment_to_update, id=id)
 		except:
 			flash("Error: Could not Update Treatment")
-			return render_template("update_treatment.html", form = form, treatment_to_update = treatment_to_update)
+			return render_template("update_treatment.html", form = form, treatment_to_update = treatment_to_update, id=id)
 	else:
 		return render_template("update_treatment.html", form = form, treatment_to_update = treatment_to_update, id = id)
 
@@ -726,10 +728,10 @@ def update_surgery(id):
 		try:
 			db.session.commit()
 			flash("Surgery Updated Successfully!")
-			return render_template("update_surgery.html", form = form, surgery_to_update = surgery_to_update)
+			return render_template("update_surgery.html", form = form, surgery_to_update = surgery_to_update, id=id)
 		except:
 			flash("Error: Could not Update Surgery")
-			return render_template("update_surgery.html", form = form, surgery_to_update = surgery_to_update)
+			return render_template("update_surgery.html", form = form, surgery_to_update = surgery_to_update, id=id)
 	else:
 		return render_template("update_surgery.html", form = form, surgery_to_update = surgery_to_update, id = id)
 
@@ -748,10 +750,10 @@ def update_vaccination(id):
 		try:
 			db.session.commit()
 			flash("Vaccination Updated Successfully!")
-			return render_template("update_vaccination.html", form = form, vaccination_to_update = vaccination_to_update)
+			return render_template("update_vaccination.html", form = form, vaccination_to_update = vaccination_to_update, id=id)
 		except:
 			flash("Error: Could not Update Vaccination")
-			return render_template("update_vaccination.html", form = form, vaccination_to_update = vaccination_to_update)
+			return render_template("update_vaccination.html", form = form, vaccination_to_update = vaccination_to_update, id=id)
 	else:
 		return render_template("update_vaccination.html", form = form, vaccination_to_update = vaccination_to_update, id = id)
 
@@ -768,10 +770,10 @@ def update_allergy(id):
 		try:
 			db.session.commit()
 			flash("Allergy Updated Successfully!")
-			return render_template("update_allergy.html", form = form, allergy_to_update = allergy_to_update)
+			return render_template("update_allergy.html", form = form, allergy_to_update = allergy_to_update, id=id)
 		except:
 			flash("Error: Could not Update Allergy")
-			return render_template("update_allergy.html", form = form, allergy_to_update = allergy_to_update)
+			return render_template("update_allergy.html", form = form, allergy_to_update = allergy_to_update, id=id)
 	else:
 		return render_template("update_allergy.html", form = form, allergy_to_update = allergy_to_update, id = id)
 
@@ -796,10 +798,10 @@ def update_application(id):
 		try:
 			db.session.commit()
 			flash("Application Updated Successfully!")
-			return render_template("update_application.html", form = form, application_to_update = application_to_update)
+			return render_template("update_application.html", form = form, application_to_update = application_to_update, id=id)
 		except:
 			flash("Error: Could not Update Application")
-			return render_template("update_application.html", form = form, application_to_update = application_to_update)
+			return render_template("update_application.html", form = form, application_to_update = application_to_update, id=id)
 	else:
 		return render_template("update_application.html", form = form, application_to_update = application_to_update, id = id)
 
@@ -819,10 +821,10 @@ def update_background(id):
 		try:
 			db.session.commit()
 			flash("Background Check Updated Successfully!")
-			return render_template("update_background.html", form = form, background_to_update = background_to_update)
+			return render_template("update_background.html", form = form, background_to_update = background_to_update, id=id)
 		except:
 			flash("Error: Could not Update Background Check")
-			return render_template("update_background.html", form = form, background_to_update = background_to_update)
+			return render_template("update_background.html", form = form, background_to_update = background_to_update, id=id)
 	else:
 		return render_template("update_background.html", form = form, background_to_update = background_to_update, id = id)
 
@@ -840,10 +842,10 @@ def update_adoption(id):
 		try:
 			db.session.commit()
 			flash("Adoption Updated Successfully!")
-			return render_template("update_adoption.html", form = form, adoption_to_update = adoption_to_update)
+			return render_template("update_adoption.html", form = form, adoption_to_update = adoption_to_update, id=id)
 		except:
 			flash("Error: Could not Update Adoption")
-			return render_template("update_adoption.html", form = form, adoption_to_update = adoption_to_update)
+			return render_template("update_adoption.html", form = form, adoption_to_update = adoption_to_update, id=id)
 	else:
 		return render_template("update_adoption.html", form = form, adoption_to_update = adoption_to_update, id = id)
 
@@ -862,10 +864,10 @@ def update_foster(id):
 		try:
 			db.session.commit()
 			flash("Foster Updated Successfully!")
-			return render_template("update_foster.html", form = form, foster_to_update = foster_to_update)
+			return render_template("update_foster.html", form = form, foster_to_update = foster_to_update, id=id)
 		except:
 			flash("Error: Could not Update Foster")
-			return render_template("update_foster.html", form = form, foster_to_update = foster_to_update)
+			return render_template("update_foster.html", form = form, foster_to_update = foster_to_update, id=id)
 	else:
 		return render_template("update_foster.html", form = form, foster_to_update = foster_to_update, id = id)
 
