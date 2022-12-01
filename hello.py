@@ -197,16 +197,26 @@ class BackgroundCheckForm(FlaskForm):
 	submit = SubmitField("Submit")
 
 class AdoptionForm(FlaskForm):
+<<<<<<< Updated upstream
 	# first_name = StringField("First Name", validators=[DataRequired()])
 	# last_name = StringField("Last Name", validators=[DataRequired()])
+=======
+	#first_name = StringField("First Name", validators=[DataRequired()])
+	#last_name = StringField("Last Name", validators=[DataRequired()])
+>>>>>>> Stashed changes
 	application_id = IntegerField("Application ID#", validators=[DataRequired()])
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	adoption_date = DateField("Adoption Date", validators=[DataRequired()])
 	submit = SubmitField("Submit")
 
 class FosterForm(FlaskForm):
+<<<<<<< Updated upstream
 	# first_name = StringField("First Name", validators=[DataRequired()])
 	# last_name = StringField("Last Name", validators=[DataRequired()])
+=======
+	#first_name = StringField("First Name", validators=[DataRequired()])
+	#last_name = StringField("Last Name", validators=[DataRequired()])
+>>>>>>> Stashed changes
 	application_id = IntegerField("Application ID#", validators=[DataRequired()])
 	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	foster_date = DateField("Foster Date", validators=[DataRequired()])
@@ -514,12 +524,19 @@ def add_adoption():
 	if form.validate_on_submit():
 		adoption = Adoption.query.filter_by(id = id).first()
 		if adoption is None:
+<<<<<<< Updated upstream
 			adoption = Adoption( app_id=form.application_id.data, animal_id=form.animal_id.data,
 								adoption_date = form.adoption_date.data)
 			db.session.add(adoption)
 			db.session.commit()
 		# form.first_name.data = ''
 		# form.last_name.data = ''
+=======
+			adoption = Adoption(app_id=form.application_id.data, animal_id=form.animal_id.data,
+									  adoption_date = form.adoption_date.data)
+			db.session.add(adoption)
+			db.session.commit()
+>>>>>>> Stashed changes
 		form.application_id.data = ''
 		form.animal_id.data = ''
 		form.adoption_date.data = ''
@@ -537,12 +554,19 @@ def add_foster():
 	if form.validate_on_submit():
 		foster = Foster.query.filter_by(id = id).first()
 		if foster is None:
+<<<<<<< Updated upstream
 			foster = Foster( app_id=form.application_id.data, animal_id=form.animal_id.data,
 							foster_date = form.foster_date.data)
 			db.session.add(foster)
 			db.session.commit()
 		# form.first_name.data = ''
 		# form.last_name.data = ''
+=======
+			foster = Foster(app_id=form.application_id.data, animal_id=form.animal_id.data,
+									  foster_date = form.foster_date.data)
+			db.session.add(foster)
+			db.session.commit()
+>>>>>>> Stashed changes
 		form.application_id.data = ''
 		form.animal_id.data = ''
 		form.foster_date.data = ''
@@ -1138,6 +1162,7 @@ class Contact(db.Model):
 	payments = db.relationship('Payment', backref = 'paymentrs')
 	applications = db.relationship('Application', backref='applicationrs')
     #relationship on Employee class, employeers will create a fake column in employee, so if you wanted to get email, call employeers.email
+    donations = db.relationship('Donation', backref = 'donationrs' ) 
 
 
 class Employee(db.Model):
@@ -1153,12 +1178,15 @@ class Employee(db.Model):
     position = db.Column(db.String(150),nullable = False)
     #info_id = db.Column(db.Integer, nullable = False, unique = True) #
     info_id = db.Column(db.Integer, db.ForeignKey(Contact.id), nullable = False, unique = True)
+<<<<<<< Updated upstream
 	animals= db.relationship('Animal', backref = 'animalrs')
 	diagnosiss = db.relationship('Diagnosis', backref = 'diagnosisrs')
 	surgerys = db.relationship('Surgery', backref='surgeryrs')
 	vaccinations = db.relationship('Vaccination', backref = 'vaccinationrs')
 	applications = db.relationship('Application', backref='applicationrs')
 	backgrounds = db.relationship('Backgroundcheck', backref='backgroundrs')
+=======
+>>>>>>> Stashed changes
 
 
 
@@ -1173,7 +1201,11 @@ class Donation(db.Model):
     repeat_option = db.Column(db.Integer, nullable=True)
     date = db.Column(db.Date, nullable=False)
     #info_id = db.Column(db.Integer, nullable = True) #
+<<<<<<< Updated upstream
     info_id = db.Column(db.Integer, db.ForeignKey(Contact.id), nullable = True)
+=======
+    info_id = db.Column(db.Integer, db.ForeignKey(Contact.id))
+>>>>>>> Stashed changes
 
 
 
@@ -1218,9 +1250,13 @@ class Diagnosis(db.Model):
 	vet_id = db.Column(db.Integer, db.ForeignKey(Employee.id), nullable=False)
 	date = db.Column(db.Date, nullable=False)
 	diagnosis = db.Column(db.String(150), nullable=False)
+<<<<<<< Updated upstream
 	treatments = db.relationship('Treatment', backref='treatmentrs')
 	surgerys = db.relationship('Surgery', backref='surgeryrs')
 	__table_args__ = (db.UniqueConstraint('animal_id', 'diagnosis', name='uniqDiag'),)
+=======
+	__table_args__ = (db.UniqueConstraint(animal_id, diagnosis),)
+>>>>>>> Stashed changes
 
 class Treatment(db.Model):
 #    __tablename__ = 'Treatments'
@@ -1231,7 +1267,7 @@ class Treatment(db.Model):
 	start_date = db.Column(db.Date, nullable=True)
 	end_date = db.Column(db.Date, nullable=True)
 	dosage = db.Column(db.String(150), nullable=True) 
-	__table_args__ = (db.UniqueConstraint('animal_id', 'diagnosis_id', name='uniqTreatment'),)
+	__table_args__ = (db.UniqueConstraint(treatment, diagnosis_id),)
 
 
 class Surgery(db.Model):
@@ -1245,7 +1281,7 @@ class Surgery(db.Model):
 	vet_id = db.Column(db.Integer, db.ForeignKey(Employee.id), nullable=False)
 	date = db.Column(db.Date, nullable=False)
 	success_or_fail = db.Column(db.String(150), nullable = False)
-	__table_args__ = (db.UniqueConstraint('animal_id', 'operation_type', 'date', name='uniqSurgery'),)
+	__table_args__ = (db.UniqueConstraint(diagnosis_id, operation_type, date),)
 
 class Vaccination(db.Model):
 #    __tablename__ = 'Vaccinations'
@@ -1257,7 +1293,7 @@ class Vaccination(db.Model):
 	vet_id = db.Column(db.Integer, db.ForeignKey(Employee.id), nullable=False)
 	date = db.Column(db.Date, nullable=False)
 	notes = db.Column(db.String(150), nullable = True)
-	__table_args__ = (db.UniqueConstraint('animal_id', 'vaccine_type', 'date', name='uniqVaccine'),)
+	__table_args__ = (db.UniqueConstraint(animal_id, vaccine_type, date),)
 
 class Allergy(db.Model):
 	#    __tablename__ = 'Allergies'
@@ -1266,7 +1302,7 @@ class Allergy(db.Model):
 	animal_id = db.Column(db.Integer, db.ForeignKey(Animal.id), nullable = False)
 	allergy = db.Column(db.String(150), nullable = False)
 	medication = db.Column(db.String(150), nullable = True)
-	__table_args__ = (db.UniqueConstraint('animal_id', 'allergy', name='uniqAllergy'),)
+	__table_args__ = (db.UniqueConstraint(animal_id, allergy),)
 
 class Application(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
@@ -1284,10 +1320,14 @@ class Application(db.Model):
 	#employee_supervisor = db.Column(db.Integer, nullable = False)
 	employee_supervisor = db.Column(db.Integer, db.ForeignKey(Employee.id), nullable = True)
 	application_status = db.Column(db.String(150), nullable=False)
+<<<<<<< Updated upstream
 	backgrounds = db.relationship('Backgroundcheck', backref='backgroundrs')
 	adoptions = db.relationship('Adoption', backref='adoptionrs')
 	fosters = db.relationship('Foster', backref='fosterrs')
 	__table_args__ = (db.UniqueConstraint('candidate_id', 'date', name='uniqApp'),)
+=======
+	__table_args__ = (db.UniqueConstraint(candidate_id, date),)
+>>>>>>> Stashed changes
 
 
 
@@ -1310,24 +1350,40 @@ class Adoption(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	#first_name = db.Column(db.String(150), nullable=False)
 	#last_name = db.Column(db.String(150), nullable=False)
+<<<<<<< Updated upstream
 	#app_id = db.Column(db.Integer, nullable = False)
 	#animal_id = db.Column(db.Integer, nullable = False, unique=True)
 	app_id = db.Column(db.Integer, db.ForeignKey(Application.id), nullable = False)
 	animal_id = db.Column(db.Integer, db.ForeignKey(Animal.id), nullable = False)
+=======
+	app_id = db.Column(db.Integer, nullable = False)
+	animal_id = db.Column(db.Integer, nullable = False, unique=True)
+	#app_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
+	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
+>>>>>>> Stashed changes
 	adoption_date = db.Column(db.Date, nullable=False)
 
 
 class Foster(db.Model):
 #    __tablename__ = 'Foster_Parents'
 	id = db.Column(db.Integer, primary_key = True)
+<<<<<<< Updated upstream
 	# first_name = db.Column(db.String(150), nullable=False)
 	# last_name = db.Column(db.String(150), nullable=False)
 	# app_id = db.Column(db.Integer, nullable = False)
 	# animal_id = db.Column(db.Integer, nullable = False)
 	app_id = db.Column(db.Integer, db.ForeignKey(Application.id), nullable = False)
 	animal_id = db.Column(db.Integer, db.ForeignKey(Animal.id), nullable = False)
+=======
+	#first_name = db.Column(db.String(150), nullable=False)
+	#last_name = db.Column(db.String(150), nullable=False)
+	app_id = db.Column(db.Integer, nullable = False)
+	animal_id = db.Column(db.Integer, nullable = False)
+	#app_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
+	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
+>>>>>>> Stashed changes
 	foster_date = db.Column(db.Date, nullable=False)
-	__table_args__ = (db.UniqueConstraint('animal_id', 'foster_date', name='uniqFoster'),)
+	__table_args__ = (db.UniqueConstraint(animal_id, foster_date),)
 
 
 
