@@ -23,13 +23,13 @@ app.config['SECRET_KEY'] = "justinelsa"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
 #MySQL DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:General0667@localhost/animal_shelter1'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Dldmstj5@localhost/animal_shelter1'
 
 # Initialize the Database
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-engine = create_engine('mysql+pymysql://root:General0667@localhost/animal_shelter1')
+engine = create_engine('mysql+pymysql://root:Dldmstj5@localhost/animal_shelter1')
 connection = engine.raw_connection()
 cursor = connection.cursor()
 
