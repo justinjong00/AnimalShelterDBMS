@@ -490,8 +490,7 @@ def add_background():
 		background = Backgroundcheck.query.filter_by(id = id).first()
 		if background is None:
 			background = Backgroundcheck(application_id=form.application_id.data, income=form.income.data,
-									  criminal_record=form.criminal_record.data, credit_score=form.credit_score.data, ssn=form.ssn.data,
-									  candidate_id = form.candidate_id.data, application_type = form.application_type.data,
+									  criminal_record=form.criminal_record.data, credit_score=form.credit_score.data,
 									  interview_status = form.interview_status.data, employee_id=form.employee_id.data,
 									  background_check_status = form.background_check_status.data)
 			db.session.add(background)
@@ -867,7 +866,7 @@ def update_foster(id):
 	if request.method == "POST":
 		foster_to_update.first_name = request.form['first_name']
 		foster_to_update.last_name = request.form['last_name']
-		foster_to_update.application_id = request.form['address']
+		foster_to_update.application_id = request.form['application_id']
 		foster_to_update.foster_date = request.form['foster_date']
 		foster_to_update.animal_id = request.form['animal_id']
 
@@ -1136,6 +1135,8 @@ class Contact(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(150), unique = True)
     phone = db.Column(db.String(150), unique = True)
+    employees = db.relationship('Employee', backref = 'employeers' ) 
+    #relationship on Employee class, employeers will create a fake column in employee, so if you wanted to get email, call employeers.email
 
 
 class Employee(db.Model):
@@ -1149,8 +1150,8 @@ class Employee(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     salary = db.Column(db.Integer, nullable=True)
     position = db.Column(db.String(150),nullable = False)
-    info_id = db.Column(db.Integer, nullable = False, unique = True) #
-    #info_id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), nullable = False, unique = True)
+    #info_id = db.Column(db.Integer, nullable = False, unique = True) #
+    info_id = db.Column(db.Integer, db.ForeignKey('Contact.id'), nullable = False, unique = True)
 
 
 
@@ -1164,8 +1165,13 @@ class Donation(db.Model):
     #repeat_option = db.Column(db.String(150), nullable=False)
     repeat_option = db.Column(db.Integer, nullable=True)
     date = db.Column(db.Date, nullable=False)
+<<<<<<< Updated upstream
     info_id = db.Column(db.Integer, nullable = True)
     #info_id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), nullable = True)
+=======
+    #info_id = db.Column(db.Integer, nullable = True) #
+    info_id = db.Column(db.Integer, db.ForeignKey('Contact.id'), nullable = True)
+>>>>>>> Stashed changes
 
 
 
@@ -1278,7 +1284,7 @@ class Backgroundcheck(db.Model):
 	application_id = db.Column(db.Integer, nullable = False, unique=True)
 	#application_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
 	income = db.Column(db.Integer, nullable = False)
-	ciminal_record = db.Column(db.String(150), nullable = False)
+	criminal_record = db.Column(db.String(150), nullable = False)
 	credit_score = db.Column(db.Integer, nullable = False)
 	interview_status = db.Column(db.String(150), nullable = False)
 	employee_id = db.Column(db.Integer,  nullable=False)

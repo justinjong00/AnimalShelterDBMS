@@ -17,7 +17,7 @@
 <form action="/donation/update/{{donation_to_update.id}}"method = "POST">
 	{{form.hidden_tag()}}
 
-	{form.name.label(class="form-label")}}
+	{{form.name.label(class="form-label")}}
 	{{form.name(class="form-control", value=donation_to_update.name)}}
 	<br/>
 

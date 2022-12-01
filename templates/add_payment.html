@@ -42,7 +42,7 @@
 		{{ our_payment.id }} | {{our_payment.date}} | Credit Card:{{ our_payment.credit_card}} | {{ our_payment.name_on_card}}
 	    | {{ our_payment.billing_address}} 
 
-            <a href="{{url_for('update_payment', id = our_payment.id)}}" class="btn btn-warning"> Edit </a>
+         
             <a href="{{url_for('delete_payment', id = our_payment.id)}}" class="btn btn-danger"> Delete </a>
 
 	</td></tr>

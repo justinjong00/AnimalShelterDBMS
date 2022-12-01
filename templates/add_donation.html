@@ -60,7 +60,7 @@
         | {{ our_donation.amount}} | {{ our_donation.message}} | {{ our_donation.repeat_option}}
         | {{ our_donation.date}} | {{ our_donation.info_id}}
 		<a href="{{url_for('update_donation', id = our_donation.id)}}" class="btn btn-warning"> Edit </a>
-		<a href="{{url_for('delete donation', id = our_donation.id)}}" class="btn btn-danger"> Delete </a>
+		<a href="{{url_for('delete_donation', id = our_donation.id)}}" class="btn btn-danger"> Delete </a>
 
 	</td></tr>
 	{% endfor %}
