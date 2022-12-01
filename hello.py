@@ -1138,7 +1138,6 @@ class Contact(db.Model):
     phone = db.Column(db.String(150), unique = True)
 
 
-
 class Employee(db.Model):
 #    __tablename__ = 'Employee'
     id = db.Column(db.Integer, primary_key = True)
@@ -1165,7 +1164,7 @@ class Donation(db.Model):
     #repeat_option = db.Column(db.String(150), nullable=False)
     repeat_option = db.Column(db.Integer, nullable=True)
     date = db.Column(db.Date, nullable=False)
-    info_id = db.Column(db.Integer, nullable = True) #
+    info_id = db.Column(db.Integer, nullable = True)
     #info_id = db.Column(db.Integer, db.ForeignKey('ContactInformation.id'), nullable = True)
 
 
@@ -1205,16 +1204,18 @@ class Diagnosis(db.Model):
 	#vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
 	date = db.Column(db.Date, nullable=False)
 	diagnosis = db.Column(db.String(150), nullable=False)
+	__table_args__ = (db.UniqueConstraint('animal_id', 'diagnosis', name='uniqDiag'),)
 
 class Treatment(db.Model):
 #    __tablename__ = 'Treatments'
 	id = db.Column(db.Integer, primary_key = True)
 	diagnosis_id = db.Column(db.Integer, nullable = False)
 	#diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnosis.id'), nullable = False)
-	treatment = db.Column(db.String(150), nullable=False); 
+	treatment = db.Column(db.String(150), nullable=False)
 	start_date = db.Column(db.Date, nullable=True)
 	end_date = db.Column(db.Date, nullable=True)
-	dosage = db.Column(db.String(150), nullable=True); 
+	dosage = db.Column(db.String(150), nullable=True) 
+	__table_args__ = (db.UniqueConstraint('animal_id', 'diagnosis_id', name='uniqTreatment'),)
 
 
 class Surgery(db.Model):
@@ -1228,6 +1229,7 @@ class Surgery(db.Model):
 	#vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
 	date = db.Column(db.Date, nullable=False)
 	success_or_fail = db.Column(db.String(150), nullable = False)
+	__table_args__ = (db.UniqueConstraint('animal_id', 'operation_type', 'date', name='uniqSurgery'),)
 
 class Vaccination(db.Model):
 #    __tablename__ = 'Vaccinations'
@@ -1239,6 +1241,7 @@ class Vaccination(db.Model):
 	#vet_id = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable=False)
 	date = db.Column(db.Date, nullable=False)
 	notes = db.Column(db.String(150), nullable = True)
+	__table_args__ = (db.UniqueConstraint('animal_id', 'vaccine_type', 'date', name='uniqVaccine'),)
 
 class Allergy(db.Model):
 	#    __tablename__ = 'Allergies'
@@ -1247,9 +1250,7 @@ class Allergy(db.Model):
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
 	allergy = db.Column(db.String(150), nullable = False)
 	medication = db.Column(db.String(150), nullable = True)
-
-
-
+	__table_args__ = (db.UniqueConstraint('animal_id', 'allergy', name='uniqAllergy'),)
 
 class Application(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
@@ -1267,12 +1268,14 @@ class Application(db.Model):
 	employee_supervisor = db.Column(db.Integer, nullable = False)
 	#employee_supervisor = db.Column(db.Integer, db.ForeignKey('Employee.id'), nullable = True)
 	application_status = db.Column(db.String(150), nullable=False)
+	__table_args__ = (db.UniqueConstraint('candidate_id', 'date', name='uniqApp'),)
+
 
 
 class Backgroundcheck(db.Model):
 #    __tablename__ = 'BackgroundCheck'
 	id = db.Column(db.Integer, primary_key = True)
-	application_id = db.Column(db.Integer, nullable = False)
+	application_id = db.Column(db.Integer, nullable = False, unique=True)
 	#application_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
 	income = db.Column(db.Integer, nullable = False)
 	ciminal_record = db.Column(db.String(150), nullable = False)
@@ -1289,7 +1292,7 @@ class Adoption(db.Model):
 	first_name = db.Column(db.String(150), nullable=False)
 	last_name = db.Column(db.String(150), nullable=False)
 	app_id = db.Column(db.Integer, nullable = False)
-	animal_id = db.Column(db.Integer, nullable = False)
+	animal_id = db.Column(db.Integer, nullable = False, unique=True)
 	#app_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
 	adoption_date = db.Column(db.Date, nullable=False)
@@ -1305,6 +1308,7 @@ class Foster(db.Model):
 	#app_id = db.Column(db.Integer, db.ForeignKey('Application.id'), nullable = False)
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
 	foster_date = db.Column(db.Date, nullable=False)
+	__table_args__ = (db.UniqueConstraint('animal_id', 'foster_date', name='uniqFoster'),)
 
 
 
