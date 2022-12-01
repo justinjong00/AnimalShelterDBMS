@@ -11,10 +11,10 @@
 
 
 
-<h1>Diagnoses List</h1>
+<h1>Diagnosis List</h1>
 <br/>
 <div class="shadow p-3 mb-5 bg-body rounded">
-<form  action="{{ url_for('add_diagnoses')}}"method = "POST">
+<form  action="{{ url_for('add_diagnosis')}}"method = "POST">
 	{{form.hidden_tag()}}
 
 	{{form.animal_id.label(class="form-label")}}
