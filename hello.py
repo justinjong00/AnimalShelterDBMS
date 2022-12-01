@@ -350,8 +350,8 @@ def add_diagnosis():
 		form.diagnosis.data = ''
 
 		flash("Diagnosis Added Successfully!")
-	our_diagnosis = Diagnosis.query.order_by(Diagnosis.id)
-	return render_template("add_diagnosis.html", form=form, our_diagnosis=our_diagnosis)
+	our_diagnoses = Diagnosis.query.order_by(Diagnosis.id)
+	return render_template("add_diagnosis.html", form=form, our_diagnoses=our_diagnoses)
 
 @app.route('/treatments/add', methods=['GET', 'POST'])
 def add_treatments():
