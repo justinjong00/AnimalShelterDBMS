@@ -1146,21 +1146,26 @@ def search():
 		flash("Search was Successful!" )
 	return render_template("search.html", form = form, searched = anything, rows = rows)
 
+@app.route('/dropdown', methods=['GET', 'POST'])
+def get_dropdown_values():
+	
+
 
 ####################################################################################################################################################
 ##                                                           MODELS                                                                             ####
 ##                                                                                                                                              ####
 ####################################################################################################################################################
 
+
 class Contact(db.Model): 
 #    __tablename__ = 'ContactInformation'
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(150), unique = True)
     phone = db.Column(db.String(150), unique = True)
-    employees = db.relationship('Employee', backref = 'employeers')
-	donations = db.relationship('Donation', backref = 'donationrs')
-	payments = db.relationship('Payment', backref = 'paymentrs')
-	applications = db.relationship('Application', backref='applicationrs')
+	employees = db.relationship('Employee', backref = 'employeersc')
+	donations = db.relationship('Donation', backref = 'donationrsc')
+	payments = db.relationship('Payment', backref = 'paymentrsc')
+	applications = db.relationship('Application', backref='applicationrsc')
     #relationship on Employee class, employeers will create a fake column in employee, so if you wanted to get email, call employeers.email
     donations = db.relationship('Donation', backref = 'donationrs' ) 
 
@@ -1180,6 +1185,7 @@ class Employee(db.Model):
     info_id = db.Column(db.Integer, db.ForeignKey(Contact.id), nullable = False, unique = True)
 <<<<<<< Updated upstream
 	animals= db.relationship('Animal', backref = 'animalrs')
+<<<<<<< HEAD
 	diagnosiss = db.relationship('Diagnosis', backref = 'diagnosisrs')
 	surgerys = db.relationship('Surgery', backref='surgeryrs')
 	vaccinations = db.relationship('Vaccination', backref = 'vaccinationrs')
@@ -1187,6 +1193,13 @@ class Employee(db.Model):
 	backgrounds = db.relationship('Backgroundcheck', backref='backgroundrs')
 =======
 >>>>>>> Stashed changes
+=======
+	diagnosiss = db.relationship('Diagnosis', backref = 'diagnosisrse')
+	surgerys = db.relationship('Surgery', backref='surgeryrse')
+	vaccinations = db.relationship('Vaccination', backref = 'vaccinationrse')
+	applications = db.relationship('Application', backref='applicationrse')
+	backgrounds = db.relationship('Backgroundcheck', backref='backgroundrse')
+>>>>>>> 619fbe8b9b0c54acba1425fbd0fdcae5425d65e2
 
 
 
@@ -1233,12 +1246,12 @@ class Animal(db.Model):
     foster_status = db.Column(db.Integer, nullable=False)
     #employee_id = db.Column(db.Integer, nullable=False)
     employee_id = db.Column(db.Integer, db.ForeignKey (Employee.id), nullable=False)
-	diagnosiss = db.relationship('Diagnosis', backref = 'diagnosisrs')
-	vaccinations = db.relationship('Vaccination', backref = 'vaccinationrs')
-	allergys = db.relationship('Allergy', backref = 'allergyrs')
-	applications = db.relationship('Application', backref='applicationrs')
-	adoptions = db.relationship('Adoption', backref='adoptionrs')
-	fosters = db.relationship('Foster', backref='fosterrs')
+	diagnosiss = db.relationship('Diagnosis', backref = 'diagnosisrsa')
+	vaccinations = db.relationship('Vaccination', backref = 'vaccinationrsa')
+	allergys = db.relationship('Allergy', backref = 'allergyrsa')
+	applications = db.relationship('Application', backref='applicationrsa')
+	adoptions = db.relationship('Adoption', backref='adoptionrsa')
+	fosters = db.relationship('Foster', backref='fosterrsa')
 
 
 class Diagnosis(db.Model):
@@ -1250,9 +1263,14 @@ class Diagnosis(db.Model):
 	vet_id = db.Column(db.Integer, db.ForeignKey(Employee.id), nullable=False)
 	date = db.Column(db.Date, nullable=False)
 	diagnosis = db.Column(db.String(150), nullable=False)
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 	treatments = db.relationship('Treatment', backref='treatmentrs')
 	surgerys = db.relationship('Surgery', backref='surgeryrs')
+=======
+	treatments = db.relationship('Treatment', backref='treatmentrsd')
+	surgerys = db.relationship('Surgery', backref='surgeryrsd')
+>>>>>>> 619fbe8b9b0c54acba1425fbd0fdcae5425d65e2
 	__table_args__ = (db.UniqueConstraint('animal_id', 'diagnosis', name='uniqDiag'),)
 =======
 	__table_args__ = (db.UniqueConstraint(animal_id, diagnosis),)
@@ -1320,10 +1338,16 @@ class Application(db.Model):
 	#employee_supervisor = db.Column(db.Integer, nullable = False)
 	employee_supervisor = db.Column(db.Integer, db.ForeignKey(Employee.id), nullable = True)
 	application_status = db.Column(db.String(150), nullable=False)
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 	backgrounds = db.relationship('Backgroundcheck', backref='backgroundrs')
 	adoptions = db.relationship('Adoption', backref='adoptionrs')
 	fosters = db.relationship('Foster', backref='fosterrs')
+=======
+	backgrounds = db.relationship('Backgroundcheck', backref='backgroundrsap')
+	adoptions = db.relationship('Adoption', backref='adoptionrsap')
+	fosters = db.relationship('Foster', backref='fosterrsap')
+>>>>>>> 619fbe8b9b0c54acba1425fbd0fdcae5425d65e2
 	__table_args__ = (db.UniqueConstraint('candidate_id', 'date', name='uniqApp'),)
 =======
 	__table_args__ = (db.UniqueConstraint(candidate_id, date),)
