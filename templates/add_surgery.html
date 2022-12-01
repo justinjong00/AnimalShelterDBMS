@@ -17,7 +17,6 @@
 <form  action="{{ url_for('add_surgery')}}"method = "POST">
 	{{form.hidden_tag()}}
 
-
 	{{form.diagnosis_id.label(class="form-label")}}
 	{{form.diagnosis_id(class="form-control")}}
 	<br/>
@@ -48,8 +47,8 @@
 	{% for our_surgery in our_surgeries %}
 	<tr>
 		<td>
-		{{ our_surgery.id }} | {{ our_surgery.diagnosis_id}}
-	    | {{ our_surgery.date}} | {{ our_surgery.vet_id}} | {{our_surgery.operation_type}}
+		ID: {{ our_surgery.id }} | DIAGNOSIS ID: {{ our_surgery.diagnosis_id}}
+	    | DATE: {{ our_surgery.date}} | VET ID: {{ our_surgery.vet_id}} | OP TYPE: {{our_surgery.operation_type}}
         | {{ our_surgery.success_or_fail}}
 
             <a href="{{url_for('update_surgery', id = our_surgery.id)}}" class="btn btn-warning"> Edit </a>

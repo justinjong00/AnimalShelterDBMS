@@ -47,9 +47,9 @@
 	{% for our_treatment in our_treatments %}
 	<tr>
 		<td>
-		{{ our_treatment.id }} | {{ our_treatment.diagnosis_id}}
-	    | {{ our_treatment.start_date}} | {{ our_treatment.end_date}} | {{our_treatment.treatment}}
-        | {{ our_treatment.dosage}}
+		ID: {{ our_treatment.id }} | DIAGNOSIS ID: {{ our_treatment.diagnosis_id}}
+	    | START DATE: {{ our_treatment.start_date}} | END DATE: {{ our_treatment.end_date}} | TREATMENT: {{our_treatment.treatment}}
+        | DOSAGE: {{ our_treatment.dosage}}
 
             <a href="{{url_for('update_treatment', id = our_treatment.id)}}" class="btn btn-warning"> Edit </a>
             <a href="{{url_for('delete_treatment', id = our_treatment.id)}}" class="btn btn-danger"> Delete </a>

@@ -17,6 +17,7 @@
 <form  action="{{ url_for('add_allergy')}}"method = "POST">
 	{{form.hidden_tag()}}
 
+
 	{{form.animal_id.label(class="form-label")}}
 	{{form.animal_id(class="form-control")}}
 	<br/>
@@ -38,8 +39,8 @@
 	{% for our_allergy in our_allergies %}
 	<tr>
 		<td>
-		{{ our_allergy.id }} | {{ our_allergy.animal_id}}
-	    | {{ our_allergy.allergy}} | {{ our_allergy.medication}}
+		ID: {{ our_allergy.id }} | ANIMAL ID: {{ our_allergy.animal_id}}
+	    | ALLERGY: {{ our_allergy.allergy}} | MEDICATION: {{ our_allergy.medication}}
 
             <a href="{{url_for('update_allergy', id = our_allergy.id)}}" class="btn btn-warning"> Edit </a>
             <a href="{{url_for('delete_allergy', id = our_allergy.id)}}" class="btn btn-danger"> Delete </a>

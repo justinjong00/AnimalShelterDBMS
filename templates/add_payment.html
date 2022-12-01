@@ -39,7 +39,8 @@
 	{% for our_payment in our_payments %}
 	<tr>
 		<td>
-		{{ our_payment.id }} | {{our_payment.date}} | Credit Card:{{ our_payment.credit_card}} | {{ our_payment.name_on_card}}
+		ID: {{ our_payment.id }} | DATE: {{our_payment.date}} | Credit Card:{{ our_payment.credit_card}} 
+		| NAME ON CARD: {{ our_payment.name_on_card}}
 	    | {{ our_payment.billing_address}} 
 
          

@@ -78,13 +78,13 @@
 	{% for our_animal in our_animals %}
 	<tr>
 		<td>
-		{{ our_animal.id }} | {{ our_animal.name}} | {{ our_animal.age}} 
-		| {{ our_animal.sex}} | {{ our_animal.dob}}
-        | {{ our_animal.species}} | {{ our_animal.species}} 
-		| {{ our_animal.breed}} | {{ our_animal.weight}}
-        | {{ our_animal.admission_reason}} | {{ our_animal.admission_date}} 
-		| {{ our_animal.adoption_status}}c| {{ our_animal.foster_status}} 
-		| {{ our_animal.employee_id}}
+		ID: {{ our_animal.id }} | NAME: {{ our_animal.name}} | AGE: {{ our_animal.age}} 
+		| SEX (1-MALE, 2-FEMALE): {{ our_animal.sex}} | DOB: {{ our_animal.dob}}
+        | SPECIES: {{ our_animal.species}}
+		| BREED: {{ our_animal.breed}} | WEIGHT: {{ our_animal.weight}}
+        | ADMISSION REASON: {{ our_animal.admission_reason}} | ADMISSION DATE: {{ our_animal.admission_date}} 
+		| ADOPTION STATUS: {{ our_animal.adoption_status}}c| FOSTER STATUS: {{ our_animal.foster_status}} 
+		| EMPLOYEE IN CHARGE: {{ our_animal.employee_id}}
 
 		<a href="{{url_for('update_animal', id = our_animal.id)}}" class="btn btn-warning"> Edit </a> 
 		<a href="{{url_for('delete_animal', id = our_animal.id)}}" class="btn btn-danger"> Delete </a>

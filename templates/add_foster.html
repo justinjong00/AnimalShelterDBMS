@@ -17,13 +17,6 @@
 <form  action="{{ url_for('add_foster')}}"method = "POST">
 	{{form.hidden_tag()}}
 
-	{{form.first_name.label(class="form-label")}}
-	{{form.first_name(class="form-control")}}
-	<br/>
-
-	{{form.last_name.label(class="form-label")}}
-	{{form.last_name(class="form-control")}}
-	<br/>
 
 	{{form.application_id.label(class="form-label")}}
 	{{form.application_id(class="form-control")}}
@@ -48,9 +41,8 @@
 	{% for our_foster in our_fosters %}
 	<tr>
 		<td>
-		{{ our_foster.id }} | {{ our_foster.first_name}}
-        | {{ our_foster.last_name}} | {{ our_foster.application_id}} 
-        | {{ our_foster.animal_id}} | {{ our_foster.foster_date}} 
+		ID: {{ our_foster.id }} | APPLICATION ID: {{ our_foster.application_id}} 
+        | ANIMAL ID: {{ our_foster.animal_id}} | DATE: {{ our_foster.foster_date}} 
       
 
         <a href="{{url_for('update_foster', id = our_foster.id)}}" class="btn btn-warning"> Edit </a> 

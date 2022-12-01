@@ -17,6 +17,7 @@
 <form  action="{{ url_for('add_application')}}"method = "POST">
 	{{form.hidden_tag()}}
 
+
 	{{form.first_name.label(class="form-label")}}
 	{{form.first_name(class="form-control")}}
 	<br/>
@@ -74,12 +75,12 @@
 	{% for our_application in our_applications %}
 	<tr>
 		<td>
-		{{ our_application.id }} | {{ our_application.first_name}}
+		ID: {{ our_application.id }} | {{ our_application.first_name}}
         | {{ our_application.last_name}} | {{ our_application.address}} 
         | DOB: {{ our_application.dob}} | SSN: {{ our_application.ssn}} 
-        | Date: {{ our_application.date}} | {{ our_application.candidate_id}} 
+        | DATE: {{ our_application.date}} | CANDIDATE ID: {{ our_application.candidate_id}} 
         | {{ our_application.application_status}} | {{ our_application.application_type}} 
-        | {{ our_application.animal_id}} | {{ our_application.employee_supervisor}} 
+        | ANIMAL ID: {{ our_application.animal_id}} | EMPLOYEE SUPERVISOR: {{ our_application.employee_supervisor}} 
         
         <a href="{{url_for('update_application', id = our_application.id)}}" class="btn btn-warning"> Edit </a> 
         <a href="{{url_for('delete_application', id = our_application.id)}}" class="btn btn-danger"> Delete </a>

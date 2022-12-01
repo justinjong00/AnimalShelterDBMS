@@ -47,9 +47,9 @@
 	{% for our_vaccination in our_vaccinations %}
 	<tr>
 		<td>
-		{{ our_vaccination.id }} | {{ our_vaccination.animal_id}}
-	    | {{ our_vaccination.date}} | {{ our_vaccination.vet_id}} 
-        | {{our_vaccination.vaccine_type}} | {{ our_vaccination.notes}}
+		ID: {{ our_vaccination.id }} | ANIMAL ID: {{ our_vaccination.animal_id}}
+	    | DATE: {{ our_vaccination.date}} | VET ID:{{ our_vaccination.vet_id}} 
+        | VACCINE: {{our_vaccination.vaccine_type}} | NOTES: {{ our_vaccination.notes}}
 
             <a href="{{url_for('update_vaccination', id = our_vaccination.id)}}" class="btn btn-warning"> Edit </a>
             <a href="{{url_for('delete_vaccination', id = our_vaccination.id)}}" class="btn btn-danger"> Delete </a>

@@ -17,6 +17,7 @@
 <form  action="{{ url_for('add_background')}}"method = "POST">
 	{{form.hidden_tag()}}
 
+
 	{{form.application_id.label(class="form-label")}}
 	{{form.application_id(class="form-control")}}
 	<br/>
@@ -57,10 +58,10 @@
 	{% for our_background_check in our_background_checks %}
 	<tr>
 		<td>
-		{{ our_background_check.id }} | {{ our_background_check.application_id}} 
-        | {{ our_background_check.income}} | {{ our_background_check.criminal_record}} 
-        | {{ our_background_check.credit_score}} | {{ our_background_check.interview_status}} 
-        | {{ our_background_check.employee_id}} | {{ our_background_check.background_check_status}} 
+		{{ our_background_check.id }} | APPLICATION ID: {{ our_background_check.application_id}} 
+        | INCOME: {{ our_background_check.income}} | CRIMINAL RECORD: {{ our_background_check.criminal_record}} 
+        | CREDIT SCORE: {{ our_background_check.credit_score}} | INTERVIEW STATUS: {{ our_background_check.interview_status}} 
+        | EMPLOYEE ID: {{ our_background_check.employee_id}} | STATUS: {{ our_background_check.background_check_status}} 
         
         <a href="{{url_for('update_background', id = our_background_check.id)}}" class="btn btn-warning"> Edit </a> 
       
