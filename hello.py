@@ -23,13 +23,13 @@ app.config['SECRET_KEY'] = "justinelsa"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
 #MySQL DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Dldmstj5@localhost/animal_shelter3'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:General0667@localhost/animal_shelter1'
 
 # Initialize the Database
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-engine = create_engine('mysql+pymysql://root:Dldmstj5@localhost/animal_shelter3')
+engine = create_engine('mysql+pymysql://root:General0667@localhost/animal_shelter1')
 connection = engine.raw_connection()
 cursor = connection.cursor()
 
@@ -61,9 +61,32 @@ class SearchForm(FlaskForm):
 		('Surgery'),
 		('Treatment'),
 		('Vaccination')], validators=[DataRequired()])
+	operation = SelectField("What operation would you like to perform?", choices=[('Show'),
+		('Count'),
+		('Average'),
+		('Max'),
+		('Min')], validators=[DataRequired()])
+	attribute = StringField("Attributes: Specify the columns separated by a comma , or use * for all!", validators=[DataRequired()])
+	submit = SubmitField("Submit")
+
+class SearchForm2(FlaskForm):
+	table = SelectField("Table to search", choices=[('Adoption'),
+		('Allergy'),
+		('Animal'),
+		('Application'),
+		('Backgroundcheck'),
+		('Contact'),
+		('Diagnosis'),
+		('Donation'),
+		('Employee'),
+		('Foster'),
+		('Payment'),
+		('Surgery'),
+		('Treatment'),
+		('Vaccination')], validators=[DataRequired()])
 	operation = StringField("What operation would you like to perform?", validators=[DataRequired()])
-	attribute = StringField("Attributes: Specify the columns separated by a comma "," or use '*' for all!", validators=[DataRequired()])
-	submit1 = SubmitField("Submit")
+	attribute = StringField("Attributes: Specify the columns separated by a comma , or use * for all!", validators=[DataRequired()])
+	submit2 = SubmitField("Submit")
 
 
 
@@ -1172,11 +1195,46 @@ def search():
 	anything = None
 
 	form = SearchForm()
+	form2 = SearchForm2()
 
 	rows = None
 	#searches = Employee.query
 	#contacts = Contact.query.filter_by(ContactInformation.id == 9)
-	if form1.validate_on_submit():
+	if form.submit.data and form.validate():
+		try:
+			table = None
+			table  = form.table.data
+			operation = form.operation.data
+			attribute = form.attribute.data
+			if operation == "Show":
+				command = "Select " + str(attribute) + " FROM " + table
+
+			if operation == "Count": 
+				command = "Select count(" + str(attribute) + ") FROM " + table
+
+			if operation == "Max":
+				command = "Select max(" + str(attribute) + ") FROM " + table
+
+			if operation == "Min":
+				command = "Select min(" + str(attribute) + ") FROM " + table
+
+			if operation == "Average":
+				command = "Select avg(" + str(attribute) + ") FROM " + table
+
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+			#contact_dict = dict((col, getattr(contacts, col)) for col in contacts.__table__.columns.keys())
+			#form.searched.data = ''
+			flash("Search was Successful!" )
+			return render_template("search.html", form = form, form2 = form2, searched = anything, rows = rows)
+		except Exception as e:
+			flash("Search could not be completed." )
+
+			return render_template("search.html", form = form, form2 = form2, searched = anything, exception = e)
+
+
+	if form2.submit2.data and form2.validate():
 		try:
 			table = None
 			table  = form.table.data
@@ -1203,12 +1261,12 @@ def search():
 			#contact_dict = dict((col, getattr(contacts, col)) for col in contacts.__table__.columns.keys())
 			#form.searched.data = ''
 			flash("Search was Successful!" )
-			return render_template("search.html", form = form, searched = anything, rows = rows)
+			return render_template("search.html", form2 = form, searched = anything, rows = rows)
 		except Exception as e:
 			flash("Search could not be completed." )
 
-			return render_template("search.html", form = form, searched = anything, exception = e)
-	return render_template("search.html", form = form, searched = anything)
+			return render_template("search.html", form2 = form, searched = anything, exception = e)
+	return render_template("search.html", form = form, form2 = form2, searched = anything)
 
 	#searches = Employee.query
 	#contacts = Contact.query.filter_by(ContactInformation.id == 9)

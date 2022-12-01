@@ -12,7 +12,7 @@
 
 
 	<h1> Search the Database </h1>
-	<form action="{{ url_for('search')}}" method="POST">
+	<form action="{{ url_for('search')}}"method="POST">
 		{{ form.hidden_tag() }}
 
 
@@ -24,15 +24,37 @@
 	{{form.operation(class="form-control")}}
 	<br/>
 
-
 	{{form.attribute.label(class="form-label")}}
 	{{form.attribute(class="form-control")}}
 	<br/>
 
 
 
+		{{ form.submit(class="btn btn-secondary") }}
 
-	<p> {{num}} </p>
+	</form>
+
+
+		<h1> Search2 </h1>
+	<form action="{{ url_for('search')}}"method="POST">
+		{{ form2.hidden_tag() }}
+
+
+		{{form2.table.label(class="form-label")}}
+		{{form2.table(class="form-control")}}
+		<br/>
+
+	{{form2.attribute.label(class="form-label")}}
+	{{form2.attribute(class="form-control")}}
+	<br/>
+
+	{{form2.operation.label(class="form-label")}}
+	{{form2.operation(class="form-control")}}
+	<br/>
+
+		{{ form2.submit2(class="btn btn-secondary") }}
+
+	</form>
 
 
 
