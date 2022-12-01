@@ -17,10 +17,6 @@
 <form  action="{{ url_for('add_treatment')}}"method = "POST">
 	{{form.hidden_tag()}}
 
-	{{form.animal_id.label(class="form-label")}}
-	{{form.animal_id(class="form-control")}}
-	<br/>
-
 	{{form.diagnosis_id.label(class="form-label")}}
 	{{form.diagnosis_id(class="form-control")}}
 	<br/>
@@ -51,7 +47,7 @@
 	{% for our_treatment in our_treatments %}
 	<tr>
 		<td>
-		{{ our_treatment.id }} | {{ our_treatment.animal_id}} | {{ our_treatment.diagnosis_id}}
+		{{ our_treatment.id }} | {{ our_treatment.diagnosis_id}}
 	    | {{ our_treatment.start_date}} | {{ our_treatment.end_date}} | {{our_treatment.treatment}}
         | {{ our_treatment.dosage}}
 

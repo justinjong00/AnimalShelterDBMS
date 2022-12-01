@@ -137,7 +137,6 @@ class DiagnosisForm(FlaskForm):
 	submit = SubmitField("Submit")
 
 class TreatmentForm(FlaskForm):
-	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	diagnosis_id = IntegerField("Diagnosis ID#", validators=[DataRequired()])
 	treatment = StringField("Treatment", validators=[DataRequired()])
 	start_date = DateField("Start Date", validators=[DataRequired()])
@@ -146,7 +145,6 @@ class TreatmentForm(FlaskForm):
 	submit = SubmitField("Submit")
 
 class SurgeryForm(FlaskForm):
-	animal_id = IntegerField("Animal ID#", validators=[DataRequired()])
 	diagnosis_id = IntegerField("Diagnosis ID#", validators=[DataRequired()])
 	vet_id = IntegerField("Vet ID#", validators=[DataRequired()])
 	operation_type = StringField("Operation Type", validators=[DataRequired()])
@@ -375,12 +373,11 @@ def add_treatment():
 	if form.validate_on_submit():
 		treatments = Treatment.query.filter_by(id = id).first()
 		if treatments is None:
-			treatments = Treatment(animal_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
+			treatments = Treatment(diagnosis_id=form.diagnosis.data,
 								  start_date=form.start_date.data, end_date=form.end_date.data,
 								   treatment=form.treatment.data, dosage = form.dosage.data)
 			db.session.add(treatments)
 			db.session.commit()
-		form.animal_id.data = ''
 		form.diagnosis_id.data = ''
 		form.start_date.data = ''
 		form.end_date.data = ''
@@ -398,12 +395,11 @@ def add_surgery():
 	if form.validate_on_submit():
 		surgery = Surgery.query.filter_by(id = id).first()
 		if surgery is None:
-			surgery = Surgery(animal_id=form.animal_id.data, diagnosis_id=form.diagnosis.data,
+			surgery = Surgery(diagnosis_id=form.diagnosis.data,
 								  date=form.date.data, operation_type=form.operation_type.data,
 								   vet_id=form.vet_id.data, success_or_fail = form.success_or_fail.data)
 			db.session.add(surgery)
 			db.session.commit()
-		form.animal_id.data = ''
 		form.diagnosis_id.data = ''
 		form.date.data = ''
 		form.operation_type.data = ''
@@ -710,7 +706,6 @@ def update_treatment(id):
 	form = TreatmentForm()
 	treatment_to_update = Treatment.query.get_or_404(id)
 	if request.method == "POST":
-		treatment_to_update.animal_id = request.form['animal_id']
 		treatment_to_update.diagnosis_id = request.form['diagnosis_id']
 		treatment_to_update.start_date = request.form['start_date']
 		treatment_to_update.end_date = request.form['end_date']
@@ -733,7 +728,6 @@ def update_surgery(id):
 	form = SurgeryForm()
 	surgery_to_update = Surgery.query.get_or_404(id)
 	if request.method == "POST":
-		surgery_to_update.animal_id  = request.form['animal_id']
 		surgery_to_update.diagnosis_id  = request.form['diagnosis_id']
 		surgery_to_update.vet_id  = request.form['vet_id']
 		surgery_to_update.date  = request.form['date']
@@ -1215,7 +1209,6 @@ class Diagnosis(db.Model):
 class Treatment(db.Model):
 #    __tablename__ = 'Treatments'
 	id = db.Column(db.Integer, primary_key = True)
-	animal_id = db.Column(db.Integer, nullable = False)
 	diagnosis_id = db.Column(db.Integer, nullable = False)
 	#diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnosis.id'), nullable = False)
 	treatment = db.Column(db.String(150), nullable=False); 
@@ -1227,7 +1220,6 @@ class Treatment(db.Model):
 class Surgery(db.Model):
 #    __tablename__ = 'Surgeries'
 	id = db.Column(db.Integer, primary_key = True)
-	animal_id = db.Column(db.Integer, nullable = False)
 	diagnosis_id = db.Column(db.Integer, nullable = False)
 	#animal_id = db.Column(db.Integer, db.ForeignKey('Animal.id'), nullable = False)
 	#diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnosis.id'), nullable = False)

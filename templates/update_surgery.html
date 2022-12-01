@@ -17,9 +17,6 @@
 <form action="/surgery/update/{{surgery_to_update.id}}"method = "POST">
 	{{form.hidden_tag()}}
 
-	{{form.animal_id.label(class="form-label")}}
-	{{form.animal_id(class="form-control", value=surgery_to_update.animal_id)}}
-	<br/>
 
 	{{form.diagnosis_id.label(class="form-label")}}
 	{{form.diagnosis_id(class="form-control", value=surgery_to_update.diagnosis_id)}}
