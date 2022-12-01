@@ -48,26 +48,21 @@ def index():
 
 class SearchForm(FlaskForm):
 
-	TABLES = (
 
-		(1, 'Adoptions'),
-		(2, 'Allergies'),
-		(3, 'Animals'),
-		(4, 'Applications'),
-		(5, 'Background Information'),
-		(6, 'Contact Information'),
-		(7, 'Diagnoses'),
-		(8, 'Donations'),
-		(9, 'Employees'),
-		(10, 'Fosters'),
-		(11, 'Payments'),
-		(12, 'Surgeries'),
-		(13, 'Treatments'),
-		(14, 'Vaccinations'),
-
-
-	)
-	table = SelectField("Tables", choices=TABLES,  validators=[DataRequired()])
+	table = SelectField("Table", choices=[('Adoption'),
+		('Allergy'),
+		('Animal'),
+		('Application'),
+		('Backgroundcheck'),
+		('Contact'),
+		('Diagnosis'),
+		('Donation'),
+		('Employee'),
+		('Foster'),
+		('Payment'),
+		('Surgery'),
+		('Treatment'),
+		('Vaccination')], validators=[DataRequired()])
 	attribute = StringField("Attribute", validators=[DataRequired()])
 	operation = StringField("Operation", validators=[DataRequired()])
 	submit = SubmitField("Submit")
@@ -1178,47 +1173,17 @@ def search():
 
 	form = SearchForm()
 	rows = None
-
 	#searches = Employee.query
 	#contacts = Contact.query.filter_by(ContactInformation.id == 9)
 	if form.validate_on_submit():
 		try:
 			table = None
-			tablenum  = form.table.data
+			table  = form.table.data
 			operation = form.operation.data
 			attribute = form.attribute.data
 			if operation == "show":
 				operation = ""
-			if tablenum == 1: 
-				table = 'Adoption'
-			if tablenum == 2: 
-				table = 'Allergy'
-			if tablenum == 3: 
-				table = 'Animal'
-			if tablenum == 4: 
-				table = 'Application'
-			if tablenum == 5: 
-				table = 'backgroundcheck'
-			if tablenum == 6: 
-				table = 'Contact'
-			if tablenum == 7: 
-				table = 'diagnosis'
-			if tablenum == 8: 
-				table = 'donation'
-			if tablenum == 9: 
-				table = 'Employee'
-			if tablenum == 10: 
-				table = 'foster'
-			if tablenum == 11: 
-				table = 'payment'
-			if tablenum == 12: 
-				table = 'surgery'
-			if tablenum == 13: 
-				table = 'treatment'
-			if tablenum == 14: 
-				table = 'vaccination'
-
-			command = "Select " + str(attribute) + " FROM " + str(table)
+			command = "Select " + str(attribute) + " FROM " + table
 			cursor.execute(command)
 			rows = cursor.fetchall()
 
@@ -1226,9 +1191,9 @@ def search():
 			#form.searched.data = ''
 			flash("Search was Successful!" )
 			return render_template("search.html", form = form, searched = anything, rows = rows)
-		except:
+		except Exception as e:
 			flash("Search could not be completed." )
-			return render_template("search.html", form = form, searched = anything)
+			return render_template("search.html", form = form, searched = anything, table = table, tablenum = tablenum, exception = e)
 
 
 	return render_template("search.html", form = form, searched = anything)
