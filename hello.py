@@ -23,13 +23,13 @@ app.config['SECRET_KEY'] = "justinelsa"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
 #MySQL DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:General0667@localhost/animal_shelter1'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:General0667@localhost/animal_shelterf'
 
 # Initialize the Database
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-engine = create_engine('mysql+pymysql://root:General0667@localhost/animal_shelter1')
+engine = create_engine('mysql+pymysql://root:General0667@localhost/animal_shelterf')
 connection = engine.raw_connection()
 cursor = connection.cursor()
 
@@ -70,9 +70,32 @@ class SearchForm(FlaskForm):
 	submit = SubmitField("Submit")
 
 class SearchForm2(FlaskForm):
+	admission_reason = SelectField("Would you like to filter by Admission Reason? If yes, choose option: ", choices=[('No'), ('Stray'),
+		('Lost'),
+		('Surrender')], validators=[DataRequired()])	
+	submit2 = SubmitField("Submit")
+
+class SearchForm9(FlaskForm):
+	table = SelectField("Table to search", choices=[('Adoption'),
+		('Allergy'),
+		('Animal'),
+		('Application'),
+		('Backgroundcheck'),
+		('Contact'),
+		('Diagnosis'),
+		('Donation'),
+		('Employee'),
+		('Foster'),
+		('Payment'),
+		('Surgery'),
+		('Treatment'),
+		('Vaccination')], validators=[DataRequired()])	
+	admission_reason = SelectField("Would you like to filter by Admission Reason? If yes, choose option: ", choices=[('No'), ('Stray'),
+		('Lost'),
+		('Surrender')], validators=[DataRequired()])	
 	animal = StringField("Input an animal species ", validators=[DataRequired()])
 	#table = StringField("What operation would you like to perform?", validators=[DataRequired()])
-	attribute = SelectField("to find the animal with the most ", choices=[('Applications'),
+	attribute = SelectField("to find the species with the most ", choices=[('Applications'),
 			('Allergies'),
 			('Diagnoses')], validators=[DataRequired()])
 	submit2 = SubmitField("Submit")
@@ -126,7 +149,7 @@ class AnimalForm(FlaskForm):
 	breed = StringField("Breed", validators=[DataRequired()])
 	weight = IntegerField("Weight", validators=[DataRequired()])
 	admission_date = DateField("Admission Date", validators=[DataRequired()])
-	admission_reason = StringField("Admission Reason", validators=[DataRequired()])
+	admission_reason = StringField("Admission Reason: Surrender, Stray, Lost", validators=[DataRequired()])
 	employee_id = IntegerField("Employee In Charge ID#", validators=[DataRequired()])
 	adoption_status = SelectField("Adoption Status", choices=ADOPTION_STATUS,  validators=[DataRequired()])
 	foster_status = SelectField("Foster Status", choices=FOSTER_STATUS,  validators=[DataRequired()])
@@ -1187,8 +1210,6 @@ def search():
 	form2 = SearchForm2()
 
 	rows = None
-	#searches = Employee.query
-	#contacts = Contact.query.filter_by(ContactInformation.id == 9)
 	if form.submit.data and form.validate():
 		try:
 			table = None
@@ -1225,36 +1246,29 @@ def search():
 
 	if form2.submit2.data and form2.validate():
 		try:
-			table = None
-			table  = form.table.data
-			operation = form.operation.data
-			attribute = form.attribute.data
-			if operation == "show":
-				command = "Select " + str(attribute) + " FROM " + table
-
-			if operation == "count": 
-				command = "Select count(" + str(attribute) + ") FROM " + table
-
-			if operation == "max":
-				command = "Select max(" + str(attribute) + ") FROM " + table
-
-			if operation == "min":
-				command = "Select min(" + str(attribute) + ") FROM " + table
-
-			if operation == "average":
-				command = "Select avg(" + str(attribute) + ") FROM " + table
-
+			admission_reason = None
+			admission_reason  = form2.admission_reason.data
+			if admission_reason == "No":
+				command = ("Select " + "name, species, age, admission_date" + " FROM " + "Animal" + 
+				" ORDER BY " + "Admission_date")
+			if admission_reason == "Stray": 
+				command = ("Select " + "name, species, age, admission_date" + " FROM " + "Animal" + 
+				" where admission_reason = 'Stray'" + " ORDER BY " + "Admission_date ASC")
+			if admission_reason == "Lost":
+				command = ("Select " + "name, species, age, admission_date" + " FROM " + "Animal" + 
+				" where admission_reason = 'Lost'" + " ORDER BY " + "Admission_date ASC")
+			if admission_reason == "Surrender":
+				command = ("Select " + "name, species, age, admission_date" + " FROM " + "Animal" + 
+				" where admission_reason = 'Surrender'" + " ORDER BY " + "Admission_date ASC")
 			cursor.execute(command)
 			rows = cursor.fetchall()
 
-			#contact_dict = dict((col, getattr(contacts, col)) for col in contacts.__table__.columns.keys())
-			#form.searched.data = ''
 			flash("Search was Successful!" )
-			return render_template("search.html", form2 = form, searched = anything, rows = rows)
+			return render_template("search.html", form = form, form2 = form2, searched = anything, rows = rows)
 		except Exception as e:
 			flash("Search could not be completed." )
 
-			return render_template("search.html", form2 = form, searched = anything, exception = e)
+			return render_template("search.html", form = form, form2 = form2, searched = anything, exception = e)
 	return render_template("search.html", form = form, form2 = form2, searched = anything)
 
 	#searches = Employee.query

@@ -39,9 +39,14 @@
 	<form action="{{ url_for('search')}}"method="POST">
 		{{ form2.hidden_tag() }}
 
+       <b> You can see which animals have been here the longest! </b>
+        <br/>
+		{{form2.admission_reason.label(class="form-label")}} {{ form2.admission_reason(style='height: 40px;') }} 
 
-		{{form2.animal.label(class="form-label")}} {{ form2.animal(style='height: 40px;') }} {{form2.attribute.label(class="form-label")}} {{ form2.attribute(style='height: 40px;') }}
 
+
+		{# {{form2.attribute.label(class="form-label")}} {{ #}
+		{# form2.attribute(style='height: 40px;') }} #}
 
 
 
