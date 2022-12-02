@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+	{{ message }}
+ 	 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
+
+	<h1> Search Age of Applicants </h1>
+	<form action="{{ url_for('search2')}}"method="POST">
+		{{ form3.hidden_tag() }}
+
+
+		{{form3.age1.label(class="form-label")}} {{form3.age1(class="form-control")}}
+
+		{{form3.age2.label(class="form-label")}} {{form3.age2(class="form-control")}}
+		<br/>
+
+		{{ form3.submit3(class="btn btn-secondary") }}
+
+	</form>
+
+
+	<h1> Search Relationship Between Animal & Email </h1>
+	<form action="{{ url_for('search2')}}"method="POST">
+		{{ form4.hidden_tag() }}
+
+
+		{{form4.animal.label(class="form-label")}} 
+		{{ form4.animal(class="form-control") }} 
+
+		{{form4.email.label(class="form-label")}} 
+		{{ form4.email(class="form-control") }}
+
+		<br/>
+
+		{{ form4.submit4(class="btn btn-secondary") }}
+
+	</form>
+
+
+	<h1> Search Average for Application Type </h1>
+	<form action="{{ url_for('search2')}}"method="POST">
+		{{ form5.hidden_tag() }}
+
+
+		{{form5.attribute.label(class="form-label")}} 
+		{{ form5.attribute(class="form-control") }} 
+
+		{{form5.types.label(class="form-label")}} 
+		{{ form5.types(class="form-control") }}
+
+		<br/>
+
+		{{ form5.submit5(class="btn btn-secondary") }}
+
+	</form>
+
+
+	<h1> Search Surgeons for Animal </h1>
+	<form action="{{ url_for('search2')}}"method="POST">
+		{{ form6.hidden_tag() }}
+
+
+		{{form6.animal.label(class="form-label")}} 
+		{{ form6.animal(class="form-control") }} 
+
+		<br/>
+
+		{{ form6.submit6(class="btn btn-secondary") }}
+
+	</form>
+
+
+	<h1> Count of Animals & Diagnoses/Allergies </h1>
+	<form action="{{ url_for('search2')}}"method="POST">
+		{{ form7.hidden_tag() }}
+
+
+		{{form7.counts.label(class="form-label")}} 
+		{{ form7.counts(class="form-control") }} 
+
+		
+		{{form7.types.label(class="form-label")}} 
+		{{ form7.types(class="form-control") }} 
+
+		<br/>
+
+		{{ form7.submit7(class="btn btn-secondary") }}
+
+	</form>
+
+
+<br/><br/>
+	<h2> Latest Search: </h2>
+	<p> {{searched}} </p>
+
+	<p> {{table}} {{tablenum}} {{exception}}</p>
+
+
+
+<table border="1" cellpadding="5" cellspacing="5">
+{% for row in rows %}
+    <tr>
+    {% for d in row %}
+        <td>{{ d }}</td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+</table>
+
+	<br/>
+
+		<br/>
+			<br/>
+
+
+
+{% endblock %}

@@ -25,7 +25,7 @@
 	<br/>
 
 	{{form.attribute.label(class="form-label")}}
-	{{form.attribute(class="form-control")}}
+	{{form.attribute(class="form-control", value = "*")}}
 	<br/>
 
 
@@ -53,18 +53,80 @@
 		{{ form2.submit2(class="btn btn-secondary") }}
 
 	</form>
+	<br/> 
 
+		<form action="{{ url_for('search')}}"method="POST">
+		{{ form9.hidden_tag() }}
+
+       <b> Find out what the most and least popular animal species are! (most and least successfully adopted)! </b>
+        <br/>
+		{{form9.amount.label(class="form-label")}} {{ form9.amount(style='height: 40px;') }} {{ form9.mostorleast(style='height: 40px;') }} Animal Species
+	
+
+
+		{{ form9.submit9(class="btn btn-secondary") }}
+
+	</form>
+		<br/> 
+
+			<form action="{{ url_for('search')}}"method="POST">
+		{{ form10.hidden_tag() }}
+
+       <b> What about the most and least popular animal breed(s)? (most and least successfully adopted)! </b>
+        <br/>
+		{{form10.amount.label(class="form-label")}} {{ form10.amount(style='height: 40px;') }} {{ form10.mostorleast(style='height: 40px;') }} Animal Breed(s)
+	
+
+
+		{{ form10.submit10(class="btn btn-secondary") }}
+
+	</form>
+		<br/> 
+
+				<form action="{{ url_for('search')}}"method="POST">
+		{{ form11.hidden_tag() }}
+
+       <b> Find the name of the animal(s) that has </b>
+        <br/>
+		{{form11.operation.label(class="form-label")}} {{ form11.operation(style='height: 40px;') }} {{ form11.amount(style='height: 40px;') }} application(s)
+	
+
+
+		{{ form11.submit11(class="btn btn-secondary") }}
+
+	</form>
+		<br/> 
+
+
+				<form action="{{ url_for('search')}}"method="POST">
+		{{ form12.hidden_tag() }}
+
+       <b> You can also explore what type of surgery is most common amongst your favorite animal! </b>
+        <br/>
+		{{form12.animal.label(class="form-label")}} {{ form12.animal(style='height: 40px;') }}
+				<br/> 
+
+		{{ form12.submit12(class="btn btn-secondary") }}
+
+	</form>
 
 
 <br/><br/>
 	<h2> Latest Search: </h2>
-	<p> {{searched}} </p>
 
 	<p> {{table}} {{tablenum}} {{exception}}</p>
 
 
 
 <table border="1" cellpadding="5" cellspacing="5">
+	  <thead>
+    <tr>
+      <th scope="col">{{col1}}</th>
+      <th scope="col">{{col2}}</th>
+      <th scope="col">{{col3}}</th>
+      <th scope="col">{{col4}}</th>
+    </tr>
+  </thead>
 {% for row in rows %}
     <tr>
     {% for d in row %}

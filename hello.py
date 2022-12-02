@@ -75,30 +75,56 @@ class SearchForm2(FlaskForm):
 		('Surrender')], validators=[DataRequired()])	
 	submit2 = SubmitField("Submit")
 
+class SearchForm3(FlaskForm):	
+	age1 = IntegerField("Applications between the age of ", validators=[DataRequired()])	
+	age2 = IntegerField("and ", validators=[DataRequired()])	
+	submit3 = SubmitField("Submit")	
+
+class SearchForm4(FlaskForm):	
+	animal = StringField("Applications who wants to adopt a ", validators=[DataRequired()])	
+	email = StringField("with email address from (ex. gmail, georgetown) ", validators=[DataRequired()])	
+	submit4 = SubmitField("Submit")
+
+class SearchForm4(FlaskForm):	
+	animal = StringField("Applications who wants to adopt a ", validators=[DataRequired()])	
+	email = StringField("with email address from (ex. gmail, georgetown) ", validators=[DataRequired()])	
+	submit4 = SubmitField("Submit")
+
+class SearchForm5(FlaskForm):	
+	#attribute = StringField("Average ", validators=[DataRequired()])	
+	attribute = SelectField("Average ", choices = [('income'), ('credit_score')], validators=[DataRequired()])	
+	types = SelectField("of those who applied for ", choices = [('Adoption'), ('Foster')], validators=[DataRequired()])	
+	#types = StringField("of those who applied for ", validators=[DataRequired()])	
+	submit5 = SubmitField("Submit")
+
+class SearchForm6(FlaskForm):	
+	animal = SelectField("Which surgery is most common for: ", choices = [('Cat'), ('Dog'), ('Turtle'), ('Rabbit'), ('Hamster')], validators=[DataRequired()])	
+	submit6 = SubmitField("Submit")	
+
+class SearchForm7(FlaskForm):	
+	counts = IntegerField("Which animal has more than ", validators=[DataRequired()])	
+	types = SelectField(" ", choices = [('Diagnosis'), ('Allergy')], validators=[DataRequired()])	
+	submit7 = SubmitField("Submit")
+
+
 class SearchForm9(FlaskForm):
-	table = SelectField("Table to search", choices=[('Adoption'),
-		('Allergy'),
-		('Animal'),
-		('Application'),
-		('Backgroundcheck'),
-		('Contact'),
-		('Diagnosis'),
-		('Donation'),
-		('Employee'),
-		('Foster'),
-		('Payment'),
-		('Surgery'),
-		('Treatment'),
-		('Vaccination')], validators=[DataRequired()])	
-	admission_reason = SelectField("Would you like to filter by Admission Reason? If yes, choose option: ", choices=[('No'), ('Stray'),
-		('Lost'),
-		('Surrender')], validators=[DataRequired()])	
-	animal = StringField("Input an animal species ", validators=[DataRequired()])
-	#table = StringField("What operation would you like to perform?", validators=[DataRequired()])
-	attribute = SelectField("to find the species with the most ", choices=[('Applications'),
-			('Allergies'),
-			('Diagnoses')], validators=[DataRequired()])
-	submit2 = SubmitField("Submit")
+	amount = IntegerField("Top ", validators=[DataRequired()])	
+	mostorleast = SelectField("Most or Least Successful ", choices=[('Most Successfully Adopted'), ('Least Successfuly Adopted')], validators=[DataRequired()])	
+	submit9 = SubmitField("Go")
+
+class SearchForm10(FlaskForm):
+	amount = IntegerField("Top ", validators=[DataRequired()])	
+	mostorleast = SelectField("Most or Least Successful ", choices=[('Most Successfully Adopted'), ('Least Successfuly Adopted')], validators=[DataRequired()])	
+	submit10 = SubmitField("Go")
+
+class SearchForm11(FlaskForm):
+	operation = SelectField("Find the animal that has ", choices=[('more than'), ('less than'), ('equal to')], validators=[DataRequired()])	
+	amount = IntegerField("amount", validators=[DataRequired()])	
+	submit11 = SubmitField("Find")
+
+class SearchForm12(FlaskForm):
+	animal = StringField("Input your animal: ", validators=[DataRequired()])
+	submit12 = SubmitField("Investigate")
 
 
 
@@ -1208,6 +1234,10 @@ def search():
 
 	form = SearchForm()
 	form2 = SearchForm2()
+	form9 = SearchForm9()
+	form10= SearchForm10();
+	form11 = SearchForm11();
+	form12= SearchForm12();
 
 	rows = None
 	if form.submit.data and form.validate():
@@ -1237,11 +1267,11 @@ def search():
 			#contact_dict = dict((col, getattr(contacts, col)) for col in contacts.__table__.columns.keys())
 			#form.searched.data = ''
 			flash("Search was Successful!" )
-			return render_template("search.html", form = form, form2 = form2, searched = anything, rows = rows)
+			return render_template("search.html", form = form, form2 = form2, form9 = form9, form10= form10, form11= form11, form12= form12,searched = anything, rows = rows)
 		except Exception as e:
 			flash("Search could not be completed." )
 
-			return render_template("search.html", form = form, form2 = form2, searched = anything, exception = e)
+			return render_template("search.html", form = form, form2 = form2, form9 = form9, form10= form10,form11= form11,form12= form12,searched = anything, exception = e)
 
 
 	if form2.submit2.data and form2.validate():
@@ -1264,19 +1294,213 @@ def search():
 			rows = cursor.fetchall()
 
 			flash("Search was Successful!" )
-			return render_template("search.html", form = form, form2 = form2, searched = anything, rows = rows)
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11,form12= form12,searched = anything, rows = rows)
 		except Exception as e:
 			flash("Search could not be completed." )
 
-			return render_template("search.html", form = form, form2 = form2, searched = anything, exception = e)
-	return render_template("search.html", form = form, form2 = form2, searched = anything)
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10, form11= form11,form12= form12,searched = anything, exception = e)
 
-	#searches = Employee.query
-	#contacts = Contact.query.filter_by(ContactInformation.id == 9)
+	if form9.submit9.data and form9.validate():
+		try:
+			col1 = "Animal Species";
+			col2 = "Amount of adoptions";
+			limit = None
+			order = None
+			limit  = form9.amount.data
+			mostorleast = form9.mostorleast.data
 
-#@app.route('/dropdown', methods=['GET', 'POST'])
-#def get_dropdown_values():
-	
+			if mostorleast == "Most Successfully Adopted":
+				order = "desc";
+			if mostorleast == "Least Successfuly Adopted": 
+				order = "asc";
+			command = ("Select species, COUNT(species) as freq" +" FROM " + "Animal" + 
+				" WHERE adoption_status = '1c' " + "Group by species " + "ORDER BY freq " + order + " limit " + str(limit))
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+			flash("Search was Successful!" )
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11,form12= form12,searched = anything, rows = rows, col1= col1, col2 = col2)
+		except Exception as e:
+			flash("Search could not be completed." )
+
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11,form12= form12,searched = anything, exception = e)
+
+	if form10.submit10.data and form10.validate():
+		try:
+			col1 = "Animal Breed";
+			col2 = "Amount of adoptions";
+			limit = None
+			order = None
+			limit  = form10.amount.data
+			mostorleast = form10.mostorleast.data
+
+			if mostorleast == "Most Successfully Adopted":
+				order = "desc";
+			if mostorleast == "Least Successfuly Adopted": 
+				order = "asc";
+			command = ("Select breed, COUNT(breed) as freq" +" FROM " + "Animal" + 
+				" WHERE adoption_status = '1c' " + "Group by breed " + "ORDER BY freq " + order + " limit " + str(limit))
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+			flash("Search was Successful!" )
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11,form12= form12,searched = anything, rows = rows, col1= col1, col2 = col2)
+		except Exception as e:
+			flash("Search could not be completed." )
+
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11,form12= form12,searched = anything, exception = e)
+
+	if form11.submit11.data and form11.validate():
+		try:
+			col1 = "Animal id#";
+			col2 = "Name";
+			col3 = "Amount of Applications"
+			operation  = form11.operation.data
+			amount = form11.amount.data
+
+			if operation == "more than":
+				operator = ">";
+			if operation == "less than":
+				operator = "<";
+			if operation == "equal to":
+				operator = "=";
+			command = ("Select Application.animal_id, Animal.name, COUNT(animal_id) as freq" + " FROM " + "Application" + 
+				" JOIN Animal On Application.animal_id = Animal.id " + "GROUP BY Application.animal_id " + "Having freq " + operator + " " + str(amount))
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+			flash("Search was Successful!" )
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11, form12= form12,searched = anything, rows = rows, col1= col1, col2 = col2)
+		except Exception as e:
+			flash("Search could not be completed." )
+
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11,form12= form12,searched = anything, exception = e)
+
+	if form12.submit12.data and form12.validate():
+		try:
+			col1 = "Surgery";
+			col2 = "Amount";
+			animal  = form12.animal.data
+
+			command = ("Select Surgery.operation_type, " + "Count(Surgery.operation_type) as freq" +
+				" FROM Surgery JOIN Diagnosis ON Surgery.diagnosis_id = Diagnosis.id JOIN Animal ON Diagnosis.animal_id = Animal.id" + 
+				" WHERE Animal.species = '" + animal + "' GROUP BY Surgery.operation_type ORDER BY freq DESC LIMIT 1")
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+			flash("Search was Successful!" )
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11, form12= form12,searched = anything, rows = rows, col1= col1, col2 = col2)
+		except Exception as e:
+			flash("Search could not be completed." )
+			return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11, form12= form12,searched = anything, exception = e)
+
+
+	return render_template("search.html", form = form, form2 = form2, form9 = form9,  form10= form10,form11= form11,form12= form12,searched = anything)
+
+@app.route('/search2', methods=['GET','POST'])
+def search2():
+
+	anything = None
+	form3 = SearchForm3()
+	form4 = SearchForm4()
+	form5 = SearchForm5()
+	form6 = SearchForm6()
+	form7 = SearchForm7()
+
+	rows = None
+	if form3.submit3.data and form3.validate():
+		try:
+			age1 = None
+			age2 = None
+			age1 = form3.age1.data
+			age2 = form3.age2.data
+			command = "SELECT id, dob, TIMESTAMPDIFF(YEAR, dob, CURDATE()) as age FROM Application HAVING age BETWEEN " + str(age1) + " AND " + str(age2)
+
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+			flash("Search was Successful!" )
+			return render_template("search2.html", form3 = form3, form4 = form4, form5=form5,form6=form6, form7 = form7,searched = anything, rows = rows)
+		except Exception as e:
+			flash("Search could not be completed." )
+
+			return render_template("search2.html", form3 = form3, form4 = form4, form5 = form5,form6 = form6, form7 = form7,searched = anything, exception = e)
+
+
+	if form4.submit4.data and form4.validate():
+		try:
+			animal = None
+			email = None 
+			animal = form4.animal.data
+			email = form4.email.data
+			#command= "SELECT id FROM Animal"
+			command = "SELECT * FROM Application JOIN Contact ON application.candidate_id = contact.id JOIN Animal ON Animal.id = Application.animal_id WHERE Animal.species = '" + str(animal) + "' AND Contact.email LIKE '%" + str(email) + "%'"
+
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+
+			flash("Search was Successful!" )
+			return render_template("search2.html", form3 = form3, form4 = form4, form5 = form5, form6 = form6, form7 = form7,searched = anything, rows = rows)
+		except Exception as e:
+			flash("Search could not be completed." )
+			return render_template("search2.html", form3 = form3, form4 = form4, form5 = form5, form6 = form6, form7 = form7,searched = anything, exception = e)
+
+	if form5.submit5.data and form5.validate():
+		try:
+			attribute = None
+			types = None
+			attribute = form5.attribute.data
+			types = form5.types.data
+
+			if types == "Adoption":
+				command = "SELECT AVG(" + str(attribute) + ") FROM Backgroundcheck JOIN Application ON Application.id = Backgroundcheck.application_id WHERE Application.application_type = 1" 
+			if types == "Foster":
+				command = "SELECT AVG(" + str(attribute) + ") FROM Backgroundcheck JOIN Application ON Application.id = Backgroundcheck.application_id WHERE Application.application_type = 2" 
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+			flash("Search was Successful!" )
+			return render_template("search2.html", form3 = form3, form4 = form4, form5 = form5, form6 = form6, form7 = form7,searched = anything, rows = rows)
+		except Exception as e:
+			flash("Search could not be completed." )
+			return render_template("search2.html", form3 = form3, form4 = form4, form5 = form5, form6 = form6, form7 = form7,searched = anything, exception = e)
+
+
+	if form6.submit6.data and form6.validate():
+		try:
+			animal = form6.animal.data
+			#command= "SELECT id FROM Animal"
+
+			command = "SELECT Surgery.vet_id, COUNT(Surgery.vet_id) as freq FROM Surgery JOIN Employee  ON Employee.id = Surgery.vet_id JOIN Diagnosis ON Surgery.diagnosis_id = Diagnosis.id JOIN Animal ON Animal.id = Diagnosis.animal_id WHERE Animal.species = '" + str(animal) + "' GROUP BY Surgery.vet_id ORDER BY freq DESC"
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+			flash("Search was Successful!" )
+			return render_template("search2.html", form3 = form3, form4 = form4, form5=form5, form6=form6,form7 = form7, searched = anything, rows = rows)
+		except Exception as e:
+			flash("Search could not be completed." )
+			return render_template("search2.html", form3 = form3, form4 = form4, form5=form5, form6=form6, form7 = form7,searched = anything, exception = e)
+
+	if form7.submit7.data and form7.validate():
+		try:
+			counts = form7.counts.data
+			types = form7.types.data
+			#command= "SELECT id FROM Animal"
+
+			command = "SELECT animal_id, COUNT(animal_id) as count FROM " + str(types) + " GROUP BY animal_id HAVING count > " + str(counts)
+			cursor.execute(command)
+			rows = cursor.fetchall()
+
+			flash("Search was Successful!" )
+			return render_template("search2.html", form3 = form3, form4 = form4, form5=form5, form6=form6, form7 = form7, searched = anything, rows = rows)
+		except Exception as e:
+			flash("Search could not be completed." )
+			return render_template("search2.html", form3 = form3, form4 = form4, form5=form5, form6=form6, form7 = form7, searched = anything, exception = e)
+
+
+	return render_template("search2.html", form3 = form3, form4 = form4, form5=form5, form6=form6, form7 = form7, searched = anything)
+
 
 
 ####################################################################################################################################################
